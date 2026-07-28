@@ -5,6 +5,7 @@ __pycache__/
 .venv/
 venv/
 env/
+
 .ipynb_checkpoints/
 
 # ML artifacts
@@ -23,5 +24,8 @@ data/split_manifest.json
 .DS_Store
 .idea/
 .vscode/
+
+# AGENTS.md — per-session context, not part of the project
+AGENTS.md
 
 # figures are generated; keep the ones we deliberately commit under docs/figures

@@ -68,7 +68,7 @@ def build_transforms(train: bool = True, backgrounds_dir: Optional[str] = None) 
             A.RandomGamma(gamma_limit=(80, 120), p=0.4),
             A.OneOf(
                 [
-                    A.GaussNoise(var_limit=(10.0, 60.0)),
+                    A.GaussNoise(std_range=(0.01, 0.05)),
                     A.GaussianBlur(blur_limit=(3, 5)),
                     A.MotionBlur(blur_limit=5),
                 ],
@@ -76,7 +76,8 @@ def build_transforms(train: bool = True, backgrounds_dir: Optional[str] = None) 
             ),
             # --- structural ---
             A.CoarseDropout(
-                max_holes=6, max_height=32, max_width=32, fill_value=0, p=0.4
+                num_holes_range=(4, 6), hole_height_range=(0.05, 0.15),
+                hole_width_range=(0.05, 0.15), fill=0, p=0.4
             ),
         ]
     )
