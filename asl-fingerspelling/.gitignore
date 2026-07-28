@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# ML artifacts
+checkpoints/
+*.pt
+*.pth
+*.ts
+*.onnx
+wandb/
+.cache/
+
+# split manifest (regenerate deterministically from data/raw)
+data/split_manifest.json
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# figures are generated; keep the ones we deliberately commit under docs/figures

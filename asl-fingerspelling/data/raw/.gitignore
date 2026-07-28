@@ -1,0 +1,4 @@
+# Never commit the 87k-image Kaggle dataset.
+*
+!.gitkeep
+!.gitignore

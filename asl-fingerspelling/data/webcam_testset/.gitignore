@@ -1,0 +1,5 @@
+# Ignore large raw captures by default; keep the folder + curated samples.
+*
+!.gitkeep
+!.gitignore
+!samples/

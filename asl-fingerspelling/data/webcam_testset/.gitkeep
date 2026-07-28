@@ -1,0 +1,7 @@
+THE REAL BENCHMARK.
+
+Each teammate records ALL 29 signs in varied lighting/backgrounds, MediaPipe-cropped,
+one folder per class (same layout as data/raw/asl_alphabet_train/). None of this data
+ever enters training — it is the honest, reported accuracy number (target >= 90%).
+
+Large captures are gitignored by default; commit a small curated sample if useful.

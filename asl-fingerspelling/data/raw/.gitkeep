@@ -1,0 +1,9 @@
+Place the Kaggle ASL Alphabet dataset here.
+
+Download:  kaggle datasets download -d grassknoted/asl-alphabet
+Unzip so that this directory contains:
+
+  data/raw/asl_alphabet_train/
+    A/  B/  C/ ... Z/  space/  delete/  nothing/   (29 folders, ~3000 imgs each)
+
+Nothing under data/raw/ is committed (see .gitignore) — it is 87k images.
