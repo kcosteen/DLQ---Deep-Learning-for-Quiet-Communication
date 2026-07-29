@@ -12,7 +12,18 @@ the split. See ``frame_range_split`` and the test in
 ``tests/test_split_leakage.py``.
 
 The REAL benchmark is not even this val split — it is ``data/webcam_testset``,
-recorded by the team and never used for training.
+recorded by the team and never used for training. Everywhere this split is
+surfaced (docstrings, the ``--counts`` CLI output, the manifest metadata, the
+README) it is labelled **"dev val (temporal split, same signer — NOT the reported
+metric)"** so no one mistakes it for the headline number (#15/#16).
+
+Augmentation invariant
+----------------------
+Augmented copies must **never** cross the split. The split here operates ONLY on
+the original source files under ``root``; augmentation (#9/#10) is applied *after*
+the split and *train-only* — the augmentation entry points take the train split as
+input, never the raw ``root``. Enforcing "split first, augment second" is what keeps
+a photometric/geometric twin of a val frame from leaking into train.
 """
 
 from __future__ import annotations
@@ -54,21 +65,65 @@ class SplitManifest:
     val: List[Sample] = field(default_factory=list)
 
     def to_json(self, path: str) -> None:
+        """Write a deterministic, portable manifest.
+
+        Paths are stored RELATIVE to ``root`` (and with ``/`` separators) so the
+        file reproduces byte-for-byte across machines; keys are sorted and a
+        ``content_sha256`` over the ordered (split, class, relative-path) assignment
+        is recorded so any change in membership is detectable. Re-running with the
+        same ``(root, train_frac)`` yields an identical file.
+        """
+        root = str(self.root)
+
+        def rel(p: str) -> str:
+            return os.path.relpath(p, root).replace(os.sep, "/")
+
+        def rows(samples: Sequence[Sample]) -> List[Dict]:
+            return [
+                {"path": rel(s.path), "label": s.label, "class_name": s.class_name}
+                for s in samples
+            ]
+
+        train_rows, val_rows = rows(self.train), rows(self.val)
+
+        # content hash: deterministic function of the split assignment only
+        h = hashlib.sha256()
+        for split, rws in (("train", train_rows), ("val", val_rows)):
+            for r in rws:
+                h.update(f"{split}\t{r['class_name']}\t{r['path']}\n".encode())
+
         payload = {
+            "schema": "asl-frame-range-split/v1",
+            "description": (
+                "dev val (temporal frame-range split, same signer) — NOT the "
+                "reported metric. The reported number is the webcam test set "
+                "(see #15/#16)."
+            ),
             "train_frac": self.train_frac,
             "seed": self.seed,
-            "root": self.root,
-            "train": [s.__dict__ for s in self.train],
-            "val": [s.__dict__ for s in self.val],
+            "root": root,
+            "paths_relative_to": "root",
+            "classes": list(CLASSES),          # stable label-index order
+            "class_to_idx": dict(CLASS_TO_IDX),
+            "content_sha256": h.hexdigest(),
+            "n_train": len(train_rows),
+            "n_val": len(val_rows),
+            "train": train_rows,
+            "val": val_rows,
         }
-        Path(path).write_text(json.dumps(payload, indent=2))
+        Path(path).write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
 
     @staticmethod
     def from_json(path: str) -> "SplitManifest":
         d = json.loads(Path(path).read_text())
-        m = SplitManifest(d["train_frac"], d["seed"], d["root"])
-        m.train = [Sample(**s) for s in d["train"]]
-        m.val = [Sample(**s) for s in d["val"]]
+        root = d["root"]
+        m = SplitManifest(d["train_frac"], d.get("seed", 0), root)
+
+        def abspath(rel: str) -> str:
+            return rel if os.path.isabs(rel) else os.path.join(root, rel)
+
+        m.train = [Sample(abspath(s["path"]), s["label"], s["class_name"]) for s in d["train"]]
+        m.val = [Sample(abspath(s["path"]), s["label"], s["class_name"]) for s in d["val"]]
         return m
 
 
@@ -98,7 +153,13 @@ def frame_range_split(
     """Leakage-safe split: per class, first ``train_frac`` frames -> train.
 
     The tail (last ``1 - train_frac``) becomes val. Because files are in capture
-    order, a train frame and a val frame are never adjacent video frames.
+    order (numeric-aware sort, so ``A2.jpg`` precedes ``A10.jpg``), a train frame
+    and a val frame are never adjacent video frames.
+
+    Deterministic given ``(root, train_frac)``: no shuffling, no ``random`` /
+    ``np.random`` / ``train_test_split``, and no reliance on filesystem iteration
+    order (``list_class_files`` sorts). Operates ONLY on original source files —
+    augmentation happens after the split, train-only (see module docstring).
     """
     if not 0.0 < train_frac < 1.0:
         raise ValueError("train_frac must be in (0, 1)")
@@ -108,6 +169,14 @@ def frame_range_split(
         if not files:
             continue
         cut = int(len(files) * train_frac)
+        # Snap the cut to a frame-group boundary so a physical frame group never
+        # straddles train/val. ``_frame_group_id`` is per-file here (each file is
+        # its own group), so this is a no-op for the Kaggle data; it future-proofs
+        # the split should grouping ever become many-frames-per-group.
+        if 0 < cut < len(files):
+            edge = _frame_group_id(files[cut - 1])
+            while cut < len(files) and _frame_group_id(files[cut]) == edge:
+                cut += 1
         idx = CLASS_TO_IDX[class_name]
         manifest.train += [Sample(f, idx, class_name) for f in files[:cut]]
         manifest.val += [Sample(f, idx, class_name) for f in files[cut:]]
@@ -172,18 +241,32 @@ def main() -> None:
                    help="path to asl_alphabet_train/ (29 class folders)")
     p.add_argument("--train-frac", type=float, default=0.8)
     p.add_argument("--out", default="data/split_manifest.json")
-    p.add_argument("--counts", action="store_true", help="also print class balance")
+    p.add_argument("--counts", action="store_true",
+                   help="also print per-class train/val counts and totals")
     args = p.parse_args()
 
-    if args.counts:
-        counts = class_counts(args.root)
-        for c in CLASSES:
-            print(f"{c:>8}: {counts.get(c, 0)}")
-        print(f"{'TOTAL':>8}: {sum(counts.values())}")
-
     manifest = frame_range_split(args.root, args.train_frac)
+
+    if args.counts:
+        tr = {c: 0 for c in CLASSES}
+        va = {c: 0 for c in CLASSES}
+        for s in manifest.train:
+            tr[s.class_name] += 1
+        for s in manifest.val:
+            va[s.class_name] += 1
+        print("dev val = temporal frame-range split, same signer — NOT the reported "
+              "metric (that is the webcam test set, #15/#16)")
+        print(f"{'class':>8} {'train':>7} {'val':>6} {'total':>7}")
+        for c in CLASSES:
+            t, v = tr[c], va[c]
+            if t + v:  # skip classes with no images present
+                print(f"{c:>8} {t:>7} {v:>6} {t + v:>7}")
+        T, V = len(manifest.train), len(manifest.val)
+        print(f"{'TOTAL':>8} {T:>7} {V:>6} {T + V:>7}")
+
     manifest.to_json(args.out)
-    print(f"train={len(manifest.train)}  val={len(manifest.val)}  -> {args.out}")
+    print(f"train={len(manifest.train)}  val={len(manifest.val)}  -> {args.out}  "
+          f"(dev val — NOT the reported metric)")
 
 
 if __name__ == "__main__":

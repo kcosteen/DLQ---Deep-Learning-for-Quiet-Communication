@@ -42,8 +42,12 @@ video frames of ONE signer in ONE room**. Two consequences drive the whole desig
 1. **Never split randomly.** A random train/val split puts near-identical
    neighbouring frames on both sides and reports a **fake ~99.9%** accuracy. We
    split *each class by frame ranges* (first 80% of frames → train, last 20% →
-   val). This is implemented in `src/data.py::frame_range_split` and **enforced by
-   `tests/test_split_leakage.py`.**
+   val). This is implemented in `src/data.py::frame_range_split`, **enforced by
+   `tests/test_split_leakage.py`**, and recorded in `data/split_manifest.json`
+   (deterministic, byte-for-byte reproducible from `data/raw`). Even so, this
+   frame-range val is only a **dev val (temporal split, same signer — NOT the
+   reported metric)**; augmentation is applied *after* the split, train-only, so no
+   augmented twin of a val frame ever leaks into train.
 2. **The real benchmark is our own webcam test set.** Each teammate records all 29
    signs in varied lighting/backgrounds (`data/webcam_testset/`); none of it enters
    training. **The number we report is webcam-set accuracy — never the naïve
