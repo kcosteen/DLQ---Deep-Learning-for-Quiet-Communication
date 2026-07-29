@@ -1,13 +1,10 @@
 name: Auto-unblock dependent issues
 
 # When an issue is closed, look at every issue it was blocking. For each one whose
-# blockers are now ALL closed, swap its `blocked` label for `ready` and post a
-# comment tagging the assignee so the work is handed to them. Dependency links are
-# GitHub-native "blocked by" relationships, managed in the Issues UI / API — this
-# workflow only reads them and reacts.
-#
-# Note: this intentionally does NOT unlock the conversation (that stays manual).
-# Add an unlock step here later if desired.
+# blockers are now ALL closed, swap its `blocked` label for `ready`, unlock its
+# conversation, and post a comment tagging the assignee so the work is handed to
+# them. Dependency links are GitHub-native "blocked by" relationships, managed in
+# the Issues UI / API — this workflow only reads them and reacts.
 
 on:
   issues:
@@ -63,6 +60,10 @@ jobs:
             gh api --method POST "repos/$REPO/issues/$dep/labels" -f "labels[]=ready" >/dev/null \
               && echo "Added 'ready' to #$dep."
 
+            # Unlock the conversation (idempotent; DELETE 404s if already unlocked)
+            gh api --method DELETE "repos/$REPO/issues/$dep/lock" >/dev/null 2>&1 \
+              && echo "Unlocked #$dep." || echo "#$dep was already unlocked."
+
             # Idempotency: don't comment twice. Look for our marker.
             marker="<!-- auto-unblock -->"
             already=$(gh api "repos/$REPO/issues/$dep/comments" --paginate \
@@ -85,7 +86,7 @@ jobs:
             body="$marker
           $greeting all prerequisites for this issue are now closed (the last one was #$CLOSED). ✅
 
-          This issue is **unblocked** — I've swapped its \`blocked\` label for \`ready\`. It's assigned to you, so go ahead and pick it up."
+          This issue is **unblocked** — I've swapped its \`blocked\` label for \`ready\` and unlocked the conversation. It's assigned to you, so go ahead and pick it up."
 
             gh api --method POST "repos/$REPO/issues/$dep/comments" -f body="$body" >/dev/null
             echo "Commented on #$dep."
