@@ -1,0 +1,93 @@
+name: Auto-unblock dependent issues
+
+# When an issue is closed, look at every issue it was blocking. For each one whose
+# blockers are now ALL closed, swap its `blocked` label for `ready` and post a
+# comment tagging the assignee so the work is handed to them. Dependency links are
+# GitHub-native "blocked by" relationships, managed in the Issues UI / API — this
+# workflow only reads them and reacts.
+#
+# Note: this intentionally does NOT unlock the conversation (that stays manual).
+# Add an unlock step here later if desired.
+
+on:
+  issues:
+    types: [closed]
+
+permissions:
+  issues: write
+
+jobs:
+  notify-unblocked:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify newly-unblocked dependents
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          CLOSED: ${{ github.event.issue.number }}
+        run: |
+          set -euo pipefail
+          echo "Issue #$CLOSED closed — checking issues it was blocking…"
+
+          # Issues that #$CLOSED was blocking (its dependents)
+          dependents=$(gh api "repos/$REPO/issues/$CLOSED/dependencies/blocking" --jq '.[].number')
+          if [ -z "$dependents" ]; then
+            echo "Nothing was blocked by #$CLOSED. Done."
+            exit 0
+          fi
+
+          for dep in $dependents; do
+            echo "::group::Evaluating dependent #$dep"
+
+            # Are ALL of #$dep's blockers now closed?
+            open_blockers=$(gh api "repos/$REPO/issues/$dep/dependencies/blocked_by" \
+              --jq '[.[] | select(.state != "closed")] | length')
+            echo "#$dep still has $open_blockers open blocker(s)."
+            if [ "$open_blockers" -ne 0 ]; then
+              echo "Still blocked — skipping."
+              echo "::endgroup::"
+              continue
+            fi
+
+            # Skip if #$dep is itself already closed
+            dep_state=$(gh api "repos/$REPO/issues/$dep" --jq '.state')
+            if [ "$dep_state" = "closed" ]; then
+              echo "#$dep is already closed — skipping."
+              echo "::endgroup::"
+              continue
+            fi
+
+            # Swap `blocked` -> `ready` (idempotent; DELETE 404s if not present)
+            gh api --method DELETE "repos/$REPO/issues/$dep/labels/blocked" >/dev/null 2>&1 \
+              && echo "Removed 'blocked' from #$dep." || echo "#$dep had no 'blocked' label."
+            gh api --method POST "repos/$REPO/issues/$dep/labels" -f "labels[]=ready" >/dev/null \
+              && echo "Added 'ready' to #$dep."
+
+            # Idempotency: don't comment twice. Look for our marker.
+            marker="<!-- auto-unblock -->"
+            already=$(gh api "repos/$REPO/issues/$dep/comments" --paginate \
+              --jq "[.[] | select(.body | contains(\"$marker\"))] | length")
+            if [ "$already" -ne 0 ]; then
+              echo "#$dep was already notified — skipping."
+              echo "::endgroup::"
+              continue
+            fi
+
+            # Build @mentions from assignees (fallback to a generic note)
+            assignees=$(gh api "repos/$REPO/issues/$dep" --jq '.assignees[].login')
+            if [ -n "$assignees" ]; then
+              mentions=$(echo "$assignees" | sed 's/^/@/' | paste -sd ' ' -)
+              greeting="$mentions —"
+            else
+              greeting="Heads up —"
+            fi
+
+            body="$marker
+          $greeting all prerequisites for this issue are now closed (the last one was #$CLOSED). ✅
+
+          This issue is **unblocked** — I've swapped its \`blocked\` label for \`ready\`. It's assigned to you, so go ahead and pick it up."
+
+            gh api --method POST "repos/$REPO/issues/$dep/comments" -f body="$body" >/dev/null
+            echo "Commented on #$dep."
+            echo "::endgroup::"
+          done
