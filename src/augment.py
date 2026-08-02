@@ -17,6 +17,7 @@ import argparse
 import glob
 import os
 import random
+from pathlib import Path
 from typing import Callable, List, Optional
 
 import cv2
@@ -99,6 +100,9 @@ class BackgroundReplacer:
     Structure augmentation: the model must learn the hand shape, not the room. A
     directory of arbitrary background images is sampled and the segmented hand is
     pasted on top. Falls back to the original image if segmentation is unavailable.
+
+    Uses the MediaPipe Tasks ``ImageSegmenter`` (legacy ``mp.solutions`` was
+    removed in mediapipe>=1.0); requires ``models/selfie_segmenter.tflite``.
     """
 
     def __init__(self, backgrounds_dir: str) -> None:
@@ -107,22 +111,38 @@ class BackgroundReplacer:
             for ext in ("*.jpg", "*.jpeg", "*.png")
             for p in glob.glob(os.path.join(backgrounds_dir, ext))
         ]
-        self._selfie = None  # lazy MediaPipe selfie-segmentation model
+        self._seg = None  # lazy ImageSegmenter
 
     def _segmenter(self):
-        if self._selfie is None:
+        if self._seg is None:
             import mediapipe as mp
+            from mediapipe.tasks.python import vision
+            from mediapipe.tasks.python.core.base_options import BaseOptions
 
-            self._selfie = mp.solutions.selfie_segmentation.SelfieSegmentation(
-                model_selection=1
+            model = Path(__file__).resolve().parent.parent / "models" / "selfie_segmenter.tflite"
+            if not model.is_file():
+                raise FileNotFoundError(
+                    f"selfie segmenter model not found at {model}. "
+                    "Fetch it with the commands in models/README.md."
+                )
+            self._seg = vision.ImageSegmenter.create_from_options(
+                vision.ImageSegmenterOptions(
+                    base_options=BaseOptions(model_asset_path=str(model)),
+                    running_mode=vision.RunningMode.IMAGE,
+                    output_confidence_masks=True,
+                )
             )
-        return self._selfie
+        return self._seg
 
     def __call__(self, img_bgr: np.ndarray) -> np.ndarray:
         if not self.backgrounds:
             return img_bgr
+        import mediapipe as mp
+
         rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
-        mask = self._segmenter().process(rgb).segmentation_mask
+        mp_img = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
+        result = self._segmenter().segment(mp_img)
+        mask = result.confidence_masks[0].numpy_view().squeeze()
         fg = (mask > 0.5)[..., None]
 
         bg_path = random.choice(self.backgrounds)

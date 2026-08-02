@@ -41,6 +41,19 @@ def test_contract_is_deterministic():
     assert np.array_equal(a, b)
 
 
+def test_app_path_is_idempotent():
+    """The webcam app feeds ``preprocess_bgr`` an already-224-square crop.
+
+    ``app/webcam_speller.py`` calls ``preprocess_bgr(HandCropper.crop(frame).
+    crop_bgr)``, and ``crop_bgr`` has already been resized to IMG_SIZE by
+    ``HandCropper.crop``. So ``resize_square`` runs twice in the serving path.
+    This pins that the double-resize is byte-for-byte a no-op, so serving and
+    training (single resize) still produce identical tensors.
+    """
+    img = _sample_image()
+    assert np.array_equal(preprocess_bgr(img), preprocess_bgr(resize_square(img)))
+
+
 def test_contract_output_shape_and_dtype():
     out = preprocess_bgr(_sample_image())
     assert out.shape == (3, IMG_SIZE, IMG_SIZE)

@@ -114,6 +114,12 @@ pip install -r requirements.txt
 > Option B (venv on `pyenv`-provided Python 3.10.20) is the path verified on macOS
 > for this repo. `.venv/` is git-ignored.
 
+**MediaPipe Tasks model assets:** the crop bridge uses `mediapipe>=1.0` (Tasks
+API; the legacy `mp.solutions` API was removed in 1.x). It needs
+`models/hand_landmarker.task` and `models/selfie_segmenter.tflite`, which are
+committed to the repo. If they're missing, fetch them with the `curl` commands in
+[`models/README.md`](models/README.md).
+
 ### 1. Configure the Kaggle API
 
 Create a token at **kaggle.com → Settings → API → Create New Token** — this
@@ -311,6 +317,10 @@ Two tests are load-bearing for this project's integrity:
 Tests are written to run without a GPU: torch/mediapipe-dependent assertions are
 skipped automatically if those packages aren't installed, but the split-leakage and
 core contract tests only need numpy + OpenCV.
+
+The preprocessing contract (`IMG_SIZE`, ImageNet mean/std, `BBOX_MARGIN`) is
+**frozen** — any change requires Person B sign-off. Full spec and change-control
+rule: [`docs/PREPROCESSING_CONTRACT.md`](docs/PREPROCESSING_CONTRACT.md).
 
 ---
 
