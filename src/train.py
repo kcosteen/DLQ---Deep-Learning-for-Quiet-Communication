@@ -62,6 +62,11 @@ class TrainConfig:
     out: str = "checkpoints/efficientnet_b0.pt"
 
 
+def split_manifest_path(checkpoint_path: str) -> str:
+    """Where the split manifest lands for a given checkpoint path."""
+    return os.path.splitext(checkpoint_path)[0] + ".split.json"
+
+
 def cosine_warmup_lr(step: int, total_steps: int, warmup_steps: int, base_lr: float) -> float:
     """Linear warmup then cosine decay to 0."""
     if step < warmup_steps:
@@ -254,7 +259,10 @@ def _run_stage(
             best = val_acc
             epochs_no_improve = 0
             os.makedirs(os.path.dirname(cfg.out) or ".", exist_ok=True)
-            torch.save({"model": model.state_dict(), "val_acc": best}, cfg.out)
+            # "arch" makes the checkpoint self-describing: evaluate.py rebuilds
+            # the right architecture without being told which one to expect.
+            torch.save({"model": model.state_dict(), "val_acc": best,
+                        "arch": cfg.model}, cfg.out)
         else:
             epochs_no_improve += 1
             if epochs_no_improve >= cfg.patience:
@@ -274,8 +282,22 @@ def train(cfg: TrainConfig) -> float:
     # Fail before the GPU hours, not after: a missing class folder splits and
     # trains without complaint (see assert_all_classes_present).
     assert_all_classes_present(manifest)
+
+    # Pin the split next to the checkpoint. Re-deriving it later works only while
+    # ``root`` holds byte-identical contents (frame_range_split is deterministic
+    # given (root, train_frac) — src/data.py), so evaluating a checkpoint against
+    # a root that has since gained or lost frames would silently score it on a
+    # different val set. That would undermine the one claim this split exists to
+    # support: that the reported frames were never trained on. The manifest also
+    # records a content_sha256 of the assignment, so a drifted split is
+    # detectable rather than merely suspected.
+    manifest_out = split_manifest_path(cfg.out)
+    os.makedirs(os.path.dirname(manifest_out) or ".", exist_ok=True)
+    manifest.to_json(manifest_out)
+
     train_ds, val_ds = build_datasets(manifest)
     print(f"train={len(train_ds)} val={len(val_ds)}  (leakage-safe frame-range split)")
+    print(f"split manifest -> {manifest_out}  (pass it to src/evaluate.py --manifest)")
 
     train_loader = DataLoader(train_ds, batch_size=cfg.batch_size, shuffle=True,
                               num_workers=cfg.num_workers, drop_last=True)

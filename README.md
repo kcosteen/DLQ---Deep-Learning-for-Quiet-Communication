@@ -220,8 +220,15 @@ python -m src.train --root data/raw/asl_alphabet_train/asl_alphabet_train \
     --manifest data/split_manifest.json --wandb-mode online
 
 # 3. Evaluate — dev val split (NOT the reported number)
+#    Training writes checkpoints/<name>.split.json; passing it scores the exact
+#    split that was held out instead of re-deriving one from --split.
 python -m src.evaluate --checkpoint checkpoints/efficientnet_b0.pt \
-    --split data/raw/asl_alphabet_train/asl_alphabet_train --figures docs/figures
+    --split data/raw/asl_alphabet_train/asl_alphabet_train \
+    --manifest checkpoints/efficientnet_b0.split.json --figures docs/figures
+
+#    Same harness scores the compact baseline (#5), for an honest comparison:
+python -m src.evaluate --checkpoint checkpoints/compact_cnn.pt \
+    --split data/raw/asl_alphabet_train/asl_alphabet_train --figures /tmp/baseline
 
 # 4. Evaluate — THE reported benchmark (our webcam test set)
 python -m src.evaluate --checkpoint checkpoints/efficientnet_b0.pt \
