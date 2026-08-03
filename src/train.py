@@ -29,7 +29,7 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
 
-from .data import SplitManifest, build_datasets, frame_range_split
+from .data import CLASSES, SplitManifest, build_datasets, frame_range_split
 from .model import build_model, freeze_backbone, unfreeze_backbone
 
 
@@ -65,6 +65,45 @@ def cosine_warmup_lr(step: int, total_steps: int, warmup_steps: int, base_lr: fl
         return base_lr * (step + 1) / max(1, warmup_steps)
     progress = (step - warmup_steps) / max(1, total_steps - warmup_steps)
     return 0.5 * base_lr * (1.0 + math.cos(math.pi * progress))
+
+
+def assert_all_classes_present(manifest: SplitManifest) -> None:
+    """Refuse to train on a split that is missing any of the 29 classes.
+
+    ``list_class_files`` returns ``[]`` for an absent class folder and
+    ``frame_range_split`` skips it. That leniency is deliberate — it lets a
+    partial webcam capture still split — but for a full training run it is a
+    trap: the head always has ``len(CLASSES)`` outputs, so a missing folder
+    silently trains a 29-way classifier on 28 classes and still reports a
+    plausible dev-val accuracy. Nothing downstream notices until the demo's
+    missing gesture never fires.
+
+    The usual cause is Kaggle's delete gesture, shipped as ``del`` while
+    ``CLASSES`` expects ``delete``.
+    """
+    in_train = {s.class_name for s in manifest.train}
+    in_val = {s.class_name for s in manifest.val}
+    missing_train = [c for c in CLASSES if c not in in_train]
+    missing_val = [c for c in CLASSES if c not in in_val]
+    if not missing_train and not missing_val:
+        return
+
+    lines = [f"split does not cover all {len(CLASSES)} classes:"]
+    if missing_train:
+        lines.append(f"  absent from train: {missing_train}")
+    if missing_val:
+        lines.append(f"  absent from val:   {missing_val}")
+    if "delete" in set(missing_train) | set(missing_val):
+        lines.append(
+            "  hint: Kaggle ships the delete gesture as 'del', but CLASSES "
+            "expects 'delete'.\n"
+            "        Writable root: rename the folder (see README).\n"
+            "        Read-only root (e.g. /kaggle/input): point --root at a "
+            "directory of\n"
+            "        per-class symlinks instead, with 'del' linked as 'delete'."
+        )
+    lines.append(f"  root: {manifest.root}")
+    raise ValueError("\n".join(lines))
 
 
 def compute_sanity_floor(
@@ -131,7 +170,7 @@ def _run_stage(
     params = [p for p in model.parameters() if p.requires_grad]
     opt = torch.optim.AdamW(params, lr=base_lr, weight_decay=cfg.weight_decay)
     criterion = nn.CrossEntropyLoss(label_smoothing=cfg.label_smoothing)
-    scaler = torch.cuda.amp.GradScaler(enabled=cfg.amp and device == "cuda")
+    scaler = torch.amp.GradScaler("cuda", enabled=cfg.amp and device == "cuda")
 
     total_steps = epochs * max(1, len(loader))
     warmup_steps = cfg.warmup_epochs * max(1, len(loader))
@@ -147,7 +186,7 @@ def _run_stage(
             for g in opt.param_groups:
                 g["lr"] = lr
             opt.zero_grad(set_to_none=True)
-            with torch.cuda.amp.autocast(enabled=cfg.amp and device == "cuda"):
+            with torch.amp.autocast("cuda", enabled=cfg.amp and device == "cuda"):
                 loss = criterion(model(x), y)
             scaler.scale(loss).backward()
             scaler.step(opt)
@@ -186,6 +225,9 @@ def train(cfg: TrainConfig) -> float:
         manifest = SplitManifest.from_json(cfg.manifest)
     else:
         manifest = frame_range_split(cfg.root, cfg.train_frac)
+    # Fail before the GPU hours, not after: a missing class folder splits and
+    # trains without complaint (see assert_all_classes_present).
+    assert_all_classes_present(manifest)
     train_ds, val_ds = build_datasets(manifest)
     print(f"train={len(train_ds)} val={len(val_ds)}  (leakage-safe frame-range split)")
 
