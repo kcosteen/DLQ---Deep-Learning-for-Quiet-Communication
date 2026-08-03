@@ -19,12 +19,29 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Optional, Tuple
 
 import cv2
 import numpy as np
 
-# --- The preprocessing contract. Locked in Week 1. Do not fork these values. ---
+# MediaPipe Tasks model used by HandCropper. mediapipe>=1.0 removed the legacy
+# `mp.solutions` API and requires an explicit model file (not bundled in the
+# wheel). This file is committed to the repo; see models/README.md.
+MODELS_DIR: Path = Path(__file__).resolve().parent.parent / "models"
+HAND_LANDMARKER_MODEL: Path = MODELS_DIR / "hand_landmarker.task"
+
+# =========================================================================== #
+# THE PREPROCESSING CONTRACT — FROZEN. Do not change these values.
+#
+# These four constants define the exact tensor the network sees in training and
+# in the live webcam app. Changing ANY of them silently invalidates every trained
+# checkpoint, so this block is FROZEN as of Week 1 (issue #4).
+#
+# CHANGE-CONTROL RULE: any change requires sign-off from Person B (training) and
+# a full re-run of tests/test_preprocessing_parity.py. Treat disagreement here as
+# a blocker, not a tweak. See docs/PREPROCESSING_CONTRACT.md.
+# =========================================================================== #
 IMG_SIZE: int = 224
 # ImageNet statistics (RGB order). timm/EfficientNet-B0 was pretrained with these.
 IMAGENET_MEAN: Tuple[float, float, float] = (0.485, 0.456, 0.406)
@@ -43,41 +60,53 @@ class CropResult:
 
 
 class HandCropper:
-    """Wraps MediaPipe Hands and produces a square crop around the hand.
+    """Wraps the MediaPipe Tasks HandLandmarker and produces a square hand crop.
 
-    Lazily imports mediapipe so that unit tests exercising the pure-numpy helpers
-    (resize / normalize / letterbox) do not require the mediapipe wheel.
+    Uses the Tasks API (``mediapipe.tasks.python.vision.HandLandmarker``) — the
+    legacy ``mp.solutions`` API was removed in mediapipe>=1.0. Runs in
+    ``RunningMode.IMAGE`` (per-frame detection; no hand tracking), so the old
+    ``static_image_mode`` / ``min_tracking_confidence`` knobs are gone. mediapipe
+    is imported lazily so unit tests exercising the pure-numpy helpers (resize /
+    normalize / letterbox) do not require the mediapipe wheel.
     """
 
     def __init__(
         self,
         max_num_hands: int = 1,
         min_detection_confidence: float = 0.5,
-        min_tracking_confidence: float = 0.5,
-        static_image_mode: bool = False,
     ) -> None:
-        import mediapipe as mp  # local import: keep tests light
+        # local import: keep tests light
+        from mediapipe.tasks.python import vision
+        from mediapipe.tasks.python.core.base_options import BaseOptions
 
-        self._mp_hands = mp.solutions.hands
-        self._hands = self._mp_hands.Hands(
-            static_image_mode=static_image_mode,
-            max_num_hands=max_num_hands,
-            min_detection_confidence=min_detection_confidence,
-            min_tracking_confidence=min_tracking_confidence,
+        if not HAND_LANDMARKER_MODEL.is_file():
+            raise FileNotFoundError(
+                f"hand landmarker model not found at {HAND_LANDMARKER_MODEL}. "
+                "Fetch it with the commands in models/README.md."
+            )
+        options = vision.HandLandmarkerOptions(
+            base_options=BaseOptions(model_asset_path=str(HAND_LANDMARKER_MODEL)),
+            running_mode=vision.RunningMode.IMAGE,
+            num_hands=max_num_hands,
+            min_hand_detection_confidence=min_detection_confidence,
         )
+        self._landmarker = vision.HandLandmarker.create_from_options(options)
 
     def hand_bbox(self, frame_bgr: np.ndarray) -> Optional[Tuple[int, int, int, int]]:
         """Return a margin-padded square bbox around the first detected hand.
 
         Returns None if no hand is detected.
         """
+        import mediapipe as mp
+
         h, w = frame_bgr.shape[:2]
         frame_rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
-        results = self._hands.process(frame_rgb)
-        if not results.multi_hand_landmarks:
+        mp_img = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame_rgb)
+        result = self._landmarker.detect(mp_img)
+        if not result.hand_landmarks:
             return None
 
-        lm = results.multi_hand_landmarks[0].landmark
+        lm = result.hand_landmarks[0]
         xs = [p.x * w for p in lm]
         ys = [p.y * h for p in lm]
         x0, x1 = min(xs), max(xs)
@@ -95,7 +124,7 @@ class HandCropper:
         return CropResult(resize_square(crop), bbox, found_hand=True)
 
     def close(self) -> None:
-        self._hands.close()
+        self._landmarker.close()
 
     def __enter__(self) -> "HandCropper":
         return self

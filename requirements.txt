@@ -11,7 +11,7 @@ timm>=0.9.12               # EfficientNet-B0, ImageNet-pretrained
 numpy>=1.24
 albumentations>=1.4.0     # geometric + photometric + structural augmentation
 opencv-python>=4.9        # capture, resize, image IO
-mediapipe>=0.10.9         # hand detection/crop + selfie segmentation
+mediapipe>=1.0.0         # Tasks API only (legacy mp.solutions removed in 1.x); needs models/ assets
 
 # --- demo ---
 pyttsx3>=2.90             # offline text-to-speech
