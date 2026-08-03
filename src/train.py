@@ -1,7 +1,12 @@
-"""Two-stage transfer-learning trainer with W&B logging.
+"""Trainer for the EfficientNet-B0 transfer model and the CompactCNN baseline.
 
+``--model efficientnet`` (default) runs the two-stage schedule:
 Stage 1: freeze the EfficientNet-B0 backbone, train only the new head (LR 1e-3).
 Stage 2: unfreeze and fine-tune the whole network at a low LR (1e-4).
+
+``--model compact`` trains the from-scratch 3-block CNN in a single stage — the
+honest baseline the transfer model must beat (#5). Pair it with ``--sanity-floor``
+to also fit the logistic-regression pixel floor and assert baseline > floor.
 
 Both stages use cross-entropy with label smoothing 0.1, AdamW (weight decay
 0.01), cosine LR decay with warmup, mixed precision (AMP), and early stopping on
@@ -19,6 +24,7 @@ import os
 from dataclasses import dataclass
 from typing import Optional
 
+import numpy as np
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
@@ -31,9 +37,14 @@ from .model import build_model, freeze_backbone, unfreeze_backbone
 class TrainConfig:
     root: str
     manifest: Optional[str] = None
+    model: str = "efficientnet"  # "compact" = from-scratch baseline (#5)
     train_frac: float = 0.8
     head_epochs: int = 5
     finetune_epochs: int = 15
+    baseline_epochs: int = 20  # compact CNN: single stage, nothing to freeze
+    baseline_lr: float = 1e-3
+    sanity_floor: bool = False  # also fit the logreg floor (#5)
+    floor_max_per_class: int = 200
     batch_size: int = 48
     head_lr: float = 1e-3
     finetune_lr: float = 1e-4
@@ -54,6 +65,50 @@ def cosine_warmup_lr(step: int, total_steps: int, warmup_steps: int, base_lr: fl
         return base_lr * (step + 1) / max(1, warmup_steps)
     progress = (step - warmup_steps) / max(1, total_steps - warmup_steps)
     return 0.5 * base_lr * (1.0 + math.cos(math.pi * progress))
+
+
+def compute_sanity_floor(
+    manifest: SplitManifest, max_per_class: int = 200, seed: int = 0
+) -> float:
+    """Logistic regression on downscaled pixels — the floor the baseline must beat.
+
+    Subsamples ``max_per_class`` frames per class from each side of the split;
+    fitting on all 87k images buys nothing and costs far more than the floor is
+    worth. The subsample is a deterministic stride over the already-sorted frame
+    range, not a random draw, so it stays reproducible and spans the whole range
+    instead of clustering at one end.
+    """
+    from collections import defaultdict
+
+    import cv2
+
+    from .model import fit_logreg_sanity, pixel_features
+
+    def subsample(samples):
+        by_class = defaultdict(list)
+        for s in samples:
+            by_class[s.class_name].append(s)
+        chosen = []
+        for cls in sorted(by_class):
+            group = by_class[cls]
+            stride = max(1, len(group) // max_per_class)
+            chosen += group[::stride][:max_per_class]
+        return chosen
+
+    def featurize(samples):
+        X, y = [], []
+        for s in samples:
+            img = cv2.imread(s.path, cv2.IMREAD_COLOR)
+            if img is None:
+                raise FileNotFoundError(s.path)
+            X.append(pixel_features(img))
+            y.append(s.label)
+        return np.stack(X), np.asarray(y)
+
+    X_train, y_train = featurize(subsample(manifest.train))
+    X_val, y_val = featurize(subsample(manifest.val))
+    _, acc = fit_logreg_sanity(X_train, y_train, X_val, y_val, seed=seed)
+    return acc
 
 
 @torch.no_grad()
@@ -103,10 +158,12 @@ def _run_stage(
         val_acc = evaluate(model, val_loader, device)
         train_loss = running / max(1, len(loader))
         print(f"[{stage}] epoch {epoch + 1}/{epochs} "
-              f"loss={train_loss:.4f} val_acc={val_acc:.4f} lr={lr:.2e}")
+              f"loss={train_loss:.4f} dev_val_acc={val_acc:.4f} lr={lr:.2e}")
         if wandb is not None:
-            wandb.log({f"{stage}/loss": train_loss, f"{stage}/val_acc": val_acc,
-                       "lr": lr})
+            # "dev_val", never plain "val": this is the same-signer temporal
+            # split, not the reported webcam number (#15/#16).
+            wandb.log({f"{stage}/loss": train_loss,
+                       f"{stage}/dev_val_acc": val_acc, "lr": lr})
 
         if val_acc > best:
             best = val_acc
@@ -144,44 +201,90 @@ def train(cfg: TrainConfig) -> float:
         print(f"W&B disabled: {e}")
         wandb = None
 
-    model = build_model("efficientnet", pretrained=True).to(device)
+    floor = None
+    if cfg.sanity_floor:
+        floor = compute_sanity_floor(manifest, cfg.floor_max_per_class)
+        print(f"logreg sanity floor (dev val) = {floor:.4f}")
+        if wandb is not None:
+            wandb.summary["dev_val/logreg_floor"] = floor
+
+    model = build_model(cfg.model, pretrained=True).to(device)
 
     best = 0.0
-    freeze_backbone(model)
-    print("Stage 1: training head (backbone frozen)")
-    best = _run_stage(model, train_loader, val_loader, device,
-                      cfg.head_epochs, cfg.head_lr, cfg, wandb, "head", best)
+    if cfg.model == "compact":
+        # Trained from scratch: there is no pretrained backbone to freeze, so the
+        # two-stage schedule does not apply — one stage at ``baseline_lr``.
+        print("Baseline: CompactCNN from scratch (single stage)")
+        best = _run_stage(model, train_loader, val_loader, device,
+                          cfg.baseline_epochs, cfg.baseline_lr, cfg, wandb,
+                          "baseline", best)
+    else:
+        freeze_backbone(model)
+        print("Stage 1: training head (backbone frozen)")
+        best = _run_stage(model, train_loader, val_loader, device,
+                          cfg.head_epochs, cfg.head_lr, cfg, wandb, "head", best)
 
-    unfreeze_backbone(model)
-    print("Stage 2: fine-tuning whole network")
-    best = _run_stage(model, train_loader, val_loader, device,
-                      cfg.finetune_epochs, cfg.finetune_lr, cfg, wandb, "finetune", best)
+        unfreeze_backbone(model)
+        print("Stage 2: fine-tuning whole network")
+        best = _run_stage(model, train_loader, val_loader, device,
+                          cfg.finetune_epochs, cfg.finetune_lr, cfg, wandb,
+                          "finetune", best)
 
-    print(f"best leakage-safe val acc = {best:.4f}  (checkpoint: {cfg.out})")
-    print("NOTE: the REAL reported number is the webcam test set, not this val "
-          "accuracy. Run src/evaluate.py on data/webcam_testset.")
+    print(f"best dev val acc = {best:.4f}  (checkpoint: {cfg.out})")
+    if wandb is not None:
+        wandb.summary["dev_val/best_acc"] = best
+
+    if floor is not None:
+        gap = best - floor
+        verdict = "PASS" if gap > 0 else "FAIL"
+        print(f"[{verdict}] {cfg.model} {best:.4f} vs logreg floor {floor:.4f} "
+              f"(gap {gap:+.4f})")
+        if verdict == "FAIL":
+            print("The model did not beat the sanity floor — something in the "
+                  "data pipeline or training loop is wired wrong.")
+
+    print("NOTE: the REAL reported number is the webcam test set, not this dev "
+          "val accuracy (same signer, temporal split). Run src/evaluate.py on "
+          "data/webcam_testset.")
     if wandb is not None:
         wandb.finish()
     return best
 
 
 def main() -> None:
-    p = argparse.ArgumentParser(description="Two-stage EfficientNet-B0 training.")
+    p = argparse.ArgumentParser(
+        description="Train EfficientNet-B0 (two-stage) or the CompactCNN baseline."
+    )
     p.add_argument("--root", required=True, help="asl_alphabet_train/ dir")
     p.add_argument("--manifest", default=None, help="reuse a saved split manifest")
+    p.add_argument("--model", choices=["efficientnet", "compact"],
+                   default="efficientnet",
+                   help="'compact' = from-scratch baseline (single stage)")
+    p.add_argument("--sanity-floor", action="store_true",
+                   help="also fit the logreg pixel floor and compare against it")
+    p.add_argument("--floor-max-per-class", type=int, default=200)
     p.add_argument("--train-frac", type=float, default=0.8)
     p.add_argument("--head-epochs", type=int, default=5)
     p.add_argument("--finetune-epochs", type=int, default=15)
+    p.add_argument("--baseline-epochs", type=int, default=20)
     p.add_argument("--batch-size", type=int, default=48)
     p.add_argument("--num-workers", type=int, default=4)
     p.add_argument("--no-amp", action="store_true")
     p.add_argument("--wandb-mode", default="online",
                    choices=["online", "offline", "disabled"])
-    p.add_argument("--out", default="checkpoints/efficientnet_b0.pt")
+    p.add_argument("--out", default=None,
+                   help="checkpoint path (default: named after --model)")
     args = p.parse_args()
+    if args.out is None:
+        stem = "compact_cnn" if args.model == "compact" else "efficientnet_b0"
+        args.out = f"checkpoints/{stem}.pt"
     cfg = TrainConfig(
-        root=args.root, manifest=args.manifest, train_frac=args.train_frac,
+        root=args.root, manifest=args.manifest, model=args.model,
+        train_frac=args.train_frac,
         head_epochs=args.head_epochs, finetune_epochs=args.finetune_epochs,
+        baseline_epochs=args.baseline_epochs,
+        sanity_floor=args.sanity_floor,
+        floor_max_per_class=args.floor_max_per_class,
         batch_size=args.batch_size, num_workers=args.num_workers,
         amp=not args.no_amp, wandb_mode=args.wandb_mode, out=args.out,
     )

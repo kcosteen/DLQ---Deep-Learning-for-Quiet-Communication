@@ -5,7 +5,7 @@
   unfreezes the backbone (see ``freeze_backbone`` / ``unfreeze_backbone``).
 - ``CompactCNN``: a 3-block conv net trained from scratch — the honest baseline
   the transfer-learning model must beat.
-- ``logreg_sanity``: logistic regression on a pixel subset — the sanity FLOOR;
+- ``fit_logreg_sanity``: logistic regression on a pixel subset — the sanity FLOOR;
   if the pipeline can't beat this, something is wired wrong.
 """
 
@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 
+import numpy as np
 import torch
 import torch.nn as nn
 
@@ -74,10 +75,39 @@ class CompactCNN(nn.Module):
         return self.classifier(self.pool(self.features(x)))
 
 
-def logreg_sanity(x: torch.Tensor, num_classes: int = NUM_CLASSES) -> nn.Module:
-    """Logistic regression on flattened, sub-sampled pixels — the sanity floor."""
-    n_features = x.reshape(x.shape[0], -1).shape[1]
-    return nn.Linear(n_features, num_classes)
+PIXEL_SUBSET = 32  # floor features = 32x32 grayscale = 1024 dims
+
+
+def pixel_features(img_bgr: "np.ndarray") -> "np.ndarray":
+    """BGR uint8 image -> the sanity floor's flat feature vector.
+
+    Deliberately bypasses the 224x224 preprocessing contract in ``src/crop.py``:
+    the floor is meant to be the dumbest reasonable model, so it sees raw
+    downscaled grayscale pixels in [0, 1] and nothing else. Using the real
+    pipeline here would make the floor look better than it should and blunt the
+    comparison it exists to provide.
+    """
+    import cv2
+
+    gray = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2GRAY)
+    small = cv2.resize(
+        gray, (PIXEL_SUBSET, PIXEL_SUBSET), interpolation=cv2.INTER_AREA
+    )
+    return (small.astype("float32") / 255.0).reshape(-1)
+
+
+def fit_logreg_sanity(X_train, y_train, X_val, y_val, seed: int = 0):
+    """Fit multinomial logistic regression on pixel features.
+
+    Returns ``(classifier, dev_val_accuracy)``. This is the sanity FLOOR: if the
+    CompactCNN baseline cannot beat it on the same leakage-safe split, the data
+    pipeline or the training loop is wired wrong.
+    """
+    from sklearn.linear_model import LogisticRegression
+
+    clf = LogisticRegression(max_iter=1000, random_state=seed)
+    clf.fit(X_train, y_train)
+    return clf, float(clf.score(X_val, y_val))
 
 
 def build_model(name: str, pretrained: bool = True) -> nn.Module:
