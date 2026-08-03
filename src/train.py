@@ -21,6 +21,7 @@ from __future__ import annotations
 import argparse
 import math
 import os
+import time
 from dataclasses import dataclass
 from typing import Optional
 
@@ -54,6 +55,8 @@ class TrainConfig:
     patience: int = 5
     num_workers: int = 4
     amp: bool = True
+    limit_batches: Optional[int] = None  # cap batches/epoch: smoke runs, not real ones
+    log_every: int = 50  # batches between progress lines; 0 disables
     wandb_project: str = "asl-fingerspelling"
     wandb_mode: str = "online"  # set "disabled" for local runs
     out: str = "checkpoints/efficientnet_b0.pt"
@@ -151,16 +154,39 @@ def compute_sanity_floor(
 
 
 @torch.no_grad()
-def evaluate(model: nn.Module, loader: DataLoader, device: str) -> float:
-    """Top-1 accuracy on the leakage-safe val split."""
+def evaluate(
+    model: nn.Module, loader: DataLoader, device: str,
+    limit_batches: Optional[int] = None,
+) -> float:
+    """Top-1 accuracy on the leakage-safe val split.
+
+    ``limit_batches`` caps the number of val batches so a ``--limit-batches``
+    smoke run is not dominated by a full pass over the val split.
+    """
     model.eval()
     correct = total = 0
-    for x, y in loader:
+    for i, (x, y) in enumerate(loader):
+        if limit_batches is not None and i >= limit_batches:
+            break
         x, y = x.to(device), y.to(device)
         pred = model(x).argmax(1)
         correct += (pred == y).sum().item()
         total += y.numel()
     return correct / max(1, total)
+
+
+def _steps_per_epoch(loader: DataLoader, limit_batches: Optional[int]) -> int:
+    """Batches actually run per epoch, honouring ``--limit-batches``."""
+    n = max(1, len(loader))
+    return min(n, limit_batches) if limit_batches else n
+
+
+def _fmt_eta(seconds: float) -> str:
+    if seconds < 90:
+        return f"{seconds:.0f}s"
+    if seconds < 5400:
+        return f"{seconds / 60:.0f}m"
+    return f"{seconds / 3600:.1f}h"
 
 
 def _run_stage(
@@ -172,15 +198,20 @@ def _run_stage(
     criterion = nn.CrossEntropyLoss(label_smoothing=cfg.label_smoothing)
     scaler = torch.amp.GradScaler("cuda", enabled=cfg.amp and device == "cuda")
 
-    total_steps = epochs * max(1, len(loader))
-    warmup_steps = cfg.warmup_epochs * max(1, len(loader))
+    steps_per_epoch = _steps_per_epoch(loader, cfg.limit_batches)
+    total_steps = epochs * steps_per_epoch
+    warmup_steps = cfg.warmup_epochs * steps_per_epoch
     step = 0
     epochs_no_improve = 0
 
     for epoch in range(epochs):
         model.train()
         running = 0.0
-        for x, y in loader:
+        seen = 0
+        epoch_start = time.perf_counter()
+        for i, (x, y) in enumerate(loader):
+            if cfg.limit_batches is not None and i >= cfg.limit_batches:
+                break
             x, y = x.to(device), y.to(device)
             lr = cosine_warmup_lr(step, total_steps, warmup_steps, base_lr)
             for g in opt.param_groups:
@@ -192,12 +223,27 @@ def _run_stage(
             scaler.step(opt)
             scaler.update()
             running += loss.item()
+            seen += 1
             step += 1
 
-        val_acc = evaluate(model, val_loader, device)
-        train_loss = running / max(1, len(loader))
+            # An epoch is 20-40 min on a T4 and the only other output is at the
+            # end of it, so without this a long run is indistinguishable from a
+            # hung one. flush=True because Kaggle/Colab buffer subprocess stdout.
+            if cfg.log_every and seen % cfg.log_every == 0:
+                elapsed = time.perf_counter() - epoch_start
+                rate = seen / max(1e-9, elapsed)
+                eta = (steps_per_epoch - seen) / max(1e-9, rate)
+                print(f"[{stage}] epoch {epoch + 1}/{epochs} "
+                      f"batch {seen}/{steps_per_epoch} "
+                      f"loss={running / seen:.4f} lr={lr:.2e} "
+                      f"{rate * loader.batch_size:.0f} img/s "
+                      f"eta {_fmt_eta(eta)}", flush=True)
+
+        val_acc = evaluate(model, val_loader, device, cfg.limit_batches)
+        train_loss = running / max(1, seen)
         print(f"[{stage}] epoch {epoch + 1}/{epochs} "
-              f"loss={train_loss:.4f} dev_val_acc={val_acc:.4f} lr={lr:.2e}")
+              f"loss={train_loss:.4f} dev_val_acc={val_acc:.4f} lr={lr:.2e} "
+              f"({_fmt_eta(time.perf_counter() - epoch_start)})", flush=True)
         if wandb is not None:
             # "dev_val", never plain "val": this is the same-signer temporal
             # split, not the reported webcam number (#15/#16).
@@ -272,6 +318,11 @@ def train(cfg: TrainConfig) -> float:
                           cfg.finetune_epochs, cfg.finetune_lr, cfg, wandb,
                           "finetune", best)
 
+    if cfg.limit_batches:
+        print(f"SMOKE RUN (--limit-batches {cfg.limit_batches}): the accuracy "
+              "below is from a truncated pass over a fraction of the data. It "
+              "is a wiring check, NOT a result - do not report or compare it, "
+              "and re-run without --limit-batches for a real number.")
     print(f"best dev val acc = {best:.4f}  (checkpoint: {cfg.out})")
     if wandb is not None:
         wandb.summary["dev_val/best_acc"] = best
@@ -311,6 +362,11 @@ def main() -> None:
     p.add_argument("--baseline-epochs", type=int, default=20)
     p.add_argument("--batch-size", type=int, default=48)
     p.add_argument("--num-workers", type=int, default=4)
+    p.add_argument("--limit-batches", type=int, default=None,
+                   help="cap batches per epoch (train and val) — smoke tests "
+                        "only; the resulting accuracy is not a real number")
+    p.add_argument("--log-every", type=int, default=50,
+                   help="batches between progress lines (0 = only per-epoch)")
     p.add_argument("--no-amp", action="store_true")
     p.add_argument("--wandb-mode", default="online",
                    choices=["online", "offline", "disabled"])
@@ -328,6 +384,7 @@ def main() -> None:
         sanity_floor=args.sanity_floor,
         floor_max_per_class=args.floor_max_per_class,
         batch_size=args.batch_size, num_workers=args.num_workers,
+        limit_batches=args.limit_batches, log_every=args.log_every,
         amp=not args.no_amp, wandb_mode=args.wandb_mode, out=args.out,
     )
     train(cfg)
