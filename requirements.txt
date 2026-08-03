@@ -3,8 +3,8 @@
 # (On Colab most of torch/torchvision are preinstalled; still pip-install the rest.)
 
 # --- deep learning ---
-torch>=2.1
-torchvision>=0.16
+torch>=2.3                 # 2.3 is where torch.amp.GradScaler("cuda") landed (src/train.py)
+torchvision>=0.18          # torchvision pairing for torch 2.3
 timm>=0.9.12               # EfficientNet-B0, ImageNet-pretrained
 
 # --- data / augmentation ---
