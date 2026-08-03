@@ -279,8 +279,20 @@ images to Google Drive to cut epoch time. Demo inference runs on **CPU**.
 | **Own webcam test set** (the real, reported number) | **≥ 90%** |
 | Per-class accuracy / macro-F1 | **no class below 85%** |
 
-**We never report the naïve random-split number.** Watch known confusions:
-**M/N/S/T, A/E, K/V**.
+**We never report the naïve random-split number.**
+
+### Where we are
+
+Transfer learning v1 is trained and evaluated — **dev-val 0.9545, macro-F1
+0.9518** ([full results + error analysis](docs/RESULTS.md)). That clears the >95%
+split target but **misses the per-class bar**: S, V and X are below 85%, and
+between them hold 86% of all errors. The reported webcam number does not exist
+yet.
+
+Measured confusions differ from the textbook list: **V→K (219)** and **S→E (160)**
+dominate, X fails diffusely, while A/E never confuses at all. `WATCH_CONFUSIONS`
+in `src/evaluate.py` now reflects what was measured, and the harness prints the
+largest confusions unconditionally so an unanticipated one cannot hide.
 
 ---
 
