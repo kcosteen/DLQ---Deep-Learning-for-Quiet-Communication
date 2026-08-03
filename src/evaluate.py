@@ -34,7 +34,18 @@ from torch.utils.data import DataLoader
 from .data import CLASSES, ASLImageDataset, Sample, SplitManifest, frame_range_split
 from .model import build_model
 
-WATCH_CONFUSIONS = [("M", "N", "S", "T"), ("A", "E"), ("K", "V")]
+# Groups to inspect explicitly. The first three are the textbook fingerspelling
+# confusions; the rest were measured on the first transfer run (#6, see
+# docs/RESULTS.md), where the textbook list missed the two largest failures.
+WATCH_CONFUSIONS = [
+    ("M", "N", "S", "T"),       # textbook — mild in practice (58 errors)
+    ("A", "E", "S"),            # S->E was 160 errors. S and E previously sat in
+                                # separate groups, so the pair could not be
+                                # reported no matter how large it got.
+    ("K", "V"),                 # V->K, 219 errors: the single worst collision
+    ("X", "A", "L", "R", "I"),  # X spreads its errors instead of picking one
+    ("I", "Y"),                 # Y->I, 26
+]
 
 
 def resolve_arch(ckpt: dict, requested: Optional[str]) -> str:
@@ -126,6 +137,25 @@ def macro_f1(cm: np.ndarray) -> float:
     return float(np.mean(f1s))
 
 
+def top_confusions(cm: np.ndarray, k: int = 10) -> List[Tuple[int, str, str]]:
+    """The ``k`` largest off-diagonal cells, worst first, as (count, true, pred).
+
+    Reported unconditionally, because ``WATCH_CONFUSIONS`` only finds what it was
+    told to look for. On the #6 run the two biggest failures were X (spread over
+    A/L/R/I, and in no group at all) and S->E (split across two groups, so
+    invisible to both) — the classic list named neither. A ranking derived from
+    the matrix itself cannot miss a confusion for being unanticipated.
+    """
+    pairs = [
+        (int(cm[i, j]), CLASSES[i], CLASSES[j])
+        for i in range(len(CLASSES))
+        for j in range(len(CLASSES))
+        if i != j and cm[i, j]
+    ]
+    pairs.sort(reverse=True)
+    return pairs[:k]
+
+
 def save_confusion_png(cm: np.ndarray, path: str) -> None:
     try:
         import matplotlib
@@ -172,6 +202,12 @@ def report(cm: np.ndarray, target_per_class: float = 0.85) -> None:
         if flag:
             below.append(c)
         print(f"  {c:>8}: {accs[c]:.3f}{flag}")
+    top = top_confusions(cm)
+    if top:
+        print("\nlargest confusions (true -> predicted):")
+        for n, t, p in top:
+            print(f"  {t} -> {p}: {n}")
+
     print("\nwatch these known-confusable groups:")
     for group in WATCH_CONFUSIONS:
         idxs = [CLASSES.index(g) for g in group if g in CLASSES]

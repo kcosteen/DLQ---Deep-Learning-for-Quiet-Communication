@@ -18,8 +18,13 @@ pytest.importorskip("torch")
 
 import torch  # noqa: E402
 
-from src.data import SplitManifest  # noqa: E402
-from src.evaluate import load_checkpoint, resolve_arch  # noqa: E402
+from src.data import CLASS_TO_IDX, SplitManifest  # noqa: E402
+from src.evaluate import (  # noqa: E402
+    WATCH_CONFUSIONS,
+    load_checkpoint,
+    resolve_arch,
+    top_confusions,
+)
 from src.model import build_model  # noqa: E402
 from src.train import split_manifest_path  # noqa: E402
 
@@ -83,6 +88,59 @@ def test_manifest_path_sits_beside_the_checkpoint():
         "checkpoints/efficientnet_b0.split.json"
     )
     assert split_manifest_path("run.pt") == "run.split.json"
+
+
+def _cm(pairs: dict):
+    """Confusion matrix from {(true, pred): count}, diagonal filled to 600."""
+    import numpy as np
+
+    n = len(CLASS_TO_IDX)
+    cm = np.zeros((n, n), dtype=np.int64)
+    for i in range(n):
+        cm[i, i] = 600
+    for (t, p), count in pairs.items():
+        cm[CLASS_TO_IDX[t], CLASS_TO_IDX[p]] = count
+        cm[CLASS_TO_IDX[t], CLASS_TO_IDX[t]] -= count
+    return cm
+
+
+def test_top_confusions_ranks_by_size():
+    cm = _cm({("V", "K"): 219, ("S", "E"): 160, ("X", "A"): 120, ("M", "N"): 41})
+
+    assert top_confusions(cm, k=3) == [
+        (219, "V", "K"), (160, "S", "E"), (120, "X", "A")
+    ]
+
+
+def test_top_confusions_ignores_the_diagonal():
+    """A perfect matrix has nothing to report — correct answers are not errors."""
+    assert top_confusions(_cm({})) == []
+
+
+def test_top_confusions_finds_an_unwatched_pair():
+    """The point of the ranking: it does not depend on WATCH_CONFUSIONS.
+
+    On the #6 run the worst class (X) was in no watch group, and S->E was split
+    across two groups so no group contained both. Both were invisible to the
+    group report while being the two largest failures in the matrix.
+    """
+    unwatched = ("Q", "Z")
+    assert not any(set(unwatched) <= set(g) for g in WATCH_CONFUSIONS)
+
+    cm = _cm({unwatched: 300, ("V", "K"): 10})
+
+    assert top_confusions(cm, k=1) == [(300, "Q", "Z")]
+
+
+def test_measured_confusions_are_watched():
+    """The pairs #6 actually measured must each sit inside some group.
+
+    S->E is the regression guard: it was the second-largest failure and the
+    original list could not report it, because S was grouped with M/N/T and E
+    with A only.
+    """
+    for pair in [("S", "E"), ("V", "K"), ("X", "A"), ("Y", "I"), ("M", "N")]:
+        assert any(set(pair) <= set(g) for g in WATCH_CONFUSIONS), pair
 
 
 def test_manifest_round_trip_preserves_membership(tmp_path):
