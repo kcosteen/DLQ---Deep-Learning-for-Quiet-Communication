@@ -14,6 +14,8 @@ Kaggle-style names) and assert all three properties. No torch/mediapipe needed.
 
 from __future__ import annotations
 
+import os
+
 import numpy as np
 import pytest
 
@@ -43,7 +45,9 @@ def fake_dataset(tmp_path):
 def test_filenames_sorted_in_capture_order(fake_dataset):
     files = list_class_files(fake_dataset, "A")
     # numeric suffix sort => 1,2,...,100  (not lexical 1,10,100,11,...)
-    nums = [int("".join(c for c in f.rsplit("/", 1)[-1] if c.isdigit())) for f in files]
+    # basename, not rsplit("/"): paths are backslash-separated on Windows, where
+    # splitting on "/" returns the whole path and scrapes digits out of the tmp dir.
+    nums = [int("".join(c for c in os.path.basename(f) if c.isdigit())) for f in files]
     assert nums == sorted(nums) == list(range(1, 101))
 
 
