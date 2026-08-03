@@ -215,9 +215,17 @@ import os; os.makedirs(DATA, exist_ok=True)
 # 1. Inspect a model
 python -m src.model --model efficientnet
 
+# 1b. (optional, recommended) Pre-crop the training set once and cache it, so every
+#     epoch reads pre-cropped 224² images instead of re-deriving the MediaPipe crop.
+python -m src.cache_crops \
+    --src-root data/raw/asl_alphabet_train/asl_alphabet_train \
+    --cache-root data/cache_crops         # git-ignored; never commit (as big as raw)
+
 # 2. Train (two-stage transfer learning; logs to W&B if configured)
 python -m src.train --root data/raw/asl_alphabet_train/asl_alphabet_train \
     --manifest data/split_manifest.json --wandb-mode online
+#    ...or train off the cache from step 1b (point --root at it, drop the raw manifest):
+#    python -m src.train --root data/cache_crops --wandb-mode online
 
 # 3. Evaluate — dev val split (NOT the reported number)
 #    Training writes checkpoints/<name>.split.json; passing it scores the exact
@@ -250,8 +258,17 @@ python -m app.tts "hello world"
 ```
 
 ### Colab notes
-Free **T4**: ~15–40 min/epoch at 224² with mixed precision (AMP). Cache the resized
-images to Google Drive to cut epoch time. Demo inference runs on **CPU**.
+Free **T4**: ~15–40 min/epoch at 224² with mixed precision (AMP). Cache the cropped
+images to Google Drive once to cut epoch time, then train off the cache:
+
+```bash
+python -m src.cache_crops --src-root "$DATA/asl_alphabet_train/asl_alphabet_train" \
+    --cache-root /content/drive/MyDrive/dlq/data/cache_crops   # persists across sessions
+python -m src.train --root /content/drive/MyDrive/dlq/data/cache_crops --wandb-mode online
+```
+
+`cache_crops` is resumable — re-run it after a disconnect and it skips images already
+cached. Demo inference runs on **CPU**.
 
 ---
 
