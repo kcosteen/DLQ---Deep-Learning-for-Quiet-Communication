@@ -10,6 +10,12 @@ Two evaluation modes:
 Emits: overall accuracy, macro-F1, per-class accuracy, and a confusion matrix
 (PNG + CSV). Flags the classic confusions to watch: M/N/S/T, A/E, K/V.
 
+Works on either architecture, so the transfer model can be scored against the
+compact-CNN baseline (#5) on the same split: the architecture comes from the
+checkpoint's ``arch`` field, or from ``--model`` for checkpoints predating it.
+Pass ``--manifest`` to score the exact split that was trained on rather than
+re-deriving it from ``root``.
+
 Targets: leakage-safe val > 95%; webcam test >= 90%; no class below 85%.
 """
 
@@ -19,7 +25,7 @@ import argparse
 import csv
 import os
 from collections import defaultdict
-from typing import Dict, List, Sequence, Tuple
+from typing import Dict, List, Optional, Sequence, Tuple
 
 import numpy as np
 import torch
@@ -31,11 +37,44 @@ from .model import build_model
 WATCH_CONFUSIONS = [("M", "N", "S", "T"), ("A", "E"), ("K", "V")]
 
 
-def load_checkpoint(path: str, device: str) -> torch.nn.Module:
-    model = build_model("efficientnet", pretrained=False).to(device)
+def resolve_arch(ckpt: dict, requested: Optional[str]) -> str:
+    """Which architecture to rebuild: explicit ``--model`` beats the checkpoint.
+
+    Checkpoints written since #6 record their own ``arch``, so the flag is
+    normally unnecessary. It stays available for the checkpoints trained before
+    that (which carry no ``arch``) and defaults to ``efficientnet`` — the only
+    architecture this harness could load previously, so old commands keep working.
+    """
+    if requested is not None:
+        recorded = ckpt.get("arch")
+        if recorded is not None and recorded != requested:
+            print(f"warning: --model {requested} overrides the architecture "
+                  f"recorded in the checkpoint ({recorded})")
+        return requested
+    return ckpt.get("arch", "efficientnet")
+
+
+def load_checkpoint(
+    path: str, device: str, arch: Optional[str] = None
+) -> torch.nn.Module:
     ckpt = torch.load(path, map_location=device)
-    model.load_state_dict(ckpt["model"] if "model" in ckpt else ckpt)
+    state = ckpt["model"] if isinstance(ckpt, dict) and "model" in ckpt else ckpt
+    name = resolve_arch(ckpt if isinstance(ckpt, dict) else {}, arch)
+    model = build_model(name, pretrained=False).to(device)
+    try:
+        model.load_state_dict(state)
+    except RuntimeError as e:
+        # The usual cause is the wrong architecture. torch reports that as every
+        # unmatched parameter name — thousands of them for EfficientNet — which
+        # buries the one-line fix, so only the summary line is kept.
+        summary = str(e).splitlines()[0]
+        raise SystemExit(
+            f"checkpoint does not fit a '{name}' model.\n"
+            f"  Pass --model to name the right architecture "
+            f"(efficientnet | compact).\n  {summary}"
+        ) from e
     model.eval()
+    print(f"model: {name}  (checkpoint {path})")
     return model
 
 
@@ -148,7 +187,7 @@ def report(cm: np.ndarray, target_per_class: float = 0.85) -> None:
 
 def run(args: argparse.Namespace) -> None:
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    model = load_checkpoint(args.checkpoint, device)
+    model = load_checkpoint(args.checkpoint, device, args.model)
 
     if args.webcam:
         samples = _webcam_samples(args.webcam)
@@ -177,6 +216,9 @@ def run(args: argparse.Namespace) -> None:
 def main() -> None:
     p = argparse.ArgumentParser(description="Evaluate a checkpoint.")
     p.add_argument("--checkpoint", required=True)
+    p.add_argument("--model", choices=["efficientnet", "compact"], default=None,
+                   help="architecture to rebuild; default: whatever the "
+                        "checkpoint records, else efficientnet")
     g = p.add_mutually_exclusive_group(required=True)
     g.add_argument("--split", help="asl_alphabet_train/ dir -> dev val split")
     g.add_argument("--webcam", help="data/webcam_testset dir -> reported benchmark")
