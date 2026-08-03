@@ -9,6 +9,8 @@ env/
 .ipynb_checkpoints/
 
 # ML artifacts
+# pre-cropped training set (#11); as large as the raw data — never commit
+data/cache_crops/
 checkpoints/
 *.pt
 *.pth
