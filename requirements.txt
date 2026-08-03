@@ -9,7 +9,7 @@ timm>=0.9.12               # EfficientNet-B0, ImageNet-pretrained
 
 # --- data / augmentation ---
 numpy>=1.24
-albumentations>=1.4.0     # geometric + photometric + structural augmentation
+albumentations>=2.0.0     # geometric + photometric + structural augmentation (src/augment.py uses the 2.x API: GaussNoise.std_range, CoarseDropout.num_holes_range/hole_*_range/fill)
 opencv-python>=4.9        # capture, resize, image IO
 mediapipe>=1.0.0         # Tasks API only (legacy mp.solutions removed in 1.x); needs models/ assets
 
