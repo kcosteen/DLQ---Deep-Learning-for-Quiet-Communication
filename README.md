@@ -72,6 +72,7 @@ asl-fingerspelling/
 ├── README.md · CONTRIBUTING.md · requirements.txt
 ├── data/
 │   ├── raw/              # Kaggle asl_alphabet_train/ (29 folders) — gitignored
+│   ├── backgrounds/      # bg textures for BackgroundReplacer (#10); tiny samples committed
 │   └── webcam_testset/   # our own captured crops — the REAL benchmark (quarantined)
 ├── notebooks/            # EDA, confusion-matrix analysis
 ├── src/
@@ -266,9 +267,16 @@ Preview the augmentation pipeline / smoke-test the crop & TTS:
 
 ```bash
 python -m src.augment --image data/raw/asl_alphabet_train/asl_alphabet_train/A/A1.jpg --n 8
+# add --backgrounds data/backgrounds to also preview background replacement (#10)
 python -m src.crop            # live crop viewer
 python -m app.tts "hello world"
 ```
+
+Background replacement (compositing the segmented hand over random rooms — the
+structural single-signer antidote) lives in `src.augment.BackgroundReplacer` and is
+enabled at train time with `--backgrounds` (see `data/backgrounds/README.md`):
+`python -m src.train --backgrounds data/backgrounds ...`. Its effect on webcam
+robustness is measured in [`docs/RESULTS_bg_ablation.md`](docs/RESULTS_bg_ablation.md).
 
 ### Colab notes
 Free **T4**: ~15–40 min/epoch at 224² with mixed precision (AMP). Cache the cropped

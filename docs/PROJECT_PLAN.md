@@ -56,7 +56,8 @@ TTS.
   - *geometric:* rotation ±15–20°, shift, scale/zoom, perspective, small shear.
   - *photometric:* brightness/contrast/hue jitter, gamma, Gaussian noise & blur.
   - *background/structure:* random erasing/cutout, random background replacement on
-    MediaPipe-segmented hands.
+    MediaPipe-segmented hands (`src.augment.BackgroundReplacer`, train-only via
+    `--backgrounds data/backgrounds`; ablation in `docs/RESULTS_bg_ablation.md`, #10).
   - Use **Albumentations**.
 - **Tooling:** Python 3.10+, PyTorch + timm, torchvision/Albumentations,
   OpenCV + MediaPipe, pyttsx3, Weights & Biases (free), Kaggle API,
