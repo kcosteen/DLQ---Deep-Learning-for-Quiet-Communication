@@ -1,0 +1,11 @@
+# Background textures for BackgroundReplacer (issue #10).
+#
+# Commit ONLY the tiny curated synthetic samples (sample_*.png) + the docs and
+# generator. A real, varied photographic background set is large — like
+# data/cache_crops/ and data/raw/, keep it local and never stage it. Anything a
+# user drops in here (their own scenes) is ignored by default.
+*
+!.gitignore
+!README.md
+!generate_samples.py
+!sample_*.png
