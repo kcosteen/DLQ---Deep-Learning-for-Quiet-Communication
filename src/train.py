@@ -38,6 +38,7 @@ from .model import build_model, freeze_backbone, unfreeze_backbone
 class TrainConfig:
     root: str
     manifest: Optional[str] = None
+    backgrounds: Optional[str] = None  # dir of bg textures -> train-only bg replacement (#10)
     model: str = "efficientnet"  # "compact" = from-scratch baseline (#5)
     train_frac: float = 0.8
     head_epochs: int = 5
@@ -295,8 +296,9 @@ def train(cfg: TrainConfig) -> float:
     os.makedirs(os.path.dirname(manifest_out) or ".", exist_ok=True)
     manifest.to_json(manifest_out)
 
-    train_ds, val_ds = build_datasets(manifest)
-    print(f"train={len(train_ds)} val={len(val_ds)}  (leakage-safe frame-range split)")
+    train_ds, val_ds = build_datasets(manifest, backgrounds_dir=cfg.backgrounds)
+    bg_note = f"bg-replacement ON ({cfg.backgrounds})" if cfg.backgrounds else "bg-replacement off"
+    print(f"train={len(train_ds)} val={len(val_ds)}  (leakage-safe frame-range split; {bg_note})")
     print(f"split manifest -> {manifest_out}  (pass it to src/evaluate.py --manifest)")
 
     train_loader = DataLoader(train_ds, batch_size=cfg.batch_size, shuffle=True,
@@ -372,6 +374,9 @@ def main() -> None:
     )
     p.add_argument("--root", required=True, help="asl_alphabet_train/ dir")
     p.add_argument("--manifest", default=None, help="reuse a saved split manifest")
+    p.add_argument("--backgrounds", default=None,
+                   help="dir of background textures (e.g. data/backgrounds); enables "
+                        "train-only background replacement (#10). Omit to disable.")
     p.add_argument("--model", choices=["efficientnet", "compact"],
                    default="efficientnet",
                    help="'compact' = from-scratch baseline (single stage)")
@@ -399,8 +404,8 @@ def main() -> None:
         stem = "compact_cnn" if args.model == "compact" else "efficientnet_b0"
         args.out = f"checkpoints/{stem}.pt"
     cfg = TrainConfig(
-        root=args.root, manifest=args.manifest, model=args.model,
-        train_frac=args.train_frac,
+        root=args.root, manifest=args.manifest, backgrounds=args.backgrounds,
+        model=args.model, train_frac=args.train_frac,
         head_epochs=args.head_epochs, finetune_epochs=args.finetune_epochs,
         baseline_epochs=args.baseline_epochs,
         sanity_floor=args.sanity_floor,
