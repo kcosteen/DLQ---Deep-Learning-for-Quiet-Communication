@@ -34,7 +34,7 @@ import json
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Sequence, Tuple
+from typing import Dict, List, Optional, Sequence, Tuple
 
 import numpy as np
 
@@ -204,13 +204,23 @@ class ASLImageDataset:
     without a GPU stack installed.
     """
 
-    def __init__(self, samples: Sequence[Sample], transform=None, train: bool = True):
+    def __init__(
+        self,
+        samples: Sequence[Sample],
+        transform=None,
+        train: bool = True,
+        backgrounds_dir: Optional[str] = None,
+    ):
         self.samples = list(samples)
         self.train = train
         if transform is None:
             from .augment import build_transforms  # local import
 
-            transform = build_transforms(train=train)
+            # backgrounds only ever feed the train transform; the val/serve path
+            # stays the deterministic contract with no augmentation (parity).
+            transform = build_transforms(
+                train=train, backgrounds_dir=backgrounds_dir if train else None
+            )
         self.transform = transform
 
     def __len__(self) -> int:
@@ -227,10 +237,16 @@ class ASLImageDataset:
         return tensor, s.label
 
 
-def build_datasets(manifest: SplitManifest) -> Tuple["ASLImageDataset", "ASLImageDataset"]:
-    """Convenience: (train_ds, val_ds) from a manifest with correct aug flags."""
+def build_datasets(
+    manifest: SplitManifest, backgrounds_dir: Optional[str] = None
+) -> Tuple["ASLImageDataset", "ASLImageDataset"]:
+    """Convenience: (train_ds, val_ds) from a manifest with correct aug flags.
+
+    ``backgrounds_dir`` (if given) enables background replacement on the TRAIN set
+    only; the val set stays the deterministic contract for honest evaluation.
+    """
     return (
-        ASLImageDataset(manifest.train, train=True),
+        ASLImageDataset(manifest.train, train=True, backgrounds_dir=backgrounds_dir),
         ASLImageDataset(manifest.val, train=False),
     )
 

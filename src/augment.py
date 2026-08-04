@@ -115,7 +115,6 @@ class BackgroundReplacer:
 
     def _segmenter(self):
         if self._seg is None:
-            import mediapipe as mp
             from mediapipe.tasks.python import vision
             from mediapipe.tasks.python.core.base_options import BaseOptions
 
@@ -134,22 +133,37 @@ class BackgroundReplacer:
             )
         return self._seg
 
-    def __call__(self, img_bgr: np.ndarray) -> np.ndarray:
-        if not self.backgrounds:
-            return img_bgr
+    def _mp_image(self, img_bgr: np.ndarray):
+        """Wrap a BGR array as a MediaPipe SRGB ``Image``.
+
+        Isolates the only bare ``import mediapipe`` in the composite path so the
+        segmentation step is fully monkeypatchable (segmenter + this wrapper) and
+        the tests can run without the mediapipe wheel installed.
+        """
         import mediapipe as mp
 
         rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
-        mp_img = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
-        result = self._segmenter().segment(mp_img)
-        mask = result.confidence_masks[0].numpy_view().squeeze()
-        fg = (mask > 0.5)[..., None]
+        return mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
 
+    def __call__(self, img_bgr: np.ndarray) -> np.ndarray:
+        # Graceful fallbacks (both keep the tests light and the training run
+        # robust): no backgrounds configured, or an unreadable background file,
+        # returns the input untouched. Read the background BEFORE segmenting so
+        # this fallback never needs mediapipe.
+        if not self.backgrounds:
+            return img_bgr
         bg_path = random.choice(self.backgrounds)
         bg = cv2.imread(bg_path, cv2.IMREAD_COLOR)
         if bg is None:
             return img_bgr
+
+        result = self._segmenter().segment(self._mp_image(img_bgr))
+        mask = result.confidence_masks[0].numpy_view().squeeze()
+        fg = (mask > 0.5)[..., None]
+
         bg = cv2.resize(bg, (img_bgr.shape[1], img_bgr.shape[0]))
+        # Composite at the input's native resolution; the shared contract tail
+        # (resize_square + normalize_chw, applied later) does the final framing.
         return np.where(fg, img_bgr, bg).astype(np.uint8)
 
 
