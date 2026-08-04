@@ -49,9 +49,13 @@ video frames of ONE signer in ONE room**. Two consequences drive the whole desig
    reported metric)**; augmentation is applied *after* the split, train-only, so no
    augmented twin of a val frame ever leaks into train.
 2. **The real benchmark is our own webcam test set.** Each teammate records all 29
-   signs in varied lighting/backgrounds (`data/webcam_testset/`); none of it enters
-   training. **The number we report is webcam-set accuracy — never the naïve
-   random-split number.**
+   signs in varied lighting/backgrounds (`data/webcam_testset/`), cropped through
+   the same `src/crop.py` contract, following
+   [`docs/WEBCAM_TESTSET_PROTOCOL.md`](docs/WEBCAM_TESTSET_PROTOCOL.md) (#15).
+   That set is **quarantined**: it never enters training and is never used for
+   model selection — no checkpoint, epoch, threshold, or augmentation setting is
+   chosen by looking at it. **The number we report is webcam-set accuracy — never
+   the naïve random-split number.**
 
 The **MediaPipe hand-crop is mandatory**: cropping tightly to the detected hand is
 what lets a model trained on one signer in one room work on a stranger's hand on a
@@ -69,7 +73,7 @@ asl-fingerspelling/
 ├── data/
 │   ├── raw/              # Kaggle asl_alphabet_train/ (29 folders) — gitignored
 │   ├── backgrounds/      # bg textures for BackgroundReplacer (#10); tiny samples committed
-│   └── webcam_testset/   # our own captured crops — the REAL benchmark
+│   └── webcam_testset/   # our own captured crops — the REAL benchmark (quarantined)
 ├── notebooks/            # EDA, confusion-matrix analysis
 ├── src/
 │   ├── crop.py           # MediaPipe hand-crop bridge + shared preprocessing contract
@@ -78,12 +82,14 @@ asl-fingerspelling/
 │   ├── model.py          # EfficientNet-B0 head + compact-CNN baseline
 │   ├── train.py          # two-stage transfer learning + W&B
 │   ├── evaluate.py       # metrics, confusion matrix, webcam-set eval
+│   ├── webcam_testset.py # webcam-set naming + coverage rules (#15)
 │   └── export.py         # TorchScript / ONNX export
 ├── app/
 │   ├── webcam_speller.py # OpenCV + MediaPipe → model → word building → TTS
 │   └── tts.py
+├── scripts/              # record_webcam_testset.py, check_webcam_coverage.py, …
 ├── tests/                # split-leakage + preprocessing-parity tests
-└── docs/                 # PROJECT_PLAN.md, REPORT_TEMPLATE.md, figures
+└── docs/                 # PROJECT_PLAN.md, WEBCAM_TESTSET_PROTOCOL.md, figures
 ```
 
 ---
@@ -240,6 +246,13 @@ python -m src.evaluate --checkpoint checkpoints/compact_cnn.pt \
     --split data/raw/asl_alphabet_train/asl_alphabet_train --figures /tmp/baseline
 
 # 4. Evaluate — THE reported benchmark (our webcam test set)
+#    First record it: each teammate, all 29 classes, >= 2 lighting/background
+#    conditions (protocol: docs/WEBCAM_TESTSET_PROTOCOL.md)
+python scripts/record_webcam_testset.py --person <your-id> --all-classes \
+    --count 10 --condition desklamp-plainwall
+python scripts/check_webcam_coverage.py --root data/webcam_testset  # exits 1 if incomplete
+
+#    Then score it — the one command allowed to read this set:
 python -m src.evaluate --checkpoint checkpoints/efficientnet_b0.pt \
     --webcam data/webcam_testset --figures docs/figures
 
@@ -304,7 +317,9 @@ cached. Demo inference runs on **CPU**.
 | **Own webcam test set** (the real, reported number) | **≥ 90%** |
 | Per-class accuracy / macro-F1 | **no class below 85%** |
 
-**We never report the naïve random-split number.**
+**We never report the naïve random-split number.** And the webcam number only
+stays honest while the set stays quarantined — it never trains and never selects a
+model ([protocol](docs/WEBCAM_TESTSET_PROTOCOL.md)).
 
 ### Where we are
 

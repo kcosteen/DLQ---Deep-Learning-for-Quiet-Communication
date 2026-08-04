@@ -1,5 +1,8 @@
-# Ignore large raw captures by default; keep the folder + curated samples.
+# The captures themselves are never committed — they live on the team's shared
+# drive (see README.md / docs/WEBCAM_TESTSET_PROTOCOL.md). Keep only the folder
+# and its documentation tracked.
 *
 !.gitkeep
 !.gitignore
+!README.md
 !samples/
