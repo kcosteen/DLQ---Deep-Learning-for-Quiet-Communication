@@ -99,7 +99,8 @@ Deaf/signing users in testing; be clear about accuracy limits.
 4. **Week 4 — Webcam bridge + letter demo:** MediaPipe crop → model live; first
    "one letter at a time" demo.
 5. **Week 5 — Capture our own test set:** all three record every sign in varied
-   conditions; measure real accuracy; diagnose the gap.
+   conditions (protocol + recorder + coverage checker:
+   `docs/WEBCAM_TESTSET_PROTOCOL.md`, #15); measure real accuracy; diagnose the gap.
 6. **Week 6 — Close the gap + word-speller:** augment/optionally fine-tune toward
    ≥90% webcam accuracy; add word-building + `space`/`delete` + TTS. **Milestone.**
 7. **Week 7 — Polish & benchmark:** optional landmark-MLP comparison, export model,
@@ -111,7 +112,8 @@ Deaf/signing users in testing; be clear about accuracy limits.
 
 - **Person A · Data & Augmentation:** Kaggle download, EDA, class balance;
   leakage-safe split + the split-leakage test; augmentation + background
-  replacement; coordinates the shared webcam test set.
+  replacement; coordinates the shared webcam test set (quarantined — it never
+  trains and never selects a model; `docs/WEBCAM_TESTSET_PROTOCOL.md`).
 - **Person B · Modeling & Training:** compact-CNN baseline → EfficientNet transfer
   learning; two-stage training, W&B, tuning; optional landmark-MLP robustness model;
   model export (TorchScript/ONNX).

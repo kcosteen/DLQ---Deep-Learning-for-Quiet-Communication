@@ -1,7 +1,20 @@
-THE REAL BENCHMARK.
+THE REAL BENCHMARK — and it is QUARANTINED.
 
-Each teammate records ALL 29 signs in varied lighting/backgrounds, MediaPipe-cropped,
-one folder per class (same layout as data/raw/asl_alphabet_train/). None of this data
-ever enters training — it is the honest, reported accuracy number (target >= 90%).
+This data NEVER enters training and is NEVER used for model selection. It is read
+by exactly one command: `python -m src.evaluate --webcam data/webcam_testset`.
 
-Large captures are gitignored by default; commit a small curated sample if useful.
+Each teammate records ALL 29 signs (src.data.CLASSES) in varied lighting and
+backgrounds, cropped through the shared src.crop contract. Layout is folder-per-
+class with the person in the FILENAME, because evaluate._webcam_samples does not
+recurse:
+
+    data/webcam_testset/<CLASS>/<person>_<condition>_<seq>.jpg
+    e.g. data/webcam_testset/A/qdoan_desklamp-plainwall_001.jpg
+
+    record  : python scripts/record_webcam_testset.py --person <id> --all-classes \
+                  --condition <lighting-background-tag>
+    verify  : python scripts/check_webcam_coverage.py
+    protocol: docs/WEBCAM_TESTSET_PROTOCOL.md   (#15)
+
+Captures are gitignored — keep them on the shared drive, not in the repo. Do not
+add synthetic/placeholder images here: everything under a class folder is scored.
