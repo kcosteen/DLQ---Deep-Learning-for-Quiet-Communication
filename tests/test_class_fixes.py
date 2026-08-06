@@ -187,6 +187,55 @@ def test_auto_partner_threshold_is_a_share_of_that_class_errors():
     assert 50 / 300 < PARTNER_ERROR_SHARE <= 250 / 300
 
 
+def test_auto_pulls_in_a_passing_class_that_leaks_into_the_set():
+    """The #12 regression, as a test: T fell 0.988 -> 0.925 because of this gap.
+
+    L was pulled in as one of X's error partners; T was not, because T was passing
+    at 0.988 and the rule only followed errors outward from failing classes. T then
+    trained under heavy augmentation while L — the only class T ever confuses with —
+    trained under the gentle policy, and T lost 0.063 with every error going to L.
+    Augmentation strength has to match on both sides of a boundary.
+    """
+    errors = dict(BASELINE_ERRORS)
+    errors["T"] = {"L": 7}  # passing at 0.988, but 100% of its errors go to L
+    chosen = auto_geometry_safe_classes(_report(errors))
+
+    assert "L" in chosen  # as before: one of X's partners
+    assert "T" in chosen  # the fix: T shares the L boundary, so it comes too
+
+
+def test_auto_does_not_pull_in_a_class_that_barely_touches_the_set():
+    """Symmetry must not become "everything". A small leak is not a shared boundary."""
+    errors = dict(BASELINE_ERRORS)
+    # W stays above the bar at 0.900 (60 of 600), and only 5% of those errors land on
+    # a class in the set (A); the rest go to Z, which is nowhere near it.
+    errors["W"] = {"A": 3, "Z": 57}
+    chosen = auto_geometry_safe_classes(_report(errors))
+
+    assert "W" not in chosen
+    assert "Z" not in chosen
+
+
+def test_auto_inward_pass_does_not_cascade():
+    """A class pulled in by the inward rule does not itself drag in its own leakers.
+
+    Otherwise one failing class could walk the whole matrix and put all 29 classes on
+    the gentle policy, which is just "turn augmentation down" — the opposite of aiming
+    it. Whether it cascaded would also depend on CLASSES order, since the set is built
+    in that order. The inward pass therefore reads a snapshot, once.
+
+    S fails and drags in E. T (0.900, passing) sends every error to E, so it joins.
+    W (0.900, passing) sends every error to T — but T only arrived inwardly, so the
+    chain stops.
+    """
+    errors = {"S": {"E": 300}, "T": {"E": 60}, "W": {"T": 60}}
+    chosen = auto_geometry_safe_classes(_report(errors))
+
+    assert {"S", "E"} <= set(chosen)
+    assert "T" in chosen
+    assert "W" not in chosen
+
+
 def test_auto_is_empty_when_every_class_passes():
     """Nothing below the bar -> nothing to aim at, and no silent default set."""
     assert auto_geometry_safe_classes(_report({"M": {"N": 41}})) == []

@@ -185,34 +185,64 @@ def derive_class_weights(
 def auto_geometry_safe_classes(
     report: dict, target: Optional[float] = None
 ) -> List[str]:
-    """Classes below the per-class bar, plus the classes they are confused WITH.
+    """Classes below the per-class bar, plus every class sharing a boundary with them.
 
     Derived from the confusion matrix rather than from the project plan's
     M/N/S/T, A/E, K/V list, because that list was measured wrong on the first run
     (#6): A/E never confused at all, while S->E and X->A/L/R — the two biggest
     failures — were not on it. A set taken from the matrix cannot miss a
     confusion for being unanticipated.
+
+    "Sharing a boundary" is deliberately symmetric, and that is a fix rather than a
+    nicety. The first version only followed errors *outward* — a failing class plus
+    whatever it leaked into — and the #12 run paid for it: L was pulled in as one of
+    X's partners, T was not (T was passing at 0.988), and T ended up on the heavy
+    policy while the only class it ever confuses with moved to the gentle one. T fell
+    0.988 -> 0.925, every error into L. Augmentation strength has to match on BOTH
+    sides of a decision boundary, because the boundary is learned from both.
     """
     from .evaluate import PER_CLASS_TARGET, report_matrix
 
     if target is None:
         target = report.get("per_class_target") or PER_CLASS_TARGET
     cm = report_matrix(report)
-    chosen = set()
-    for i, c in enumerate(CLASSES):
-        total = int(cm[i].sum())
-        if not total:
-            continue
-        acc = cm[i, i] / total
-        if acc >= target:
-            continue
-        chosen.add(c)
-        errors = total - int(cm[i, i])
-        if not errors:
-            continue
+
+    def error_share(i: int, j: int) -> float:
+        """Fraction of class ``i``'s errors that land on class ``j``."""
+        errors = int(cm[i].sum()) - int(cm[i, i])
+        return cm[i, j] / errors if errors else 0.0
+
+    failing = [
+        i for i, _ in enumerate(CLASSES)
+        if cm[i].sum() and cm[i, i] / cm[i].sum() < target
+    ]
+    chosen = {CLASSES[i] for i in failing}
+
+    # outward: where each failing class's errors go
+    for i in failing:
         for j, other in enumerate(CLASSES):
-            if j != i and cm[i, j] / errors >= PARTNER_ERROR_SHARE:
+            if j != i and error_share(i, j) >= PARTNER_ERROR_SHARE:
                 chosen.add(other)
+
+    # inward: any class whose own errors land predominantly INSIDE the set. This is
+    # what catches T (100% of its errors -> L) once L has been pulled in.
+    #
+    # Measured against a SNAPSHOT of the set, not the set being built. Reading the
+    # live set would let the pass cascade — a class added inwardly would drag in its
+    # own leakers, and whether it did would depend on CLASSES order. Left to run,
+    # that walks the matrix and puts every class on the gentle policy, which is just
+    # "turn augmentation down" — the opposite of aiming it.
+    boundary = frozenset(chosen)
+    for i, c in enumerate(CLASSES):
+        if c in boundary or not cm[i].sum():
+            continue
+        share_into_set = sum(
+            error_share(i, j) for j, other in enumerate(CLASSES)
+            if j != i and other in boundary
+        )
+        if share_into_set >= PARTNER_ERROR_SHARE:
+            chosen.add(c)
+
     return [c for c in CLASSES if c in chosen]  # CLASSES order, not set order
 
 

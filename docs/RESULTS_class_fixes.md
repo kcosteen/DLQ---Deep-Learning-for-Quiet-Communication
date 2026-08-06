@@ -5,12 +5,12 @@ and **missed the per-class bar**: S, V and X sat below 85%, and between them hel
 **684 of 791 errors (86.5%)**. Can those three be lifted above 85% without pushing
 a fourth class below it?
 
-> ⚠️ **Status: "before" is real, "after" is not filled in yet.** The before column
-> is measured — it comes from the #6 run and is pinned as
-> `docs/reports/dev_val_baseline_6.json`. This environment has **no GPU and no
-> dataset**, so no targeted run was performed here; every `TODO` cell is unfilled.
-> **Do not quote any after-number until a run fills it in.** The commands below are
-> exact and reproducible on Kaggle/Colab.
+> **Status: measured — and #12 is NOT closed.** Run 2026-08-06 on Kaggle T4.
+> **V and X are fixed** (0.630 → 0.978 and 0.507 → 0.933); total errors nearly
+> halved, 791 → 391. **S is still below the bar at 0.770**, so the Definition of
+> Done — *no class below 85%* — is not met. Every number here is dev-val: the same
+> signer, the same room. The reported metric is still the webcam set (#15/#16),
+> which does not exist yet.
 
 ## Before — what actually failed
 
@@ -152,42 +152,184 @@ python -m src.augment --image <a V frame> --policy geometry_safe --n 8 \
     --out /tmp/v_gentle.png
 ```
 
-## Results
+## Results — run 2026-08-06, Kaggle T4
+
+Six fine-tune epochs resumed from the #6 checkpoint, `--rebalance loss
+--rebalance-alpha 1.0`, `--geometry-safe-classes auto` (resolved to A, E, K, L, R,
+S, V, X). Scored on the same 17,400 val frames.
+Report: `docs/reports/dev_val_targeted.json`.
 
 **Dev-val, leakage-safe frame-range split — DEV ONLY, not the reported number.**
 
 | Class | Before | After | Δ | ≥ 85%? |
 |---|---|---|---|---|
-| X | 0.507 | `TODO` | `TODO` | `TODO` |
-| V | 0.630 | `TODO` | `TODO` | `TODO` |
-| S | 0.723 | `TODO` | `TODO` | `TODO` |
-| M | 0.932 | `TODO` | `TODO` | `TODO` |
-| N | 0.972 | `TODO` | `TODO` | `TODO` |
-| Y | 0.957 | `TODO` | `TODO` | `TODO` |
-| worst class | 0.507 | `TODO` | `TODO` | — |
-| overall | 0.9545 | `TODO` | `TODO` | — |
-| macro-F1 | 0.9518 | `TODO` | `TODO` | — |
+| **X** | 0.507 | **0.933** | **+0.427** | ✅ fixed |
+| **V** | 0.630 | **0.978** | **+0.348** | ✅ fixed |
+| **S** | 0.723 | **0.770** | +0.047 | ❌ **still below** |
+| T | 0.988 | 0.925 | −0.063 | ✅ (regressed) |
+| K | 1.000 | 0.943 | −0.057 | ✅ (regressed) |
+| I | 1.000 | 0.982 | −0.018 | ✅ |
+| M | 0.932 | 0.947 | +0.015 | ✅ |
+| N | 0.972 | 0.960 | −0.012 | ✅ |
+| R | 0.998 | 0.987 | −0.012 | ✅ |
+| F | 0.977 | 0.983 | +0.007 | ✅ |
+| Y | 0.957 | 0.950 | −0.007 | ✅ |
+| worst class | 0.507 | **0.770** (S) | +0.263 | — |
+| total errors | 791 | **391** | −400 | — |
+| overall | 0.9545 | 0.9775 | +0.0230 | — |
+| macro-F1 | 0.9518 | 0.9775 | +0.0257 | — |
 
-Run step 2 above and paste its before/after table here; it prints exactly these
-rows, plus any class that moved by ≥ 0.005.
+**The augmentation hypothesis was right about V and X and wrong about S.** V and X
+were the two classes the diagnosis predicted would respond, and they moved +0.348
+and +0.427 — V's 222 errors became 13, X's 296 became 40. Nothing about the data
+changed between the runs; only how hard the augmentation was allowed to deform it.
+That is about as direct a confirmation as this setup can produce: those two classes
+were not hard, they were being taught that their distinguishing feature was noise.
 
-## How to read the delta (when filled in)
+### S is a different problem, and now the only one
 
-- **All three ≥ 85%, nothing new below** → #12 is done. Record the table, promote
-  the targeted checkpoint, and re-point `docs/figures/confusion_matrix.*` at it.
-- **V and S fixed, X still below** → the augmentation hypothesis held for the clean
-  collisions and not for the diffuse one. Do **not** just raise `--rebalance-alpha`;
-  run step 3 and look at X's frames first. If they are poorly framed, the fix is
-  #11's crop cache (`--root data/cache_crops`), not more weighting.
-- **A new class below 85%** → the comparison did its job. That is over-emphasis:
-  drop `--rebalance-alpha` (try 0.5), or remove the regressed class's partner from
-  the geometry-safe set. Fixing V by breaking K is not progress.
-- **Overall accuracy up but the worst class flat** → ignore the overall number. It
-  is 26 solved classes diluting three broken ones, which is exactly how the #6 run
-  passed a 95% target while getting X right barely half the time.
-- **Nothing moves at all** → the resumed fine-tune may be too far into a minimum
-  that has these weaknesses baked in. The fallback is a fresh two-stage run with
-  the same aimed flags (drop `--resume`), which costs both stages.
+| | Before | After |
+|---|---|---|
+| S accuracy | 0.723 | 0.770 |
+| S → E | 160 | **138** |
+| E → S | 0 | **0** |
+| E accuracy | 1.000 | 1.000 |
+
+S got the *same* treatment that fixed V and X — both S and E were in the
+geometry-safe set — and moved +0.047. So S→E is **not** an augmentation artefact.
+Two things say what it is instead:
+
+- **It is one-directional.** 138 S frames are called E; not one E frame is called
+  S, and E sits at 1.000 in both runs. S is not symmetrically ambiguous with E — S
+  is being *absorbed* into E. The model has a confident E and a weak S.
+- **S is now 138 of 391 total errors — 35%**, on its own. Every other class in the
+  matrix is at 0.925 or better.
+
+S and E are both closed fists; the difference is whether the thumb lies across the
+fingers (S) or tucks under them (E). In a 200×200 full-frame image the hand is a
+fraction of the pixels and the thumb is a handful of them. That points at
+**resolution on the discriminating region**, not at augmentation or weighting.
+
+### The regressions are real and worth reading
+
+Nothing fell below the bar, but two classes moved enough to explain:
+
+- **K: 1.000 → 0.943** (K→V, 34). This is the V/K boundary shifting, which is the
+  cost of up-weighting V 1.31×. It is a good trade and not close: V's 222 errors
+  became 13 while K gained 34. But it is the mechanism to watch if `--rebalance-alpha`
+  is ever raised.
+- **T: 0.988 → 0.925** (T→L, 45, up from 7) — and this one is a **flaw in the `auto`
+  rule**, not a trade. Every one of T's errors went to L, both before and after. L
+  was softened because it is one of X's error partners; **T was not, because `auto`
+  only considers classes that are themselves below the bar and the classes *those*
+  leak into.** T was passing at 0.988, so nothing pulled it in — and it ended up on
+  the heavy policy while the class it confuses with was on the gentle one. Asymmetric
+  augmentation across a shared boundary is exactly what the S/E comment in
+  `auto_geometry_safe_classes` warns about, applied in the direction the code does
+  not check.
+
+  **Fix:** after choosing the set, also pull in any class whose errors go
+  predominantly *into* the set. On this matrix that would have caught T (100% of its
+  errors → L). Until that lands, pass T explicitly.
+
+## Why S fails: the frames are backlit silhouettes
+
+`--dump-errors` was run on the targeted checkpoint and the S→E frames inspected
+directly. The finding is not what the pre-run guesses in this doc predicted, so
+those have been replaced with what was measured.
+
+**The hand is a silhouette.** In every S→E frame the subject is backlit against a
+blown-out window: measured over the 20 dumped frames, the hand occupies ~38% of the
+frame at grey levels **9–89**, while ~32% of the frame is background pinned at
+**240–255**. The thumb — the only thing separating S from E — is a few pixels of
+shading inside a near-black blob.
+
+**The information is present, not lost.** Only **0.2%** of hand pixels are clipped
+at ≤10, and interior standard deviation is 23. Applying a shadow lift (gamma 0.45)
+raises it to ~30 and makes the thumb lying across the fingers **plainly visible to
+the eye**. So this is a *tonal range* problem, not a resolution or labelling one.
+
+**This explains the whole results pattern**, not just S:
+
+| Handshape group | Outline distinguishes them? | Result |
+|---|---|---|
+| B, C, L, O, W, … (21 classes) | yes | 1.000 — solved from the silhouette alone |
+| V vs K | yes — K's thumb breaks the outline | fixed by gentler geometry (+0.348) |
+| X vs A/L/R | yes — hook changes the contour | fixed by gentler geometry (+0.427) |
+| **S vs E** | **no — both are compact fists** | **stuck at 0.770** |
+
+Softening the augmentation worked exactly where the cue survives in the outline. S/E
+is the one pair where it does not, so no augmentation policy can rescue it.
+
+### The MediaPipe crop cannot fix this — it does not fire
+
+The obvious next lever looked like #11's crop cache: spend all 224² on the hand.
+Measured on the dumped frames with `src.crop.HandCropper`, it does not work, because
+**MediaPipe finds no hand to crop**:
+
+| | Hand detected |
+|---|---|
+| S→E frames | **0 / 20** |
+| V→K, X→K, X→I, X→R, Y→I | **0 / 79** |
+| M→N | 1 / 20 · T→L | 7 / 20 |
+| K→V, F→*, U→X, W→V, X→S | 20/20, 100% |
+| **all 208 dumped frames** | **71 / 208 = 34%** |
+
+Lifting the shadows *before* detection helps some classes a lot and S not at all:
+
+| Pre-processing | Detection over the 110 failing frames | V | T | S |
+|---|---|---|---|---|
+| raw (current) | 7% | 0/13 | 7/20 | 0/20 |
+| gamma 0.45 | 26% | 8/13 | 19/20 | 1/20 |
+| gamma 0.30 | 31% | 11/13 | 18/20 | **2/20** |
+| CLAHE | 6% (worse) | 0/13 | 7/20 | 0/20 |
+
+So `cache_crops` would silently fall back to a **centre crop** on exactly the frames
+that need help — `CropResult.found_hand=False` returns the centre square. Caching
+crops for S would change nothing.
+
+> ⚠️ **These 208 frames are a biased sample** — every one of them is a
+> *misclassified* frame, so they are plausibly the darkest and hardest in the set.
+> The 34% figure is **not** a dataset-wide detection rate and must not be quoted as
+> one. Measure it properly on a random sample before drawing conclusions about #11
+> or the demo: `python scripts/check_hand_detection.py --root <class root> --per-class 40`.
+
+## What to do next — closing S
+
+#12 stays open until S ≥ 0.85. Revised in light of the above:
+
+1. **Put an adaptive shadow lift in the preprocessing contract.** This is the fix the
+   evidence points at, and it needs no MediaPipe: the CNN can use recovered tonal
+   range whether or not a hand was detected. It belongs in `src/crop.py`'s
+   `preprocess_bgr` — *not* in augmentation — because train and serve must apply it
+   identically, which is exactly what the contract exists to guarantee. A fixed gamma
+   is wrong (it would wash out a well-exposed webcam frame); make it self-calibrating,
+   e.g. the gamma that maps the frame's median luminance to a target.
+
+   Consequences to accept up front: this is Person C's locked file (#4) and needs
+   their sign-off; `tests/test_preprocessing_parity.py` must stay green; and it
+   **invalidates every existing checkpoint**, so the comparison run is a fresh
+   two-stage train, not a `--resume`. Worth it — an exposure-normalising contract is
+   also one of the better things that could happen to the *webcam* number (#16),
+   since a stranger's lighting is the variable it neutralises.
+
+2. **Raise the weight on S only, in the same run.** The failure is one-directional —
+   138 S frames are called E, zero E frames are called S — so moving the S/E boundary
+   may buy real accuracy cheaply. `--rebalance-alpha 2.0` roughly doubles S's
+   emphasis. Weighting cannot create information the pixels lack, so treat it as a
+   supplement to (1), and read E's row in the before/after table: E is at 1.000 and
+   has the most to lose.
+
+3. **If S still fails, say so and close #12 as measured.** If a contract-level
+   contrast fix plus targeted weighting cannot separate two handshapes that are
+   genuinely near-identical under this signer's backlighting, then "S cannot reach 85%
+   on this dataset" is a legitimate, reportable finding — and a strong argument for
+   the landmark-MLP route (#20), which reads geometry instead of pixels. What would
+   not be legitimate is quietly dropping the per-class bar.
+
+What **not** to do: raise `--rebalance-alpha` globally (it pushes V harder, and K is
+already down 0.057), or cache crops expecting S to improve (MediaPipe does not fire
+on those frames).
 
 ## Notes / honesty
 
