@@ -84,50 +84,68 @@ the partner threshold is 20% of that class's errors).
 
 ## Reproduce
 
-```bash
-# 0. The baseline report is already committed (docs/reports/dev_val_baseline_6.json),
-#    reconstructed from the #6 confusion matrix. Regenerate it only if that run is
-#    re-evaluated. NOTE: `evaluate --figures docs/figures` OVERWRITES
-#    confusion_matrix.csv, which is why the baseline is pinned as its own file.
+Run on Kaggle (T4). The `#6` checkpoint must be available at
+`checkpoints/efficientnet_b0.pt` — attach it as a Kaggle dataset input and copy it
+in, since `--resume` needs the weights, not just the report.
 
-# 1. Targeted fine-tune of the #6 checkpoint: aimed augmentation + error-driven
-#    class weights. --finetune-epochs 6 because the #6 run early-stopped at 8 of 15
-#    and never reached its cosine anneal (see RESULTS.md); sizing the schedule to
-#    what the model actually uses lets it complete.
+```bash
+# 0. Resolve the read-only Kaggle mount into a usable class root (also renames
+#    Kaggle's 'del' to the 'delete' that src.data.CLASSES expects). It prints
+#    what it linked and where; ROOT is its --out, default /kaggle/working/asl_train.
+python scripts/kaggle_setup.py
+ROOT=/kaggle/working/asl_train
+
+# 1. Build the split manifest ONCE and use it for both runs.
+#    The #6 checkpoint predates checkpoints/<name>.split.json, so there is no
+#    manifest from that run to reuse. frame_range_split is deterministic given
+#    (root, train_frac), so rebuilding it here reproduces the same split #6
+#    trained on — the #6 eval re-derived it the same way and matched at 17,400
+#    val images. Passing it explicitly is what makes that checkable
+#    (content_sha256) instead of assumed.
+python -m src.data --root "$ROOT" --train-frac 0.8 \
+    --out data/split_manifest.json --counts
+
+# 2. Targeted fine-tune: aimed augmentation + error-driven class weights.
+#    --finetune-epochs 6 because the #6 run early-stopped at 8 of 15 and never
+#    reached its cosine anneal (see RESULTS.md); sizing the schedule to what the
+#    model actually uses lets it complete.
 python -m src.train \
-    --root data/raw/asl_alphabet_train/asl_alphabet_train \
-    --manifest checkpoints/efficientnet_b0.split.json \
+    --root "$ROOT" \
+    --manifest data/split_manifest.json \
     --resume checkpoints/efficientnet_b0.pt \
     --rebalance-from docs/reports/dev_val_baseline_6.json \
     --rebalance loss --rebalance-alpha 1.0 \
     --geometry-safe-classes auto \
     --finetune-epochs 6 --wandb-mode online \
     --out checkpoints/efficientnet_b0_targeted.pt
-#    (--out defaults to the _targeted name; overwriting --resume is refused, because
-#     the baseline checkpoint is the 'before' half of this comparison)
+#    (--out defaults to the _targeted name anyway; overwriting --resume is refused,
+#     because the baseline checkpoint is the 'before' half of this comparison)
 
-# 2. Score it on the SAME split and diff against the baseline.
+# 3. Score it on the SAME split and diff against the baseline.
 python -m src.evaluate \
     --checkpoint checkpoints/efficientnet_b0_targeted.pt \
-    --split data/raw/asl_alphabet_train/asl_alphabet_train \
+    --split "$ROOT" \
     --manifest checkpoints/efficientnet_b0_targeted.split.json \
     --report-json docs/reports/dev_val_targeted.json \
     --baseline docs/reports/dev_val_baseline_6.json \
     --label "targeted (#12)" --figures /tmp/figs_targeted
+#    The training run writes <out>.split.json, which is a copy of what step 1 built;
+#    scoring against it means the val frames are provably the ones held out.
 #    --figures /tmp/... keeps docs/figures/confusion_matrix.{png,csv} pointing at the
 #    baseline until this run is accepted.
 
-# 3. If X is still below the bar, stop guessing and look at its frames.
+# 4. If X is still below the bar, stop guessing and look at its frames.
 python -m src.evaluate \
     --checkpoint checkpoints/efficientnet_b0_targeted.pt \
-    --split data/raw/asl_alphabet_train/asl_alphabet_train \
+    --split "$ROOT" \
     --manifest checkpoints/efficientnet_b0_targeted.split.json \
     --dump-errors /tmp/x_errors --dump-errors-max 20 --figures ""
 #    then eyeball /tmp/x_errors/X_to_A, X_to_L, X_to_R
 ```
 
-Keep `--manifest` pointed at the #6 split so before and after are scored on
-identical val frames. Preview what the gentle policy actually does:
+A `--manifest` path that does not exist is a hard error rather than a silent
+re-derive, so a typo here cannot quietly score a different set of frames than the
+flag claims. Preview what the gentle policy actually does:
 
 ```bash
 python -m src.augment --image <a V frame> --policy geometry_safe --n 8 \

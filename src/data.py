@@ -183,6 +183,36 @@ def frame_range_split(
     return manifest
 
 
+def load_or_derive_split(
+    manifest: Optional[str], root: str, train_frac: float = 0.8
+) -> SplitManifest:
+    """An explicit split manifest if given, else one derived from ``root``.
+
+    A ``--manifest`` path that does not exist is an **error**, not a fallback.
+    The flag exists precisely to stop the split being re-derived, so silently
+    re-deriving it would make the claim it supports — "these are the exact frames
+    that were held out" — false while printing nothing at all. Path typos are
+    easy, and the two splits agree only while ``root`` still holds byte-identical
+    contents.
+
+    Omitting ``--manifest`` and re-deriving is legitimate: ``frame_range_split``
+    is deterministic given ``(root, train_frac)``. It is only the *silent* switch
+    from one to the other that is not.
+    """
+    if manifest:
+        if not os.path.exists(manifest):
+            raise SystemExit(
+                f"--manifest {manifest} does not exist.\n"
+                f"  Refusing to silently re-derive the split: that would score a\n"
+                f"  different set of frames than the flag claims.\n"
+                f"  Build one with:  python -m src.data --root {root} "
+                f"--out {manifest}\n"
+                f"  Or omit --manifest to derive the split from --root on purpose."
+            )
+        return SplitManifest.from_json(manifest)
+    return frame_range_split(root, train_frac)
+
+
 def class_counts(root: str, classes: Sequence[str] = CLASSES) -> Dict[str, int]:
     """Image count per class — used by EDA and the class-balance check."""
     return {c: len(list_class_files(root, c)) for c in classes}

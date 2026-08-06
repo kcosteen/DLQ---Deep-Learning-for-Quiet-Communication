@@ -20,7 +20,13 @@ pytest.importorskip("torch")
 
 import torch  # noqa: E402
 
-from src.data import CLASSES, Sample, SplitManifest, frame_range_split  # noqa: E402
+from src.data import (  # noqa: E402
+    CLASSES,
+    Sample,
+    SplitManifest,
+    frame_range_split,
+    load_or_derive_split,
+)
 from src.model import build_model  # noqa: E402
 from src.train import (  # noqa: E402
     assert_all_classes_present,
@@ -108,6 +114,48 @@ def test_val_side_is_checked_too():
 
     with pytest.raises(ValueError, match="absent from val"):
         assert_all_classes_present(manifest)
+
+
+# --------------------------------------------------------------------------
+# a --manifest that isn't there must not become a re-derived split
+# --------------------------------------------------------------------------
+
+
+def test_missing_manifest_is_an_error_not_a_silent_fallback(full_root):
+    """The trap this closes is invisible, which is what makes it worth a guard.
+
+    ``--manifest`` exists to stop the split being re-derived. Falling back to
+    re-deriving it would make the claim it supports — these are the exact frames
+    that were held out — false while printing nothing. The #12 reproduce commands
+    originally named ``checkpoints/efficientnet_b0.split.json``, which does not
+    exist: the #6 checkpoint predates that file.
+    """
+    with pytest.raises(SystemExit) as excinfo:
+        load_or_derive_split("checkpoints/efficientnet_b0.split.json",
+                             str(full_root), 0.8)
+
+    msg = str(excinfo.value)
+    assert "does not exist" in msg
+    assert "python -m src.data" in msg  # says how to make one
+
+
+def test_omitting_the_manifest_derives_the_split_on_purpose(full_root):
+    """Re-deriving is legitimate — frame_range_split is deterministic."""
+    derived = load_or_derive_split(None, str(full_root), 0.8)
+    expected = frame_range_split(str(full_root), 0.8)
+    assert [s.path for s in derived.val] == [s.path for s in expected.val]
+
+
+def test_an_existing_manifest_is_loaded_verbatim(full_root, tmp_path):
+    path = tmp_path / "split.json"
+    frame_range_split(str(full_root), 0.8).to_json(str(path))
+
+    loaded = load_or_derive_split(str(path), str(full_root), 0.8)
+
+    assert len(loaded.val) == 2 * len(CLASSES)
+    # train_frac comes from the FILE, not from the argument — otherwise a manifest
+    # built at one fraction could be silently reinterpreted at another.
+    assert load_or_derive_split(str(path), str(full_root), 0.5).train_frac == 0.8
 
 
 # --------------------------------------------------------------------------

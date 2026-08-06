@@ -107,27 +107,19 @@ def resolve_policy(policy) -> AugPolicy:
         ) from None
 
 
-def build_transforms(
-    train: bool = True,
-    backgrounds_dir: Optional[str] = None,
-    policy: str = "default",
-) -> Callable:
-    """Return a callable ``img_bgr -> torch.FloatTensor`` (C×H×W).
+def build_augmentation(policy: str = "default"):
+    """The Albumentations pipeline for one policy, as an ``A.Compose``.
 
-    When ``train`` is False, only the deterministic resize+normalize contract runs
-    (no randomness) — this is the val/serve path, and ``policy`` is irrelevant
-    there. When ``train`` is True, an Albumentations pipeline of geometric +
-    photometric + structural augmentations runs first, optionally preceded by
-    background replacement. ``policy`` selects the geometric strength (#12).
+    Separate from ``build_transforms`` so the composed pipeline can be inspected —
+    a policy whose fields never reach the transforms would still produce plausible
+    augmented images, so the wiring is checked against the transforms themselves
+    (``tests/test_aimed_augmentation.py``) rather than inferred from pixels.
     """
-    if not train:
-        return lambda img_bgr: _to_tensor(img_bgr)
-
     import albumentations as A
 
     pol = resolve_policy(policy)
 
-    aug = A.Compose(
+    return A.Compose(
         [
             # --- geometric (policy-controlled) ---
             A.Affine(
@@ -160,6 +152,24 @@ def build_transforms(
         ]
     )
 
+
+def build_transforms(
+    train: bool = True,
+    backgrounds_dir: Optional[str] = None,
+    policy: str = "default",
+) -> Callable:
+    """Return a callable ``img_bgr -> torch.FloatTensor`` (C×H×W).
+
+    When ``train`` is False, only the deterministic resize+normalize contract runs
+    (no randomness) — this is the val/serve path, and ``policy`` is irrelevant
+    there. When ``train`` is True, an Albumentations pipeline of geometric +
+    photometric + structural augmentations runs first, optionally preceded by
+    background replacement. ``policy`` selects the geometric strength (#12).
+    """
+    if not train:
+        return lambda img_bgr: _to_tensor(img_bgr)
+
+    aug = build_augmentation(policy)
     bg_replacer = BackgroundReplacer(backgrounds_dir) if backgrounds_dir else None
 
     def _transform(img_bgr: np.ndarray):

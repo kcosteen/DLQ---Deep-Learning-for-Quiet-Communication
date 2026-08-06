@@ -43,7 +43,13 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, WeightedRandomSampler
 
-from .data import CLASS_TO_IDX, CLASSES, SplitManifest, build_datasets, frame_range_split
+from .data import (
+    CLASS_TO_IDX,
+    CLASSES,
+    SplitManifest,
+    build_datasets,
+    load_or_derive_split,
+)
 from .model import build_model, freeze_backbone, unfreeze_backbone
 
 # Share of a failing class's errors a predicted class must absorb to be pulled
@@ -517,10 +523,7 @@ def train(cfg: TrainConfig) -> float:
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"device={device}")
 
-    if cfg.manifest and os.path.exists(cfg.manifest):
-        manifest = SplitManifest.from_json(cfg.manifest)
-    else:
-        manifest = frame_range_split(cfg.root, cfg.train_frac)
+    manifest = load_or_derive_split(cfg.manifest, cfg.root, cfg.train_frac)
     # Fail before the GPU hours, not after: a missing class folder splits and
     # trains without complaint (see assert_all_classes_present).
     assert_all_classes_present(manifest)
