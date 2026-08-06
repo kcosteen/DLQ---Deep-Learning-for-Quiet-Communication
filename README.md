@@ -372,11 +372,23 @@ interior shading — which the exposure crushes. A shadow lift makes the thumb
 plainly visible, so the fix is an exposure-normalising step in the preprocessing
 contract, not more augmentation.
 
-⚠️ The same investigation found that **MediaPipe detected a hand in only 34% of
-those frames** (0/20 for S) — so #11's crop cache silently falls back to centre
-crops there, and the "mandatory" crop bridge for the demo (#13/#14) may not fire
-on closed handshapes. That sample is biased (all misclassified frames); measure the
-real rate with `python scripts/check_hand_detection.py --root <class root>`.
+⚠️ The same investigation asked whether MediaPipe can even see these hands.
+Dataset-wide it detects one in **74%** of frames (854/1160, 40 per class). An
+earlier **34%** figure came from the dumped error frames alone — all
+misclassified, so biased toward the darkest in the set — and should not be cited;
+it was briefly used to argue #11's crop cache was a dead end, which overstated
+the case.
+
+The rate is nowhere near uniform, and the mean hides that. Open handshapes detect
+near 100%, while **M (45%)** and **N (42%)** are the real failures — and M↔N is
+also a top confusion pair, so one cause produces two symptoms. **S** detects at
+88% dataset-wide but **0/20 on its own val error frames**, which is what makes
+its val tail worth investigating separately.
+
+So #11's crop cache silently falls back to centre crops on roughly a quarter of
+frames, and the "mandatory" crop bridge for the demo (#13/#14) is unreliable on
+closed handshapes. Reproduce with
+`python scripts/check_hand_detection.py --root <class root>`.
 
 ---
 

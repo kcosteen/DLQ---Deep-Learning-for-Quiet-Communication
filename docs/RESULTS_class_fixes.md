@@ -332,6 +332,50 @@ below and argues against a hardcoded one. Note this measures **detection** only;
 whether recovered tonal range helps the classifier separate S from E is a separate
 question that only a training run answers.
 
+### Ruled out: the val tail is darker, and it explains nothing
+
+Before spending a GPU run on the shadow lift, one competing explanation had to go.
+`frame_range_split` sends the first 80% of each class to train and the last 20% to
+val *in capture order*. If the recording session dimmed over time, val would be
+systematically darker than anything the model trained on, and S's failure would be a
+distribution shift in the split rather than an exposure problem — a different bug,
+with a different fix, outranking #12.
+
+Measured 2026-08-06 with `scripts/check_val_brightness.py`, 40 frames per side:
+
+| class | train med | val med | delta | val acc |
+|---|---|---|---|---|
+| **S** | 134.8 | 117.5 | **−17.4** | **0.770** ✗ |
+| E | 141.7 | 90.7 | −50.9 | 1.000 |
+| M | 138.8 | 93.4 | −45.4 | 0.947 |
+| N | 133.9 | 92.6 | −41.3 | 0.960 |
+| B | 143.1 | 115.8 | −27.3 | 1.000 |
+| L | 140.7 | 122.7 | −18.0 | 1.000 |
+| X | 123.9 | 111.8 | −12.1 | 0.933 |
+| V | 126.0 | 125.0 | −1.0 | 0.978 |
+
+**The drift is real: every class darkens, none brightens.** The capture-order
+artifact exists and is worth knowing about. **It does not explain S.** E darkens the
+most of any class measured (−50.9) and scores a perfect 1.000; S darkens −17.4,
+*less* than the −28.0 mean of the seven classes that pass. Pearson r between delta
+and per-class accuracy is **−0.219** over 8 classes — no relationship, and the sign
+points away from the hypothesis. Brightness shift is not what separates the class
+that fails from the classes that do not.
+
+So the shadow lift below stands as the next experiment, and the darkening is
+recorded here as a property of the split rather than filed as a blocker.
+
+> **Methodological note, because the first run of this got it wrong.** Grouping the
+> "failing" classes as S, E, M, N — the four this doc discusses — produced a
+> confident false positive: a −24.2 excess darkening and a "distribution shift"
+> verdict. But E, M and N all *pass* (1.000, 0.947, 0.960); only S is under the bar.
+> Three passing classes with large deltas manufactured a signal about a class whose
+> delta is unremarkable. `check_val_brightness.py` now reads the failing set from the
+> evaluation report's `below_target` field instead of a hardcoded list, and
+> `tests/test_val_brightness.py` pins that behaviour. The general lesson: when a
+> comparison groups classes, the grouping is the experiment — get it from the data,
+> not from which names appear together in prose.
+
 ## What to do next — closing S
 
 #12 stays open until S ≥ 0.85. Revised in light of the above:
