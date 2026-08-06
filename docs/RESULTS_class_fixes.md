@@ -413,6 +413,72 @@ What **not** to do: raise `--rebalance-alpha` globally (it pushes V harder, and 
 already down 0.057), or cache crops expecting S to improve (MediaPipe does not fire
 on those frames).
 
+### Implemented: the lift lives in the model, for now
+
+Built as `ExposureLift` in `src/model.py`, reachable as the arch
+**`efficientnet_lift`** — *not* in `src/crop.py` as recommended above. The reasoning,
+and the debt this takes on:
+
+**Why the model.** `src/crop.py` is Person C's locked contract (#4) and a change
+there needs their sign-off, which blocks the experiment on a review. Putting the
+lift inside the model gets the number now, and it turns out to give a *stronger*
+parity guarantee rather than a weaker one: `train.py` records `arch` in the
+checkpoint, `evaluate.py` rebuilds from it, and `load_resume_state` refuses a
+checkpoint whose arch disagrees. So the weights and the preprocessing they expect
+cannot be separated — `tests/test_exposure_lift.py` pins that the two arches have
+incompatible `state_dict`s. A contract-side lift, by contrast, relies on both sides
+remembering to call it. It also leaves #13 completely untouched: Person C's bridge
+loads the new checkpoint and the exposure handling comes with it.
+
+**The debt.** Exposure handling is now invisible in `crop.py`, which is where a
+future reader will look for it. **If this closes #12, migrate it into
+`preprocess_bgr` with Person C's sign-off** — at that point the migration is an
+easy sell backed by a number, instead of a request to approve a locked-file change
+on spec.
+
+**The anchor is the 25th percentile, not the median** — and this is the part that
+would have silently failed. The frame median on this dataset is already ~120–140/255
+(≈0.5, see the brightness table above) because the blown-out background drags it up.
+Solving for a gamma that maps the *median* to a mid target is therefore very nearly a
+no-op and leaves the hand exactly as dark as it was. `test_median_anchored_lift_would_have_no_opped`
+pins that trap. The lift is also clamped to γ ≤ 1.0 so it can only brighten: a
+well-exposed webcam frame gets γ = 1.0, an exact no-op. That is the property a fixed
+γ = 0.45 lacks — it measurably hurt X, W and delete, which were already exposed
+correctly.
+
+Export is verified, not assumed: the percentile is taken with `torch.sort` rather
+than `torch.quantile` precisely because `quantile` has no ONNX lowering. TorchScript
+tracing and ONNX export are both covered, including a test that the traced module
+still *adapts* rather than baking one gamma in as a constant.
+
+```bash
+# Fresh two-stage train -- NO --resume. The lift changes what the network sees, so
+# resuming would train under one preprocessing and evaluate under another; the arch
+# guard refuses it anyway, which is the guard working as intended.
+python -m src.train \
+    --root "$ROOT" \
+    --manifest data/split_manifest.json \
+    --model efficientnet_lift \
+    --rebalance-from docs/reports/dev_val_targeted.json \
+    --rebalance loss --rebalance-alpha 2.0 \
+    --geometry-safe-classes auto \
+    --baseline-epochs 20 --finetune-epochs 15 --wandb-mode online \
+    --out checkpoints/efficientnet_b0_lift.pt
+
+python -m src.evaluate \
+    --checkpoint checkpoints/efficientnet_b0_lift.pt \
+    --split "$ROOT" \
+    --manifest checkpoints/efficientnet_b0_lift.split.json \
+    --report-json docs/reports/dev_val_lift.json \
+    --baseline docs/reports/dev_val_targeted.json \
+    --label "adaptive lift + S weight (#12)" --figures /tmp/figs_lift
+```
+
+Read **E's row first** in the diff, not S's. E is at 1.000 and the S→E boundary is
+being pushed at from both sides — by the recovered shading and by `--rebalance-alpha
+2.0`. A gain on S bought by breaking E is not progress, and the per-class bar is
+what #12 is measured against.
+
 ## Notes / honesty
 
 - **Every number in this doc is dev-val**, i.e. the same signer in the same room,

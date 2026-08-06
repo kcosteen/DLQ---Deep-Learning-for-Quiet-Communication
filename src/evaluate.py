@@ -510,7 +510,8 @@ def run(args: argparse.Namespace) -> None:
 def main() -> None:
     p = argparse.ArgumentParser(description="Evaluate a checkpoint.")
     p.add_argument("--checkpoint", required=True)
-    p.add_argument("--model", choices=["efficientnet", "compact"], default=None,
+    p.add_argument("--model", choices=["efficientnet", "efficientnet_lift", "compact"],
+                   default=None,
                    help="architecture to rebuild; default: whatever the "
                         "checkpoint records, else efficientnet")
     g = p.add_mutually_exclusive_group(required=True)

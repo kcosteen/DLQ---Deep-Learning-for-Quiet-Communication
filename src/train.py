@@ -693,9 +693,12 @@ def main() -> None:
     p.add_argument("--backgrounds", default=None,
                    help="dir of background textures (e.g. data/backgrounds); enables "
                         "train-only background replacement (#10). Omit to disable.")
-    p.add_argument("--model", choices=["efficientnet", "compact"],
+    p.add_argument("--model", choices=["efficientnet", "efficientnet_lift", "compact"],
                    default="efficientnet",
-                   help="'compact' = from-scratch baseline (single stage)")
+                   help="'compact' = from-scratch baseline (single stage); "
+                        "'efficientnet_lift' adds the adaptive shadow lift (#12) "
+                        "-- its checkpoints are NOT interchangeable with plain "
+                        "'efficientnet', which is why it is a separate arch name")
     p.add_argument("--resume", default=None,
                    help="fine-tune this checkpoint instead of ImageNet weights; "
                         "skips the frozen-head stage (#12)")
