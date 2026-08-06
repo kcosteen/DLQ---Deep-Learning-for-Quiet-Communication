@@ -479,6 +479,92 @@ being pushed at from both sides — by the recovered shading and by `--rebalance
 2.0`. A gain on S bought by breaking E is not progress, and the per-class bar is
 what #12 is measured against.
 
+### Result — lift run, 2026-08-06. S improves, X collapses, #12 stays open
+
+Kaggle T4, fresh two-stage train (20 + 15), `efficientnet_lift`,
+`--rebalance-alpha 2.0`. Report: `docs/reports/dev_val_lift.json`. Confusion matrix:
+`docs/figures/confusion_matrix_lift.{png,csv}`.
+
+```
+overall       0.9775 -> 0.9706
+macro-F1      0.9775 -> 0.9700
+below_target  ['S']  -> ['S', 'X']
+```
+
+**Against the DoD this is a regression** — one class under the bar became two — and
+the run should not be treated as a candidate for closing #12.
+
+**The exposure hypothesis nevertheless got its best evidence yet.** S moved
+**0.770 → 0.820 (+0.050)**, its largest gain across every intervention tried, and
+S→E fell **138 → 97**. E held at 1.000, so the gain was not bought by collapsing the
+neighbour. Nothing else in this project has moved S: aimed augmentation bought it
+0.047 while moving V and X by 0.35–0.43, and weighting alone was never expected to
+create information. A lift aimed at exactly the cue the exposure destroys is the
+first thing to move it materially.
+
+**And X collapsed: 0.9333 → 0.7217 (−0.2117).**
+
+| class | targeted | lift | delta |
+|---|---|---|---|
+| **S** | 0.7700 | **0.8200** | **+0.0500** |
+| N | 0.9600 | 1.0000 | +0.0400 |
+| K | 0.9433 | 0.9700 | +0.0267 |
+| **X** | 0.9333 | **0.7217** | **−0.2117** |
+| M | 0.9467 | 0.8983 | −0.0483 |
+| T | 0.9250 | 0.8967 | −0.0283 |
+| Y | 0.9500 | 0.9283 | −0.0217 |
+
+X did not merely lose accuracy, it lost *coherence*. Its errors went from a single
+confusable neighbour (X→K, 17) to a scatter across five classes — X→R 51, X→A 30,
+X→I 28, X→M 24, X→L 16. M's regression has the same shape mirrored: M→N doubled
+(32 → 61) while N rose to a perfect 1.000, so the M/N boundary moved wholesale
+rather than degrading.
+
+There is a suggestive echo worth recording. When detection was measured under a
+fixed γ = 0.45, the classes that got *worse* were X, W and delete. That was a
+different measurement — detection rate, not accuracy — but X surfacing as
+gamma-sensitive in both is not nothing. A reading consistent with both: S's cue was
+*destroyed* by shadow so lifting recovers it, while X's cue partly **is** shadow —
+the hooked finger's contour against the palm — so lifting erases it. Hypothesis, not
+finding.
+
+#### This experiment is confounded, and the next run is an ablation
+
+Three things changed at once against the targeted baseline:
+
+1. the lift (`efficientnet_lift`),
+2. `--rebalance-alpha` 1.0 → 2.0,
+3. **a fresh 20 + 15 epoch train from ImageNet, where the baseline was a 6-epoch
+   fine-tune resumed from the #6 checkpoint.**
+
+The third is the largest and the easiest to overlook. X's collapse is equally
+consistent with "the lift destroys X's cue" and with "a fresh two-stage train simply
+lands X worse than a warm fine-tune did." **Nothing in this run distinguishes them**,
+so no conclusion about the lift is available yet — including the flattering one about
+S, whose +0.050 could carry a contribution from alpha 2.0.
+
+The ablation is the same run with the lift removed and everything else held:
+
+```bash
+python -m src.train --root "$ROOT" --manifest data/split_manifest.json \
+    --model efficientnet \
+    --rebalance-from docs/reports/dev_val_targeted.json \
+    --rebalance loss --rebalance-alpha 2.0 --geometry-safe-classes auto \
+    --baseline-epochs 20 --finetune-epochs 15 --wandb-mode offline \
+    --out checkpoints/efficientnet_b0_ablate.pt
+```
+
+- **X ≈ 0.72 without the lift** → the lift is exonerated; the fresh-train regime is
+  what breaks X, and the lift's S gain stands on its own.
+- **X ≈ 0.93 without the lift** → the lift really does destroy X's cue. The move is
+  then a *gentler* lift — raise `GAMMA_MIN` above 0.25, or drop `LIFT_TARGET` below
+  0.35 — trading some of S's +0.050 to stop paying 0.21 of X. Both constants are at
+  the top of `src/model.py` and neither needs a retrain to reason about: `gamma_for`
+  is callable on a batch directly.
+
+Until that run exists, **#12 stays open and the honest status is "S is an exposure
+problem, the lift is the first thing to move it, and the cost is not yet known."**
+
 ## Notes / honesty
 
 - **Every number in this doc is dev-val**, i.e. the same signer in the same room,
