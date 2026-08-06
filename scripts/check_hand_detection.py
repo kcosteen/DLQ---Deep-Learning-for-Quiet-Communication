@@ -42,6 +42,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from src.data import CLASSES, list_class_files  # noqa: E402
 
+# The one class with no hand in frame. Detection SHOULD fail here.
+NO_HAND_CLASS = "nothing"
+
 
 def apply_gamma(img: np.ndarray, g: float) -> np.ndarray:
     """Shadow lift. ``g < 1`` brightens; ``g == 1`` is a no-op."""
@@ -104,9 +107,23 @@ def run(root: str, per_class: int, seed: int, gamma: Optional[float]) -> int:
     total_n = sum(r[2] for r in rows)
     print(f"\n{'TOTAL':>8} {total_h:>7} {total_n:>5} {100 * total_h / total_n:5.0f}%")
 
-    # A per-class floor is what matters, not the mean: the demo has to recognise
-    # every letter, so one class at 0% is a broken letter regardless of the average.
-    worst = [f"{c} ({100 * h / n:.0f}%)" for c, h, n in rows if h / max(1, n) < 0.5]
+    # 'nothing' is an empty scene — no hand is present, so a LOW rate is the correct
+    # answer there and a high one would mean MediaPipe is hallucinating hands in the
+    # background. It is scored inverted and excluded from the floor below; treating
+    # its 0% as a failure was the first thing this script got wrong.
+    nothing = per_class_hits.get(NO_HAND_CLASS)
+    if nothing and nothing[1]:
+        hits, n = nothing
+        verdict = "as expected" if hits / n <= 0.1 else "SUSPICIOUS — phantom hands"
+        print(f"\n{NO_HAND_CLASS!r} detected a hand in {hits}/{n} frames "
+              f"({100 * hits / n:.0f}%) — {verdict}. This class is an empty scene, "
+              f"so low is correct; the demo reads it as idle.")
+
+    # A per-class floor is what matters for the rest, not the mean: the demo has to
+    # recognise every letter, so one class at 0% is a broken letter regardless of
+    # the average.
+    worst = [f"{c} ({100 * h / n:.0f}%)" for c, h, n in rows
+             if c != NO_HAND_CLASS and h / max(1, n) < 0.5]
     if worst:
         print(f"\nclasses below 50% detection: {', '.join(worst)}")
         print("Each of these is a letter the crop step cannot frame — #11's cache "
@@ -114,7 +131,7 @@ def run(root: str, per_class: int, seed: int, gamma: Optional[float]) -> int:
               "hand box to draw. Detection is not optional for those classes, it "
               "is the whole bridge.")
     else:
-        print("\nevery class detects above 50%.")
+        print("\nevery hand-bearing class detects above 50%.")
     return 0
 
 
