@@ -288,11 +288,49 @@ So `cache_crops` would silently fall back to a **centre crop** on exactly the fr
 that need help — `CropResult.found_hand=False` returns the centre square. Caching
 crops for S would change nothing.
 
-> ⚠️ **These 208 frames are a biased sample** — every one of them is a
-> *misclassified* frame, so they are plausibly the darkest and hardest in the set.
-> The 34% figure is **not** a dataset-wide detection rate and must not be quoted as
-> one. Measure it properly on a random sample before drawing conclusions about #11
-> or the demo: `python scripts/check_hand_detection.py --root <class root> --per-class 40`.
+> ⚠️ **Those 208 frames are a biased sample** — every one is a *misclassified*
+> frame, so they are plausibly the darkest and hardest in the set. The 34% figure is
+> **not** a dataset-wide detection rate. It was measured properly instead; see below.
+
+### Measured properly: 74% dataset-wide, and the bias was real
+
+`scripts/check_hand_detection.py --root <class root> --per-class 40` over a
+deterministic stride sample of 1,160 frames (40 per class, seed 0):
+
+| | Raw | With `--gamma 0.45` |
+|---|---|---|
+| **All hand-bearing classes** | **854/1160 = 74%** | **917/1160 = 79%** |
+| M | 45% | **62%** |
+| N | 42% | 48% |
+| S | 88% | 90% |
+| V | 88% | 90% |
+| X | 75% | 72% |
+| best (F) | 98% | 98% |
+| `nothing` (empty scene) | 0% | 0% — correct, and scored inverted |
+
+Three conclusions, and the first one corrects this document:
+
+1. **74%, not 34%.** The error-frame sample was badly biased, so #11's crop cache
+   and the demo bridge are in substantially better shape than the first measurement
+   implied. Recorded here rather than quietly dropped, because the 34% was used to
+   argue against the crop cache.
+2. **S's detection was never the problem.** 88% dataset-wide against **0/20** on its
+   val error frames. A 0-for-20 at an 88% base rate is not chance — the frames the
+   classifier gets wrong are the same frames the detector cannot see. Something is
+   different about those specific frames, which is what the val-tail question below
+   is about.
+3. **M and N are the genuine detection failures** (45%/42%) — and M↔N is also a
+   confusion pair in the results table (32 + 24 errors). A fist with the fingers
+   folded over the thumb gives the landmarker no structure to grip and the
+   classifier no feature to separate. Same cause, two symptoms.
+
+**Contrast helps detection, but partially, and a fixed gamma is the wrong shape.**
+Gamma 0.45 lifts the total 5 points and M by 17, but leaves N under 50% and makes
+X, W and `delete` slightly *worse* — exactly what a constant would do to frames
+that were already correctly exposed. It supports the adaptive lift recommended
+below and argues against a hardcoded one. Note this measures **detection** only;
+whether recovered tonal range helps the classifier separate S from E is a separate
+question that only a training run answers.
 
 ## What to do next — closing S
 
