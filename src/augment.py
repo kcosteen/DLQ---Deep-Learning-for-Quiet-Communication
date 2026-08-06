@@ -9,20 +9,6 @@ Both the train and val transforms END with the SAME deterministic
 resize+normalize defined in ``src/crop.py``. Augmentation only ever adds random
 ops BEFORE that shared tail; it never changes the final framing/normalisation, so
 train and serving stay in parity. See ``tests/test_preprocessing_parity.py``.
-
-Two policies (#12)
-------------------
-``default`` is the heavy pipeline above. ``geometry_safe`` softens only the ops
-that move pixels — rotation, shear, perspective, scale — and the cutout that can
-erase a whole finger, while leaving every photometric op at full strength. It
-exists because the first transfer run (#6, ``docs/RESULTS.md``) put 86% of its
-errors on three classes whose identity IS a small geometric detail: V vs K is
-where the thumb sits, S vs E is how far the thumb folds over the fist, X vs
-A/L/R is how far the index finger hooks. Those are precisely the details ±20°
-rotation, ±8° shear and a 15%-of-frame dropout hole are licensed to destroy
-while the label stays put — teaching the model that the distinguishing feature
-is noise. Colour, gamma, blur and noise cannot move a thumb, so they keep full
-strength; they are what the webcam set will actually demand.
 """
 
 from __future__ import annotations
@@ -31,9 +17,8 @@ import argparse
 import glob
 import os
 import random
-from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import Callable, List, Optional
 
 import cv2
 import numpy as np
@@ -53,93 +38,32 @@ def _to_tensor(img_bgr: np.ndarray):
     return torch.from_numpy(preprocess_bgr(img_bgr))
 
 
-@dataclass(frozen=True)
-class AugPolicy:
-    """Strength of the pixel-moving ops. Photometric strength is policy-independent.
-
-    Only the geometry-destroying knobs live here, because they are the only ones
-    that can change what a fingerspelling handshape *means*. See the module
-    docstring for why ``geometry_safe`` exists.
-    """
-
-    name: str
-    rotate: float
-    translate: float
-    scale: Tuple[float, float]
-    shear: float
-    perspective_scale: Tuple[float, float]
-    perspective_p: float
-    dropout_holes: Tuple[int, int]
-    dropout_size: Tuple[float, float]
-    dropout_p: float
-
-
-POLICIES: Dict[str, AugPolicy] = {
-    # The heavy single-signer antidote (#9) — unchanged from the #6 run.
-    "default": AugPolicy(
-        name="default",
-        rotate=20.0, translate=0.08, scale=(0.85, 1.15), shear=8.0,
-        perspective_scale=(0.02, 0.08), perspective_p=0.3,
-        dropout_holes=(4, 6), dropout_size=(0.05, 0.15), dropout_p=0.4,
-    ),
-    # Same photometric strength, gentler geometry, and a dropout that can no
-    # longer swallow a thumb: 6 holes at up to 15% of the frame each can cover
-    # the one region that separates V from K.
-    "geometry_safe": AugPolicy(
-        name="geometry_safe",
-        rotate=8.0, translate=0.05, scale=(0.92, 1.08), shear=3.0,
-        perspective_scale=(0.02, 0.04), perspective_p=0.15,
-        dropout_holes=(1, 2), dropout_size=(0.04, 0.08), dropout_p=0.25,
-    ),
-}
-
-
-def resolve_policy(policy) -> AugPolicy:
-    """Accept a policy name or an ``AugPolicy``; reject unknown names loudly."""
-    if isinstance(policy, AugPolicy):
-        return policy
-    try:
-        return POLICIES[policy]
-    except KeyError:
-        raise ValueError(
-            f"unknown augmentation policy {policy!r}; "
-            f"choose from {sorted(POLICIES)}"
-        ) from None
-
-
-def build_transforms(
-    train: bool = True,
-    backgrounds_dir: Optional[str] = None,
-    policy: str = "default",
-) -> Callable:
+def build_transforms(train: bool = True, backgrounds_dir: Optional[str] = None) -> Callable:
     """Return a callable ``img_bgr -> torch.FloatTensor`` (C×H×W).
 
     When ``train`` is False, only the deterministic resize+normalize contract runs
-    (no randomness) — this is the val/serve path, and ``policy`` is irrelevant
-    there. When ``train`` is True, an Albumentations pipeline of geometric +
-    photometric + structural augmentations runs first, optionally preceded by
-    background replacement. ``policy`` selects the geometric strength (#12).
+    (no randomness) — this is the val/serve path. When ``train`` is True, an
+    Albumentations pipeline of geometric + photometric + structural augmentations
+    runs first, optionally preceded by background replacement.
     """
     if not train:
         return lambda img_bgr: _to_tensor(img_bgr)
 
     import albumentations as A
 
-    pol = resolve_policy(policy)
-
     aug = A.Compose(
         [
-            # --- geometric (policy-controlled) ---
+            # --- geometric ---
             A.Affine(
-                rotate=(-pol.rotate, pol.rotate),
-                translate_percent=(-pol.translate, pol.translate),
-                scale=pol.scale,
-                shear=(-pol.shear, pol.shear),
+                rotate=(-20, 20),
+                translate_percent=(-0.08, 0.08),
+                scale=(0.85, 1.15),
+                shear=(-8, 8),
                 fit_output=False,
                 p=0.9,
             ),
-            A.Perspective(scale=pol.perspective_scale, p=pol.perspective_p),
-            # --- photometric (identical across policies: cannot move a thumb) ---
+            A.Perspective(scale=(0.02, 0.08), p=0.3),
+            # --- photometric ---
             A.RandomBrightnessContrast(0.3, 0.3, p=0.7),
             A.HueSaturationValue(15, 25, 15, p=0.5),
             A.RandomGamma(gamma_limit=(80, 120), p=0.4),
@@ -151,11 +75,10 @@ def build_transforms(
                 ],
                 p=0.4,
             ),
-            # --- structural (policy-controlled) ---
+            # --- structural ---
             A.CoarseDropout(
-                num_holes_range=pol.dropout_holes,
-                hole_height_range=pol.dropout_size,
-                hole_width_range=pol.dropout_size, fill=0, p=pol.dropout_p
+                num_holes_range=(4, 6), hole_height_range=(0.05, 0.15),
+                hole_width_range=(0.05, 0.15), fill=0, p=0.4
             ),
         ]
     )
@@ -251,9 +174,7 @@ def _preview(args: argparse.Namespace) -> None:
         raise SystemExit(f"could not read {args.image}")
     import albumentations as A  # noqa: F401  (ensures dependency present)
 
-    transform = build_transforms(
-        train=True, backgrounds_dir=args.backgrounds, policy=args.policy
-    )
+    transform = build_transforms(train=True, backgrounds_dir=args.backgrounds)
     tiles = []
     for _ in range(args.n):
         t = transform(img)  # torch tensor C×H×W (normalized)
@@ -264,16 +185,13 @@ def _preview(args: argparse.Namespace) -> None:
         tiles.append(cv2.cvtColor(arr, cv2.COLOR_RGB2BGR))
     grid = np.hstack([resize_square(t, IMG_SIZE) for t in tiles])
     cv2.imwrite(args.out, grid)
-    print(f"wrote {args.n} augmented variants ({args.policy}) -> {args.out}")
+    print(f"wrote {args.n} augmented variants -> {args.out}")
 
 
 def main() -> None:
     p = argparse.ArgumentParser(description="Preview the augmentation pipeline.")
     p.add_argument("--image", required=True, help="a single training image")
     p.add_argument("--backgrounds", default=None, help="dir of background images")
-    p.add_argument("--policy", choices=sorted(POLICIES), default="default",
-                   help="geometric strength; 'geometry_safe' for the confusable "
-                        "handshapes (#12)")
     p.add_argument("--n", type=int, default=8)
     p.add_argument("--out", default="docs/figures/augment_preview.png")
     _preview(p.parse_args())

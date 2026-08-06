@@ -18,11 +18,9 @@ pytest.importorskip("torch")
 
 import torch  # noqa: E402
 
-from src.data import CLASS_TO_IDX, Sample, SplitManifest  # noqa: E402
+from src.data import CLASS_TO_IDX, SplitManifest  # noqa: E402
 from src.evaluate import (  # noqa: E402
     WATCH_CONFUSIONS,
-    checkpoint_arch,
-    dump_errors,
     load_checkpoint,
     resolve_arch,
     top_confusions,
@@ -83,67 +81,6 @@ def test_wrong_architecture_fails_with_a_usable_message(tmp_path):
         load_checkpoint(path, "cpu")
 
     assert "--model" in str(excinfo.value)
-
-
-@pytest.mark.parametrize("arch", ["efficientnet", "compact"])
-def test_checkpoint_arch_reads_the_tag_without_building_the_model(tmp_path, arch):
-    """Report provenance: a report that does not name the architecture is not
-    comparable against one from a different model."""
-    assert checkpoint_arch(_save(tmp_path, arch, arch)) == arch
-
-
-def test_checkpoint_arch_falls_back_for_legacy_checkpoints(tmp_path):
-    assert checkpoint_arch(_save(tmp_path, "compact", arch=None)) == "efficientnet"
-
-
-def test_dump_errors_writes_only_mistakes_grouped_by_pair(tmp_path):
-    """X's 296 errors spread over A/L/R/I with no single culprit (#6).
-
-    That is the one failure shape a confusion matrix cannot explain, so the next
-    step is looking at the frames — this is what makes that a one-liner.
-    """
-    import numpy as np
-
-    src_dir = tmp_path / "frames"
-    src_dir.mkdir()
-    samples, y_true, y_pred = [], [], []
-    for i, (true, pred) in enumerate(
-        [("X", "A"), ("X", "A"), ("X", "L"), ("V", "K"), ("Q", "Q")]
-    ):
-        path = src_dir / f"{true}{i}.jpg"
-        path.write_bytes(b"not-really-a-jpeg")  # dump_errors copies, never decodes
-        samples.append(Sample(str(path), CLASS_TO_IDX[true], true))
-        y_true.append(CLASS_TO_IDX[true])
-        y_pred.append(CLASS_TO_IDX[pred])
-
-    out = tmp_path / "errors"
-    written = dump_errors(samples, np.array(y_true), np.array(y_pred), str(out))
-
-    assert written == 4  # the Q->Q frame is a correct answer, not an error
-    assert sorted(p.name for p in out.iterdir()) == ["V_to_K", "X_to_A", "X_to_L"]
-    assert len(list((out / "X_to_A").iterdir())) == 2
-    # The ORIGINAL file, not a normalised tensor: the question is what the frame
-    # contains, not what the loader did to it.
-    assert (out / "V_to_K" / "V3.jpg").read_bytes() == b"not-really-a-jpeg"
-
-
-def test_dump_errors_caps_each_pair(tmp_path):
-    """Without a cap, one 219-error pair buries every other pair in the dir."""
-    import numpy as np
-
-    src_dir = tmp_path / "frames"
-    src_dir.mkdir()
-    samples = []
-    for i in range(10):
-        path = src_dir / f"V{i}.jpg"
-        path.write_bytes(b"x")
-        samples.append(Sample(str(path), CLASS_TO_IDX["V"], "V"))
-    y_true = np.full(10, CLASS_TO_IDX["V"])
-    y_pred = np.full(10, CLASS_TO_IDX["K"])
-
-    out = tmp_path / "errors"
-    assert dump_errors(samples, y_true, y_pred, str(out), max_per_pair=3) == 3
-    assert len(list((out / "V_to_K").iterdir())) == 3
 
 
 def test_manifest_path_sits_beside_the_checkpoint():

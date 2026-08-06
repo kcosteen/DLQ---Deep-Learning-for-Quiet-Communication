@@ -78,7 +78,7 @@ asl-fingerspelling/
 ├── src/
 │   ├── crop.py           # MediaPipe hand-crop bridge + shared preprocessing contract
 │   ├── data.py           # folder loader, leakage-safe frame-range split, Dataset
-│   ├── augment.py        # augmentation policies + background replacement
+│   ├── augment.py        # augmentation + background replacement
 │   ├── model.py          # EfficientNet-B0 head + compact-CNN baseline
 │   ├── train.py          # two-stage transfer learning + W&B
 │   ├── evaluate.py       # metrics, confusion matrix, webcam-set eval
@@ -90,7 +90,6 @@ asl-fingerspelling/
 ├── scripts/              # record_webcam_testset.py, check_webcam_coverage.py, …
 ├── tests/                # split-leakage + preprocessing-parity tests
 └── docs/                 # PROJECT_PLAN.md, WEBCAM_TESTSET_PROTOCOL.md, figures
-    └── reports/          # per-class eval reports (--report-json); the before/after record
 ```
 
 ---
@@ -246,24 +245,6 @@ python -m src.evaluate --checkpoint checkpoints/efficientnet_b0.pt \
 python -m src.evaluate --checkpoint checkpoints/compact_cnn.pt \
     --split data/raw/asl_alphabet_train/asl_alphabet_train --figures /tmp/baseline
 
-# 3b. Target the classes that are actually failing (#12)
-#     Save a per-class report, aim the next run at it, then diff the two.
-python -m src.evaluate --checkpoint checkpoints/efficientnet_b0.pt \
-    --split data/raw/asl_alphabet_train/asl_alphabet_train \
-    --report-json docs/reports/dev_val_baseline_6.json --figures docs/figures
-
-python -m src.train --root data/raw/asl_alphabet_train/asl_alphabet_train \
-    --resume checkpoints/efficientnet_b0.pt \
-    --rebalance-from docs/reports/dev_val_baseline_6.json \
-    --geometry-safe-classes auto --finetune-epochs 6
-
-python -m src.evaluate --checkpoint checkpoints/efficientnet_b0_targeted.pt \
-    --split data/raw/asl_alphabet_train/asl_alphabet_train \
-    --baseline docs/reports/dev_val_baseline_6.json --figures /tmp/figs_targeted
-#     Prints per-class before/after and flags NEW regressions — the mean can improve
-#     while a class breaks. Full method: docs/RESULTS_class_fixes.md
-#     Stuck on one class? --dump-errors /tmp/errs copies its misclassified frames out.
-
 # 4. Evaluate — THE reported benchmark (our webcam test set)
 #    First record it: each teammate, all 29 classes, >= 2 lighting/background
 #    conditions (protocol: docs/WEBCAM_TESTSET_PROTOCOL.md)
@@ -328,11 +309,6 @@ cached. Demo inference runs on **CPU**.
   shift, scale, perspective, shear); photometric (brightness/contrast/hue jitter,
   gamma, noise, blur); structural (cutout, background replacement on
   MediaPipe-segmented hands). Albumentations.
-  - Two policies (#12): `default` as above, and `geometry_safe`, which softens
-    **only** the pixel-moving ops for named classes — for handshapes whose identity
-    is a small geometric detail (V vs K is thumb placement), ±20° rotation and a
-    15%-of-frame dropout hole can erase the distinguishing feature while the label
-    stays put. Aimed per class via `--geometry-safe-classes`, train-only.
 
 ### Targets & honest-metrics policy
 | Metric | Target |
@@ -357,12 +333,6 @@ Measured confusions differ from the textbook list: **V→K (219)** and **S→E (
 dominate, X fails diffusely, while A/E never confuses at all. `WATCH_CONFUSIONS`
 in `src/evaluate.py` now reflects what was measured, and the harness prints the
 largest confusions unconditionally so an unanticipated one cannot hide.
-
-The machinery to fix those three classes is in place and **not yet run on a GPU**
-([method + before/after table](docs/RESULTS_class_fixes.md), #12): aimed
-augmentation, error-driven class weighting, focused fine-tune, and a per-class
-before/after diff that flags new regressions. The "before" is pinned as
-`docs/reports/dev_val_baseline_6.json` — the after column is still `TODO`.
 
 ---
 
