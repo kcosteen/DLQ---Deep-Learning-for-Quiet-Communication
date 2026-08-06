@@ -358,11 +358,25 @@ dominate, X fails diffusely, while A/E never confuses at all. `WATCH_CONFUSIONS`
 in `src/evaluate.py` now reflects what was measured, and the harness prints the
 largest confusions unconditionally so an unanticipated one cannot hide.
 
-The machinery to fix those three classes is in place and **not yet run on a GPU**
-([method + before/after table](docs/RESULTS_class_fixes.md), #12): aimed
-augmentation, error-driven class weighting, focused fine-tune, and a per-class
-before/after diff that flags new regressions. The "before" is pinned as
-`docs/reports/dev_val_baseline_6.json` — the after column is still `TODO`.
+**Two of those three are now fixed** ([method + before/after
+table](docs/RESULTS_class_fixes.md), #12): aiming the augmentation instead of
+adding more took **V 0.630 → 0.978** and **X 0.507 → 0.933**, cutting total errors
+791 → 391 (dev-val 0.9775, macro-F1 0.9775). **S is still at 0.770**, so the
+per-class bar is still missed and #12 stays open.
+
+Inspecting S's failures turned up why, and it is not a modelling problem: the
+dataset is **backlit**, hand at grey levels 9–89 against a background pinned at
+240–255. Every solved class is one you can read from the *silhouette*; S vs E is
+the single pair where both handshapes are compact fists, so the only cue is
+interior shading — which the exposure crushes. A shadow lift makes the thumb
+plainly visible, so the fix is an exposure-normalising step in the preprocessing
+contract, not more augmentation.
+
+⚠️ The same investigation found that **MediaPipe detected a hand in only 34% of
+those frames** (0/20 for S) — so #11's crop cache silently falls back to centre
+crops there, and the "mandatory" crop bridge for the demo (#13/#14) may not fire
+on closed handshapes. That sample is biased (all misclassified frames); measure the
+real rate with `python scripts/check_hand_detection.py --root <class root>`.
 
 ---
 
