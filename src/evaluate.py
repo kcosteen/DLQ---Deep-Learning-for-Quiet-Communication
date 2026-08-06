@@ -40,7 +40,7 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 
-from .data import CLASSES, ASLImageDataset, Sample, SplitManifest, frame_range_split
+from .data import CLASSES, ASLImageDataset, Sample, load_or_derive_split
 from .model import build_model
 
 PER_CLASS_TARGET = 0.85  # docs/PROJECT_PLAN.md: no class below 85%
@@ -476,13 +476,11 @@ def run(args: argparse.Namespace) -> None:
         source_kind, source_path = "webcam", args.webcam
         print(f"WEBCAM TEST SET (the reported benchmark): {len(ds)} images")
     else:
-        if args.manifest and os.path.exists(args.manifest):
-            manifest = SplitManifest.from_json(args.manifest)
+        manifest = load_or_derive_split(args.manifest, args.split, args.train_frac)
+        if args.manifest:
             manifest_path = args.manifest
             with open(args.manifest) as f:
                 manifest_sha = json.load(f).get("content_sha256")
-        else:
-            manifest = frame_range_split(args.split, args.train_frac)
         ds = ASLImageDataset(manifest.val, train=False)
         source_kind, source_path = "dev_val", args.split
         print(f"LEAKAGE-SAFE VAL SPLIT (dev only, not reported): {len(ds)} images")

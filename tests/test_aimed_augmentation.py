@@ -21,7 +21,13 @@ cv2 = pytest.importorskip("cv2")
 pytest.importorskip("torch")
 pytest.importorskip("albumentations")
 
-from src.augment import POLICIES, AugPolicy, build_transforms, resolve_policy  # noqa: E402
+from src.augment import (  # noqa: E402
+    POLICIES,
+    AugPolicy,
+    build_augmentation,
+    build_transforms,
+    resolve_policy,
+)
 from src.crop import IMG_SIZE  # noqa: E402
 from src.data import (  # noqa: E402
     CLASS_TO_IDX,
@@ -112,24 +118,57 @@ def test_val_path_ignores_the_policy_and_stays_deterministic():
     np.testing.assert_array_equal(a.numpy(), b.numpy())
 
 
-def test_gentle_policy_displaces_fewer_pixels():
-    """The behavioural claim, not just the config: less geometry actually moves.
+@pytest.mark.parametrize("policy", sorted(POLICIES))
+def test_every_policy_field_reaches_the_transform_that_uses_it(policy):
+    """A policy whose fields are ignored still produces plausible images.
 
-    Averaged over many draws because both policies are random; the gap between
-    ±8° and ±20° rotation (plus shear and perspective) is large enough that the
-    mean absolute difference from the unaugmented tensor separates them clearly.
+    That is the failure this catches, and it cannot be caught by looking at
+    pixels: augmented output looks equally reasonable whether the numbers came
+    from the policy or were left hardcoded. So the built pipeline is interrogated
+    directly. Asserted for BOTH policies — checking only the gentle one would miss
+    a default that silently drifted.
     """
+    pol = POLICIES[policy]
+    affine, perspective, *_photometric, dropout = build_augmentation(policy).transforms
+
+    assert affine.rotate == (-pol.rotate, pol.rotate)
+    # Albumentations expands shear/scale/translate into per-axis dicts.
+    assert affine.shear == {"x": (-pol.shear, pol.shear), "y": (-pol.shear, pol.shear)}
+    assert affine.scale == {"x": pol.scale, "y": pol.scale}
+    assert affine.translate_percent == {
+        "x": (-pol.translate, pol.translate), "y": (-pol.translate, pol.translate)
+    }
+
+    assert perspective.scale == pol.perspective_scale
+    assert perspective.p == pol.perspective_p
+
+    assert dropout.num_holes_range == pol.dropout_holes
+    assert dropout.hole_height_range == pol.dropout_size
+    assert dropout.hole_width_range == pol.dropout_size
+    assert dropout.p == pol.dropout_p
+
+
+def test_photometric_ops_are_identical_across_policies():
+    """The claim that only geometry is softened, checked rather than asserted in prose.
+
+    Colour, gamma, noise and blur cannot move a thumb, and they are what a
+    stranger's webcam will actually demand — so weakening them for the confusable
+    classes would trade away webcam robustness for nothing.
+    """
+    def photometric(policy):
+        _affine, _persp, *ops, _dropout = build_augmentation(policy).transforms
+        return [repr(op) for op in ops]
+
+    assert photometric("geometry_safe") == photometric("default")
+
+
+def test_train_transform_actually_perturbs_the_image():
+    """End-to-end sanity: the gentle policy is gentler, not a no-op."""
     img = _hand_ish()
-    baseline = build_transforms(train=False)(img).numpy()
-
-    def mean_displacement(policy: str) -> float:
-        # Photometric ops are identical across policies and add the same noise to
-        # both sides, so the comparison stays about geometry.
-        rng = [build_transforms(train=True, policy=policy)(img).numpy()
-               for _ in range(25)]
-        return float(np.mean([np.abs(t - baseline).mean() for t in rng]))
-
-    assert mean_displacement("geometry_safe") < mean_displacement("default")
+    unaugmented = build_transforms(train=False)(img).numpy()
+    draws = [build_transforms(train=True, policy="geometry_safe")(img).numpy()
+             for _ in range(5)]
+    assert any(not np.allclose(d, unaugmented) for d in draws)
 
 
 # --------------------------------------------------------------------------

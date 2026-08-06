@@ -247,21 +247,21 @@ python -m src.evaluate --checkpoint checkpoints/compact_cnn.pt \
     --split data/raw/asl_alphabet_train/asl_alphabet_train --figures /tmp/baseline
 
 # 3b. Target the classes that are actually failing (#12)
-#     Save a per-class report, aim the next run at it, then diff the two.
-python -m src.evaluate --checkpoint checkpoints/efficientnet_b0.pt \
-    --split data/raw/asl_alphabet_train/asl_alphabet_train \
-    --report-json docs/reports/dev_val_baseline_6.json --figures docs/figures
-
+#     A saved report aims the next run; the run's report diffs against it.
+#     The #6 baseline report is already committed as docs/reports/dev_val_baseline_6.json.
 python -m src.train --root data/raw/asl_alphabet_train/asl_alphabet_train \
+    --manifest data/split_manifest.json \
     --resume checkpoints/efficientnet_b0.pt \
     --rebalance-from docs/reports/dev_val_baseline_6.json \
     --geometry-safe-classes auto --finetune-epochs 6
 
 python -m src.evaluate --checkpoint checkpoints/efficientnet_b0_targeted.pt \
     --split data/raw/asl_alphabet_train/asl_alphabet_train \
+    --manifest checkpoints/efficientnet_b0_targeted.split.json \
+    --report-json docs/reports/dev_val_targeted.json \
     --baseline docs/reports/dev_val_baseline_6.json --figures /tmp/figs_targeted
 #     Prints per-class before/after and flags NEW regressions — the mean can improve
-#     while a class breaks. Full method: docs/RESULTS_class_fixes.md
+#     while a class breaks. Full method + Kaggle recipe: docs/RESULTS_class_fixes.md
 #     Stuck on one class? --dump-errors /tmp/errs copies its misclassified frames out.
 
 # 4. Evaluate — THE reported benchmark (our webcam test set)
