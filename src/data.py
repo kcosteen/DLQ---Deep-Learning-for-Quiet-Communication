@@ -210,6 +210,7 @@ class ASLImageDataset:
         transform=None,
         train: bool = True,
         backgrounds_dir: Optional[str] = None,
+        class_transforms: Optional[Dict[str, object]] = None,
     ):
         self.samples = list(samples)
         self.train = train
@@ -222,6 +223,11 @@ class ASLImageDataset:
                 train=train, backgrounds_dir=backgrounds_dir if train else None
             )
         self.transform = transform
+        # Per-class override, keyed by class NAME (#12). Train-only by
+        # construction — build_datasets never populates it for the val set,
+        # because a val image that is transformed differently from its
+        # neighbours is not a val image any more.
+        self.class_transforms = dict(class_transforms or {})
 
     def __len__(self) -> int:
         return len(self.samples)
@@ -233,20 +239,42 @@ class ASLImageDataset:
         img_bgr = cv2.imread(s.path, cv2.IMREAD_COLOR)
         if img_bgr is None:
             raise FileNotFoundError(s.path)
-        tensor = self.transform(img_bgr)
+        transform = self.class_transforms.get(s.class_name, self.transform)
+        tensor = transform(img_bgr)
         return tensor, s.label
 
 
 def build_datasets(
-    manifest: SplitManifest, backgrounds_dir: Optional[str] = None
+    manifest: SplitManifest,
+    backgrounds_dir: Optional[str] = None,
+    geometry_safe_classes: Sequence[str] = (),
 ) -> Tuple["ASLImageDataset", "ASLImageDataset"]:
     """Convenience: (train_ds, val_ds) from a manifest with correct aug flags.
 
     ``backgrounds_dir`` (if given) enables background replacement on the TRAIN set
     only; the val set stays the deterministic contract for honest evaluation.
+
+    ``geometry_safe_classes`` routes just those classes through the gentler
+    ``geometry_safe`` augmentation policy (#12) while every other class keeps the
+    heavy default. Val is untouched either way, so the dev-val number stays
+    comparable to previous runs.
     """
+    unknown = [c for c in geometry_safe_classes if c not in CLASS_TO_IDX]
+    if unknown:
+        raise ValueError(f"geometry_safe_classes are not ASL classes: {unknown}")
+
+    class_transforms: Dict[str, object] = {}
+    if geometry_safe_classes:
+        from .augment import build_transforms  # local import
+
+        gentle = build_transforms(
+            train=True, backgrounds_dir=backgrounds_dir, policy="geometry_safe"
+        )
+        class_transforms = {c: gentle for c in geometry_safe_classes}
+
     return (
-        ASLImageDataset(manifest.train, train=True, backgrounds_dir=backgrounds_dir),
+        ASLImageDataset(manifest.train, train=True, backgrounds_dir=backgrounds_dir,
+                        class_transforms=class_transforms),
         ASLImageDataset(manifest.val, train=False),
     )
 

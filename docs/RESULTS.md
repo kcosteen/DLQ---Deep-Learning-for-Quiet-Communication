@@ -1,4 +1,4 @@
-# Transfer learning v1 — results (#6)
+1# Transfer learning v1 — results (#6)
 
 **Run date:** 2026-08-03 · **Model:** EfficientNet-B0, two-stage · **Hardware:** Kaggle T4
 
@@ -39,9 +39,19 @@ Early stopping fired after fine-tune epoch 8 (patience 5, best at epoch 3). The
 saved checkpoint is epoch 3's weights.
 
 The model reached its ceiling in three epochs of fine-tuning and then drifted
-sideways. That is the single-signer dataset showing itself: with no augmentation
-yet there is little left to learn after the signer's hands are memorised. The
-remaining seven epochs would not have helped.
+sideways. That is the single-signer dataset showing itself: there is little left
+to learn once the signer's hands are memorised. The remaining seven epochs would
+not have helped.
+
+> **Correction (#12).** This section originally said the run used "no
+> augmentation yet". It did: `build_transforms(train=True)` has applied the full
+> heavy Albumentations pipeline — rotation ±20°, shear ±8°, perspective, colour
+> jitter, noise/blur, coarse dropout — since 2026-07-28, five days before this
+> run. What was *off* was background replacement (#10, needs `--backgrounds`) and
+> the MediaPipe crop cache (#11), both of which landed the following day. The
+> distinction decides what Week 3 should do: adding augmentation was never the
+> missing ingredient, and the aug that was running is now the leading suspect for
+> S, V and X. See [`RESULTS_class_fixes.md`](RESULTS_class_fixes.md).
 
 *Side effect worth knowing:* the cosine schedule was sized for 15 epochs, so at
 epoch 8 the LR was still ~5e-5 and never reached its low-LR anneal. Matching
@@ -116,6 +126,11 @@ Augmentation should be aimed, not uniform. In rough order of payoff:
 Left alone, these three classes will almost certainly be worse on the webcam set
 than they are here, since a stranger's hand is a harder case than the training
 signer's.
+
+**Followed up in [`RESULTS_class_fixes.md`](RESULTS_class_fixes.md) (#12)**, which
+takes the per-class numbers above as its "before" — pinned as
+`docs/reports/dev_val_baseline_6.json`, because the next `evaluate --figures` run
+overwrites the confusion matrix this file cites.
 
 ## Reproducing
 
