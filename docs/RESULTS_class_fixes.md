@@ -479,6 +479,13 @@ being pushed at from both sides — by the recovered shading and by `--rebalance
 2.0`. A gain on S bought by breaking E is not progress, and the per-class bar is
 what #12 is measured against.
 
+> ⚠️ **The section below reaches a conclusion the ablation refutes.** It is kept as
+> written because the reasoning error is worth seeing: it credited the lift with an
+> S gain that belonged entirely to the training regime, while explicitly flagging
+> that confound as unresolved. Read
+> ["Ablation"](#ablation--2026-08-06-the-lift-was-never-helping) for what actually
+> happened.
+
 ### Result — lift run, 2026-08-06. S improves, X collapses, #12 stays open
 
 Kaggle T4, fresh two-stage train (20 + 15), `efficientnet_lift`,
@@ -564,6 +571,84 @@ python -m src.train --root "$ROOT" --manifest data/split_manifest.json \
 
 Until that run exists, **#12 stays open and the honest status is "S is an exposure
 problem, the lift is the first thing to move it, and the cost is not yet known."**
+
+### Ablation — 2026-08-06. The lift was never helping
+
+Same command, `--model efficientnet`, everything else held: fresh 20 + 15 train,
+`--rebalance-alpha 2.0`, same manifest. Report: `docs/reports/dev_val_ablate.json`.
+
+```
+                  overall   macro-F1   below_target
+targeted          0.9775    0.9775     ['S']
+lift              0.9706    0.9700     ['S', 'X']
+ablate (no lift)  0.9783    0.9781     ['V', 'X']
+```
+
+**S without the lift is 0.9617.** With it, 0.8200. The fresh two-stage train solved S
+by itself — 0.770 → 0.9617, comfortably past the bar — and the lift *held it back by
+0.142*.
+
+So the section above is wrong where it matters. The lift's apparent +0.050 on S was
+never the lift working; it was the training regime working despite it. The confound
+was correctly identified there and then reasoned past anyway, on the strength of a
+mechanism story that fit. **A mechanism that explains a result is not evidence the
+result happened.** The ablation existed precisely to check that, and it should have
+been run before any interpretation was written down, not after.
+
+Per-class cost of adding the lift, holding everything else:
+
+| class | no lift | with lift | lift's effect |
+|---|---|---|---|
+| S | 0.9617 | 0.8200 | **−0.142** |
+| X | 0.8433 | 0.7217 | −0.122 |
+| T | 0.9800 | 0.8967 | −0.083 |
+| M | 0.9400 | 0.8983 | −0.042 |
+| K | 1.0000 | 0.9700 | −0.030 |
+| **V** | 0.7333 | 0.9683 | **+0.235** |
+
+It hurts nearly everything and helps exactly one class. V is a genuine and
+unexplained exception worth keeping in mind, but one class does not redeem a
+transform that costs S 0.142.
+
+`efficientnet_lift` therefore stays in the tree as a negative result, not as the
+recommended path, and **it must not be migrated into `src/crop.py`.** The debt noted
+above — "if this closes #12, migrate it into `preprocess_bgr`" — is void; there is
+nothing to migrate.
+
+#### Where #12 actually stands now
+
+The two regimes fail on opposite classes:
+
+| | warm 6-epoch fine-tune | fresh 20 + 15 |
+|---|---|---|
+| S | **0.770** ✗ | 0.9617 ✓ |
+| V | 0.9783 ✓ | **0.7333** ✗ |
+| X | 0.9333 ✓ | **0.8433** ✗ |
+
+S→E has all but disappeared: 138 errors → **23**. The dominant error is now **V→K at
+160** — over a quarter of V's 600 val frames going to a single class — followed by
+X→R at 60.
+
+That is a better position than it looks, because V and X are exactly what aimed
+augmentation already fixed once from the #6 baseline (V 0.630 → 0.978, X 0.507 →
+0.933). The mechanism is proven on these two classes; it has simply never been
+applied to *this* checkpoint. The next run is that fine-tune, resumed from the
+ablation checkpoint and aimed by the ablation's own report:
+
+```bash
+python -m src.train --root "$ROOT" --manifest data/split_manifest.json \
+    --model efficientnet \
+    --resume checkpoints/efficientnet_b0_ablate.pt \
+    --rebalance-from docs/reports/dev_val_ablate.json \
+    --rebalance loss --rebalance-alpha 1.0 --geometry-safe-classes auto \
+    --finetune-epochs 6 --wandb-mode offline \
+    --out checkpoints/efficientnet_b0_final.pt
+```
+
+Back to `--rebalance-alpha 1.0`: the 2.0 existed to push S, and S no longer needs
+pushing. `--resume` needs the weights, so `efficientnet_b0_ablate.pt` has to be
+attached as a Kaggle input. Watch S's row in the result — the risk of aiming at V and
+X is giving back the S the fresh train just bought.
 
 ## Notes / honesty
 
