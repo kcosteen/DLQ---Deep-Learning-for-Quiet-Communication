@@ -12,6 +12,17 @@ a fourth class below it?
 > signer, the same room. The reported metric is still the webcam set (#15/#16),
 > which does not exist yet.
 
+> **S→E deep-dive (separate, diagnosis-only).** A follow-up investigation of why
+> S sits at 0.770 — the 138 S→E errors on `efficientnet_b0_targeted.pt` — is
+> documented in `docs/reports/s_to_e_investigation_timeline.md`. Summary: the
+> errors are not MediaPipe/exposure/representation-collapse; all 138 remain
+> closer to correct-S than to any real E in the penultimate embedding space
+> (0.900 vs 0.606) yet fall on the E side of the final `Linear(1280, 29)` S/E
+> boundary (margin_SE mean −1.208; signed distance −0.340 vs true-E −1.495). No
+> fix was implemented. The exposure/lift history in this document is the
+> supporting evidence that exposure is at most secondary.
+
+
 ## Before — what actually failed
 
 From [`RESULTS.md`](RESULTS.md) / `docs/reports/dev_val_baseline_6.json`. Every
