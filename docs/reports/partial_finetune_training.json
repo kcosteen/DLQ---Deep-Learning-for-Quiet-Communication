@@ -1,0 +1,301 @@
+{
+  "schema": "asl-partial-ft-training/v1",
+  "created": "2026-08-11T01:35:00+00:00",
+  "parent": {
+    "path": "checkpoints/efficientnet_b0_targeted.pt",
+    "file_sha256": "3827f8797d0f822f0f7116f9ab4cdcb17d914111cdb76313aa6fb4695306d8ee",
+    "backbone_state_dict_sha256": "5c3921cb4410c63192bd4e216fa4921ea80dee0a18160346baeca5fa352a1a47",
+    "recorded_val_acc": 0.9775287356321839,
+    "rebalance": "loss",
+    "class_weights": [
+      0.9565169589357374,
+      0.9565169589357374,
+      0.9565169589357374,
+      0.9565169589357374,
+      0.9565169589357374,
+      0.9788356879775714,
+      0.9565169589357374,
+      0.9565169589357374,
+      0.9565169589357374,
+      0.9565169589357374,
+      0.9565169589357374,
+      0.9565169589357374,
+      1.0218789511296795,
+      0.9836182727722499,
+      0.9565169589357374,
+      0.9565169589357374,
+      0.9565169589357374,
+      0.958111153867297,
+      1.2211533175746248,
+      0.9676763234566543,
+      0.958111153867297,
+      1.3104282337419604,
+      0.9565169589357374,
+      1.4283986586773676,
+      0.9979660271562861,
+      0.9565169589357374,
+      0.9565169589357374,
+      0.9565169589357374,
+      0.9565169589357374
+    ],
+    "geometry_safe_classes": [
+      "A",
+      "E",
+      "K",
+      "L",
+      "R",
+      "S",
+      "V",
+      "X"
+    ],
+    "backgrounds": null,
+    "resumed_from": "/kaggle/input/models/duketruong/dlq-effb0-baseline/pytorch/default/1/efficientnet_b0.pt"
+  },
+  "manifest": "data/split_manifest.json",
+  "manifest_sha256": "454ca31b1d6a2b8a4a6a5343f9027bb5bfc397b427fe33527501ac2ac59de842",
+  "n_train": 69600,
+  "n_val": 17400,
+  "structure": {
+    "container": "nn.Sequential(backbone, head)",
+    "backbone_type": "EfficientNet",
+    "n_blocks": 7,
+    "blocks_params": [
+      1448,
+      16714,
+      46640,
+      242930,
+      543148,
+      2026348,
+      717232
+    ],
+    "conv_stem_params": 864,
+    "bn1_params": 64,
+    "conv_head_params": 409600,
+    "bn2_params": 2560,
+    "global_pool_type": "SelectAdaptivePool2d",
+    "head_layers": [
+      "Dropout(p=0.3)",
+      "Linear(1280, 29)"
+    ]
+  },
+  "freeze": {
+    "total_params": 4044697,
+    "frozen_params": 3295564,
+    "trainable_params": 749133,
+    "trainable_fraction": 0.18521362663260066,
+    "bn_affine_frozen": true
+  },
+  "gate": {
+    "accuracy": 0.9775287356321839,
+    "macro_f1": 0.9775082322752521,
+    "total_errors": 391,
+    "S_to_E": 138
+  },
+  "gate_report": "docs/reports/partial_ft_baseline_gate.json",
+  "device": {
+    "torch_version": "2.13.0",
+    "mps_available": true,
+    "device": "mps"
+  },
+  "loss": {
+    "criterion": "CrossEntropyLoss",
+    "label_smoothing": 0.1,
+    "class_weights_source": "parent checkpoint (rebalance: loss)",
+    "optimizer": "AdamW",
+    "weight_decay": 0.01,
+    "schedule": "cosine warmup (1 epoch), mirror of src/train.py"
+  },
+  "training": {
+    "seed": 20260810,
+    "epochs_max": 5,
+    "patience": 2,
+    "batch_size": 64,
+    "device": "mps",
+    "data_contract": "same manifest + split as parent; geometry_safe_classes = ['A', 'E', 'K', 'L', 'R', 'S', 'V', 'X']; backgrounds=None; IMAGE-space training (fresh augmentation per epoch)"
+  },
+  "param_change": {
+    "n_changed": 9,
+    "n_unchanged": 351,
+    "changed": [
+      "0.blocks.6.0.conv_dw.weight",
+      "0.blocks.6.0.conv_pw.weight",
+      "0.blocks.6.0.conv_pwl.weight",
+      "0.blocks.6.0.se.conv_expand.bias",
+      "0.blocks.6.0.se.conv_expand.weight",
+      "0.blocks.6.0.se.conv_reduce.bias",
+      "0.blocks.6.0.se.conv_reduce.weight",
+      "1.1.bias",
+      "1.1.weight"
+    ],
+    "n_bn_tensors_total": 245,
+    "bn_tensors_unchanged": true
+  },
+  "artifacts": {
+    "candidate_out": "checkpoints/partial_ft/partial_ft_best.pt",
+    "candidate_sha256": "ec79c1fb1947010532abbd6d5bd2c7a917f90e0ad678da873b5e240b8703a7de",
+    "report_json": "docs/reports/partial_finetune_training.json",
+    "report_md": "docs/reports/partial_finetune_training.md"
+  },
+  "selected": {
+    "lr_backbone": 1e-05,
+    "lr_head": 0.0001,
+    "best_epoch": 1,
+    "best_macro_f1": 0.9771518362583509,
+    "epochs_run": 3
+  },
+  "sweep": {
+    "pairs": [
+      [
+        3e-06,
+        3e-05
+      ],
+      [
+        1e-05,
+        0.0001
+      ],
+      [
+        3e-05,
+        0.0003
+      ]
+    ],
+    "candidates": [
+      {
+        "lr_backbone": 3e-06,
+        "lr_head": 3e-05,
+        "runs": [
+          {
+            "epoch": 1,
+            "train_loss": 0.6508,
+            "lr_backbone": 3e-06,
+            "lr_head": 3e-05,
+            "val_accuracy": 0.9763,
+            "val_macro_f1": 0.9762,
+            "S_to_E": 132,
+            "epoch_seconds": 2158
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.6495,
+            "lr_backbone": 3e-06,
+            "lr_head": 3e-05,
+            "val_accuracy": 0.9764,
+            "val_macro_f1": 0.9764,
+            "S_to_E": 116,
+            "epoch_seconds": 2023
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.6492,
+            "lr_backbone": 3e-06,
+            "lr_head": 3e-05,
+            "val_accuracy": 0.9757,
+            "val_macro_f1": 0.9757,
+            "S_to_E": 113,
+            "epoch_seconds": 2015
+          },
+          {
+            "epoch": 4,
+            "train_loss": 0.6499,
+            "lr_backbone": 3e-06,
+            "lr_head": 3e-05,
+            "val_accuracy": 0.9755,
+            "val_macro_f1": 0.9755,
+            "S_to_E": 114,
+            "epoch_seconds": 2070
+          }
+        ],
+        "best_epoch": 2,
+        "best_macro_f1": 0.9764,
+        "epochs_run": 4
+      },
+      {
+        "lr_backbone": 1e-05,
+        "lr_head": 0.0001,
+        "runs": [
+          {
+            "epoch": 1,
+            "train_loss": 0.6506,
+            "lr_backbone": 1e-05,
+            "lr_head": 0.0001,
+            "val_accuracy": 0.9771,
+            "val_macro_f1": 0.9772,
+            "S_to_E": 98,
+            "epoch_seconds": 2057
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.6493,
+            "lr_backbone": 1e-05,
+            "lr_head": 0.0001,
+            "val_accuracy": 0.9754,
+            "val_macro_f1": 0.9754,
+            "S_to_E": 91,
+            "epoch_seconds": 2197
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.6488,
+            "lr_backbone": 1e-05,
+            "lr_head": 0.0001,
+            "val_accuracy": 0.9745,
+            "val_macro_f1": 0.9745,
+            "S_to_E": 88,
+            "epoch_seconds": 2018
+          }
+        ],
+        "best_epoch": 1,
+        "best_macro_f1": 0.9772,
+        "epochs_run": 3
+      },
+      {
+        "lr_backbone": 3e-05,
+        "lr_head": 0.0003,
+        "runs": [
+          {
+            "epoch": 1,
+            "train_loss": 0.6502,
+            "lr_backbone": 3e-05,
+            "lr_head": 0.0003,
+            "val_accuracy": 0.9718,
+            "val_macro_f1": 0.9717,
+            "S_to_E": 106,
+            "epoch_seconds": 1917
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.6484,
+            "lr_backbone": 3e-05,
+            "lr_head": 0.0003,
+            "val_accuracy": 0.9748,
+            "val_macro_f1": 0.9747,
+            "S_to_E": 110,
+            "epoch_seconds": 1976
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.6475,
+            "lr_backbone": 3e-05,
+            "lr_head": 0.0003,
+            "val_accuracy": 0.9728,
+            "val_macro_f1": 0.9727,
+            "S_to_E": 114,
+            "epoch_seconds": 1906
+          },
+          {
+            "epoch": 4,
+            "train_loss": 0.6473,
+            "lr_backbone": 3e-05,
+            "lr_head": 0.0003,
+            "val_accuracy": 0.9731,
+            "val_macro_f1": 0.973,
+            "S_to_E": 115,
+            "epoch_seconds": 1972
+          }
+        ],
+        "best_epoch": 2,
+        "best_macro_f1": 0.9747,
+        "epochs_run": 4
+      }
+    ]
+  }
+}

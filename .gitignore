@@ -19,6 +19,11 @@ checkpoints/
 wandb/
 .cache/
 
+# Canonical deployable checkpoints — tracked despite checkpoints/ and *.pt
+!checkpoints/
+!checkpoints/efficientnet_b0_targeted.pt
+!checkpoints/efficientnet_b0_partial_ft.pt
+
 # split manifest (regenerate deterministically from data/raw)
 data/split_manifest.json
 

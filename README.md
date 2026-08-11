@@ -1,34 +1,16 @@
 # ASL Fingerspelling Recognition
 
-A computer-vision model that reads the **American Sign Language hand alphabet** and,
-live from a webcam, spells words as **text and speech**. Python + PyTorch, transfer
-learning on EfficientNet-B0, trainable on a Colab free GPU. 3-person team, ~8 weeks.
+A computer-vision model that reads the **American Sign Language hand alphabet**
+and, live from a webcam, spells words as **text and speech**. Python + PyTorch,
+transfer learning on EfficientNet-B0, trainable on a Colab free GPU. 3-person
+team, ~8 weeks.
 
 > **Read this first — what this project is (and is not).**
 > This is an **alphabet / fingerspelling recognizer**, *not* "sign language
-> translation." ASL is a full language with its own grammar, facial grammar, and
-> movement; recognizing 26 static handshapes + a few control gestures is a narrow
-> slice of it. Please read the [Ethics & honest-limits](#ethics--honest-limits)
-> section before demoing this to anyone.
-
----
-
-## What it does
-
-Live pipeline:
-
-```
-OpenCV capture
-  → MediaPipe Hands detect & crop to the hand bounding box   (mandatory — see below)
-  → identical resize(224²) + ImageNet normalize
-  → EfficientNet-B0 predicts a letter + confidence
-  → speller: commit a letter after ~0.5 s of stable, confident prediction;
-     `space` / `delete` gestures edit the word; `nothing` = idle
-  → on word completion, pyttsx3 speaks the word aloud
-```
-
-The HUD shows the live hand crop, the top-3 letters with confidence, and the word
-being built. Capture / inference / TTS run decoupled; target **15–30 FPS** on CPU.
+> translation." ASL is a full language with its own grammar and facial grammar;
+> recognizing 26 static handshapes + a few control gestures is a narrow slice of
+> it. Please read the [Ethics & honest-limits](#ethics--honest-limits) section
+> before demoing this to anyone.
 
 **29 classes:** A–Z plus `space`, `delete`, `nothing`.
 
@@ -37,382 +19,203 @@ being built. Capture / inference / TTS run decoupled; target **15–30 FPS** on 
 ## ⚠️ The critical trap: never trust a random split
 
 The primary dataset is 87,000 images — but they are **consecutive near-duplicate
-video frames of ONE signer in ONE room**. Two consequences drive the whole design:
+video frames of ONE signer in ONE room**. A random train/val split puts
+near-identical neighbouring frames on both sides and reports a **fake ~99.9%**
+accuracy.
 
-1. **Never split randomly.** A random train/val split puts near-identical
-   neighbouring frames on both sides and reports a **fake ~99.9%** accuracy. We
-   split *each class by frame ranges* (first 80% of frames → train, last 20% →
-   val). This is implemented in `src/data.py::frame_range_split`, **enforced by
-   `tests/test_split_leakage.py`**, and recorded in `data/split_manifest.json`
-   (deterministic, byte-for-byte reproducible from `data/raw`). Even so, this
-   frame-range val is only a **dev val (temporal split, same signer — NOT the
-   reported metric)**; augmentation is applied *after* the split, train-only, so no
-   augmented twin of a val frame ever leaks into train.
-2. **The real benchmark is our own webcam test set.** Each teammate records all 29
-   signs in varied lighting/backgrounds (`data/webcam_testset/`), cropped through
-   the same `src/crop.py` contract, following
-   [`docs/WEBCAM_TESTSET_PROTOCOL.md`](docs/WEBCAM_TESTSET_PROTOCOL.md) (#15).
-   That set is **quarantined**: it never enters training and is never used for
-   model selection — no checkpoint, epoch, threshold, or augmentation setting is
-   chosen by looking at it. **The number we report is webcam-set accuracy — never
-   the naïve random-split number.**
+The project is built around two consequences:
 
-The **MediaPipe hand-crop is mandatory**: cropping tightly to the detected hand is
-what lets a model trained on one signer in one room work on a stranger's hand on a
-different webcam. Training images are cropped with the *same* code the app uses
-(`src/crop.py`) — a mismatch causes silent accuracy loss, so it's guarded by
-`tests/test_preprocessing_parity.py`.
+1. **We split *each class by frame ranges*** (first 80% of frames → train, last
+   20% → val), never randomly. Implemented in `src/data.py::frame_range_split`,
+   **enforced by `tests/test_split_leakage.py`**, and recorded in
+   `data/split_manifest.json` (deterministic, byte-for-byte reproducible).
+   Augmentation is applied *after* the split, train-only, so no augmented twin of
+   a val frame ever leaks into train.
+2. **This frame-range val is a dev number — NOT the reported metric.** The real
+   benchmark is our own **webcam test set** (`data/webcam_testset/`, recorded by
+   the team, see [protocol](docs/WEBCAM_TESTSET_PROTOCOL.md)). That set is
+   **quarantined**: it never enters training and is never used for model
+   selection. **The number we report is webcam-set accuracy — never the dev-val
+   number, and never the random-split number.**
+
+Targets:
+
+| Metric | Target |
+|---|---|
+| Leakage-safe frame-range split (dev) | > 95% |
+| **Own webcam test set** (the real, reported number) | ≥ 90% |
+| Per-class accuracy / macro-F1 | no class below 85% |
+
+---
+
+## Pipelines — three different things, don't mix them up
+
+The trained checkpoints, the live demo, and the experiments use **different
+framing**. The only shared invariant is the deterministic **resize + normalize
+tail** (`src/crop.py::preprocess_bgr`, FROZEN: 224², ImageNet mean/std) — guarded
+by `tests/test_preprocessing_parity.py`.
+
+### 1. Current trained model pipeline (what the checkpoints saw)
+
+```
+raw 200×200 BGR frame (Kaggle) → resize_square → 224² (letterbox, aspect kept)
+→ BGR→RGB → ImageNet normalize → EfficientNet-B0 → 29 logits
+```
+
+**No MediaPipe, no hand crop.** `ASLImageDataset` reads the full frame and runs
+the transform (train: heavy Albumentations first; val: the plain contract). The
+checkpoints below were trained and evaluated this way — confirmed by a runtime
+input trace ([`docs/reports/model_input_pipeline_ablate.md`](docs/reports/model_input_pipeline_ablate.md)).
+
+### 2. Live / demo pipeline (`app/webcam_speller.py`)
+
+```
+webcam frame → mirror → MediaPipe HandCropper (bbox + 0.25 margin, centre fallback)
+→ preprocess_bgr (same resize + normalize as training) → model → speller → TTS
+```
+
+This is where MediaPipe hand-cropping **is** used — and it is a **different
+framing than training** (tight hand crop vs full frame). The webcam benchmark
+exists precisely to measure the effect of that mismatch on strangers' hands;
+until it is scored, the demo's real-world accuracy is unmeasured.
+
+### 3. Experimental / future paths (not in the current checkpoints)
+
+- **`src/cache_crops.py`** — optional pre-cropped 224² training cache (train with
+  `--root data/cache_crops`). Resize is a no-op on 224² squares, so parity holds.
+- **`BackgroundReplacer`** (`src/augment.py`) — train-only structural
+  augmentation (`--backgrounds data/backgrounds`).
+- **`efficientnet_lift`** (`src/model.py::ExposureLift`) — exposure normalization
+  built into the model. **Tested and not adopted**: it lifted S (0.770 → 0.82)
+  but collapsed X (→ 0.72) and dropped overall accuracy
+  ([`docs/reports/dev_val_lift.json`](docs/reports/dev_val_lift.json)); an
+  ablation found the lift "was never helping". See
+  [`docs/RESULTS_class_fixes.md`](docs/RESULTS_class_fixes.md).
+- **Landmark-MLP comparison** — scoped in
+  [`docs/PROJECT_PLAN.md`](docs/PROJECT_PLAN.md), not built.
+
+---
+
+## Current model & results
+
+**Architecture:** EfficientNet-B0 (ImageNet-pretrained via timm), head =
+`Dropout(0.3) → Linear(1280, 29)`. Two-stage transfer: freeze backbone → train
+head (LR 1e-3), then fine-tune all (LR 1e-4). Loss = cross-entropy with label
+smoothing 0.1, AdamW (wd 0.01), cosine + warmup, AMP, early stopping on the
+leakage-safe val.
+
+**Deployable checkpoints** (all dev-val, leakage-safe split, 600/class):
+
+| checkpoint | acc | macro-F1 | S recall | S→E | V→K | verdict |
+|---|---|---|---|---|---|---|
+| `efficientnet_b0_targeted.pt` | 0.9775 | 0.9775 | 0.770 | 138 | 13 | baseline |
+| `efficientnet_b0_head_ft.pt` | 0.9776 | 0.9776 | 0.777 | 134 | 14 | no material change |
+| `efficientnet_b0_partial_ft.pt` | 0.9771 | 0.9772 | **0.837** | **98** | **54** | **TRADEOFF** |
+
+`efficientnet_b0_partial_ft.pt` is the most recent deployable model. It improves
+S (recall 0.770 → 0.837, S→E 138 → 98) **but regresses V→K (13 → 54) and Y→I
+(+7)** — so overall accuracy/F1 are flat and it is **not an unconditional win**.
+28/29 classes meet the 85% bar; S is the only one below at 0.837. Numbers are
+MPS raw-image eval (MPS-vs-CPU float flips shift a handful of S/E boundary
+frames). Full details, per-class tables, and reproduce commands:
+**[`docs/CURRENT_RESULTS.md`](docs/CURRENT_RESULTS.md)** and
+[`docs/reports/partial_finetune_targeted.md`](docs/reports/partial_finetune_targeted.md).
+
+**The reported webcam number does not exist yet** — the test set has not been
+scored for any of these checkpoints.
 
 ---
 
 ## Repository layout
 
 ```
-asl-fingerspelling/
-├── README.md · CONTRIBUTING.md · requirements.txt
-├── data/
-│   ├── raw/              # Kaggle asl_alphabet_train/ (29 folders) — gitignored
-│   ├── backgrounds/      # bg textures for BackgroundReplacer (#10); tiny samples committed
-│   └── webcam_testset/   # our own captured crops — the REAL benchmark (quarantined)
-├── notebooks/            # EDA, confusion-matrix analysis
-├── src/
-│   ├── crop.py           # MediaPipe hand-crop bridge + shared preprocessing contract
-│   ├── data.py           # folder loader, leakage-safe frame-range split, Dataset
-│   ├── augment.py        # augmentation policies + background replacement
-│   ├── model.py          # EfficientNet-B0 head + compact-CNN baseline
-│   ├── train.py          # two-stage transfer learning + W&B
-│   ├── evaluate.py       # metrics, confusion matrix, webcam-set eval
-│   ├── webcam_testset.py # webcam-set naming + coverage rules (#15)
-│   └── export.py         # TorchScript / ONNX export
-├── app/
-│   ├── webcam_speller.py # OpenCV + MediaPipe → model → word building → TTS
-│   └── tts.py
-├── scripts/              # record_webcam_testset.py, check_webcam_coverage.py, …
-├── tests/                # split-leakage + preprocessing-parity tests
-└── docs/                 # PROJECT_PLAN.md, WEBCAM_TESTSET_PROTOCOL.md, figures
-    └── reports/          # per-class eval reports (--report-json); the before/after record
+├── src/       # crop (preprocess contract) · data (leakage-safe split) · augment
+│              # model · train · evaluate · export · cache_crops · webcam_testset
+├── app/       # webcam_speller.py (live demo) · tts.py
+├── scripts/   # record_webcam_testset.py, analyze_s_to_e*.py, train_*_cached.py, …
+├── tests/     # split-leakage, preprocessing-parity, S→E/FT suites, …
+├── models/    # MediaPipe Tasks assets (hand_landmarker.task, selfie_segmenter.tflite)
+├── data/      # raw/ (gitignored) · webcam_testset/ (gitignored captures) · caches
+├── checkpoints/   # efficientnet_b0_{targeted,head_ft,partial_ft}.pt
+└── docs/      # see "Docs index" below
 ```
 
 ---
 
-## Setup
+## Setup (short version)
 
-Requires **Python 3.10**. Create the environment with conda (recommended) *or* a
-venv, then install the pinned dependencies.
-
-**Option A — conda (recommended):**
+Requires **Python 3.10**, then:
 
 ```bash
-conda create -n dlq python=3.10 -y
-conda activate dlq
-pip install -r requirements.txt
+pip install -r requirements.txt        # mediapipe>=1.0, timm, torch, albumentations
 ```
 
-**Option B — venv (if you don't have conda).** Needs a Python 3.10 interpreter; if
-your system Python isn't 3.10, install one with `pyenv` first:
-
-```bash
-pyenv install 3.10.20        # skip if you already have Python 3.10
-pyenv local 3.10.20          # or: use your own python3.10
-python3.10 -m venv .venv
-source .venv/bin/activate     # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-> Option B (venv on `pyenv`-provided Python 3.10.20) is the path verified on macOS
-> for this repo. `.venv/` is git-ignored.
-
-**MediaPipe Tasks model assets:** the crop bridge uses `mediapipe>=1.0` (Tasks
-API; the legacy `mp.solutions` API was removed in 1.x). It needs
-`models/hand_landmarker.task` and `models/selfie_segmenter.tflite`, which are
-committed to the repo. If they're missing, fetch them with the `curl` commands in
-[`models/README.md`](models/README.md).
-
-### 1. Configure the Kaggle API
-
-Create a token at **kaggle.com → Settings → API → Create New Token** — this
-downloads `kaggle.json` (do not rename it). Then place and lock it:
-
-```bash
-mkdir -p ~/.kaggle
-mv ~/Downloads/kaggle.json ~/.kaggle/kaggle.json    # adjust source path if needed
-chmod 600 ~/.kaggle/kaggle.json
-```
-
-### 2. Download & extract the dataset
+MediaPipe needs `models/hand_landmarker.task` + `models/selfie_segmenter.tflite`
+(committed; fetch with [`models/README.md`](models/README.md) if missing). Get
+the Kaggle dataset, fix the `del`→`delete` rename, and build the split:
 
 ```bash
 kaggle datasets download -d grassknoted/asl-alphabet
-mkdir -p data/raw
 unzip -q asl-alphabet.zip -d data/raw/
-rm asl-alphabet.zip                                  # ~1 GB — remove after extracting
-```
-
-The archive extracts to a **doubly-nested** folder; the training images land at
-`data/raw/asl_alphabet_train/asl_alphabet_train/{A..Z,space,delete,nothing}/`.
-
-**One required fixup:** Kaggle ships the delete-gesture folder as `del`, but the
-canonical class name (`src.data.CLASSES`) is `delete`. Rename it so the class
-counts line up:
-
-```bash
 mv data/raw/asl_alphabet_train/asl_alphabet_train/del \
    data/raw/asl_alphabet_train/asl_alphabet_train/delete
-```
-
-> **Mirror** if the primary 404s: `kaggle datasets download -d
-> debashishsau/aslamerican-sign-language-aplhabet-dataset`, and adjust the `unzip`
-> destination so the final layout matches the path above.
-
-### 3. Verify the dataset
-
-```bash
 python -m src.data --root data/raw/asl_alphabet_train/asl_alphabet_train --counts
 ```
 
-Expect **29 classes × 3,000 images = 87,000 total** (each image 200×200 RGB). The
-output ends with:
-
-```
-       A: 3000
-       ...
-   space: 3000
-  delete: 3000
- nothing: 3000
-   TOTAL: 87000
-train=69600  val=17400  -> data/split_manifest.json
-```
-
-If `delete` shows `0` and the total is `84000`, you skipped the `del`→`delete`
-rename in step 2. (This command also writes the leakage-safe split to
-`data/split_manifest.json`.)
-
-> **Never commit the dataset.** Everything under `data/raw/` is git-ignored (see
-> `data/raw/.gitignore`); the 87k images and `data/split_manifest.json` must never
-> be staged.
-
-### Colab (first-cell setup)
-
-On Colab, run the same steps in the **first notebook cell** and mount Google Drive
-so the unzipped dataset is cached across sessions instead of re-downloaded:
-
-```python
-from google.colab import drive
-drive.mount('/content/drive')
-DATA = '/content/drive/MyDrive/dlq/data/raw'         # persists across sessions
-import os; os.makedirs(DATA, exist_ok=True)
-
-# upload kaggle.json to the session first, then:
-!pip install -q -r requirements.txt
-!mkdir -p ~/.kaggle && cp kaggle.json ~/.kaggle/ && chmod 600 ~/.kaggle/kaggle.json
-!if [ ! -d "$DATA/asl_alphabet_train" ]; then \
-    kaggle datasets download -d grassknoted/asl-alphabet && \
-    unzip -q asl-alphabet.zip -d "$DATA/" && rm asl-alphabet.zip && \
-    mv "$DATA/asl_alphabet_train/asl_alphabet_train/del" \
-       "$DATA/asl_alphabet_train/asl_alphabet_train/delete"; fi
-!python -m src.data --root "$DATA/asl_alphabet_train/asl_alphabet_train" --counts
-```
-
-(Torch/torchvision are preinstalled on Colab; the `pip install` still pulls the rest.)
+Expect 87,000 images (29 × 3000), `train=69600 val=17400 -> data/split_manifest.json`.
+Full conda/venv/Colab instructions: **[`docs/SETUP.md`](docs/SETUP.md)**.
 
 ---
 
 ## Usage
 
 ```bash
-# 1. Inspect a model
+# Inspect a model definition
 python -m src.model --model efficientnet
 
-# 1b. (optional, recommended) Pre-crop the training set once and cache it, so every
-#     epoch reads pre-cropped 224² images instead of re-deriving the MediaPipe crop.
-python -m src.cache_crops \
-    --src-root data/raw/asl_alphabet_train/asl_alphabet_train \
-    --cache-root data/cache_crops         # git-ignored; never commit (as big as raw)
-
-# 2. Train (two-stage transfer learning; logs to W&B if configured)
+# Train (two-stage transfer learning; logs to W&B if configured)
 python -m src.train --root data/raw/asl_alphabet_train/asl_alphabet_train \
     --manifest data/split_manifest.json --wandb-mode online
-#    ...or train off the cache from step 1b (point --root at it, drop the raw manifest):
-#    python -m src.train --root data/cache_crops --wandb-mode online
 
-# 3. Evaluate — dev val split (NOT the reported number)
-#    Training writes checkpoints/<name>.split.json; passing it scores the exact
-#    split that was held out instead of re-deriving one from --split.
-python -m src.evaluate --checkpoint checkpoints/efficientnet_b0.pt \
-    --split data/raw/asl_alphabet_train/asl_alphabet_train \
-    --manifest checkpoints/efficientnet_b0.split.json --figures docs/figures
-
-#    Same harness scores the compact baseline (#5), for an honest comparison:
-python -m src.evaluate --checkpoint checkpoints/compact_cnn.pt \
-    --split data/raw/asl_alphabet_train/asl_alphabet_train --figures /tmp/baseline
-
-# 3b. Target the classes that are actually failing (#12)
-#     A saved report aims the next run; the run's report diffs against it.
-#     The #6 baseline report is already committed as docs/reports/dev_val_baseline_6.json.
-python -m src.train --root data/raw/asl_alphabet_train/asl_alphabet_train \
-    --manifest data/split_manifest.json \
-    --resume checkpoints/efficientnet_b0.pt \
-    --rebalance-from docs/reports/dev_val_baseline_6.json \
-    --geometry-safe-classes auto --finetune-epochs 6
-
+# Evaluate — dev val split (NOT the reported number)
 python -m src.evaluate --checkpoint checkpoints/efficientnet_b0_targeted.pt \
     --split data/raw/asl_alphabet_train/asl_alphabet_train \
-    --manifest checkpoints/efficientnet_b0_targeted.split.json \
-    --report-json docs/reports/dev_val_targeted.json \
-    --baseline docs/reports/dev_val_baseline_6.json --figures /tmp/figs_targeted
-#     Prints per-class before/after and flags NEW regressions — the mean can improve
-#     while a class breaks. Full method + Kaggle recipe: docs/RESULTS_class_fixes.md
-#     Stuck on one class? --dump-errors /tmp/errs copies its misclassified frames out.
+    --manifest data/split_manifest.json
 
-# 4. Evaluate — THE reported benchmark (our webcam test set)
-#    First record it: each teammate, all 29 classes, >= 2 lighting/background
-#    conditions (protocol: docs/WEBCAM_TESTSET_PROTOCOL.md)
+# Evaluate — THE reported benchmark (needs the webcam test set first)
 python scripts/record_webcam_testset.py --person <your-id> --all-classes \
     --count 10 --condition desklamp-plainwall
-python scripts/check_webcam_coverage.py --root data/webcam_testset  # exits 1 if incomplete
-
-#    Then score it — the one command allowed to read this set:
-python -m src.evaluate --checkpoint checkpoints/efficientnet_b0.pt \
+python scripts/check_webcam_coverage.py --root data/webcam_testset
+python -m src.evaluate --checkpoint checkpoints/efficientnet_b0_partial_ft.pt \
     --webcam data/webcam_testset --figures docs/figures
 
-# 5. Export for CPU demo inference
-python -m src.export --checkpoint checkpoints/efficientnet_b0.pt --format both
+# Export for CPU demo inference
+python -m src.export --checkpoint checkpoints/efficientnet_b0_partial_ft.pt --format both
 
-# 6. Live demo
-python -m app.webcam_speller --checkpoint checkpoints/efficientnet_b0.pt
+# Live demo
+python -m app.webcam_speller --checkpoint checkpoints/efficientnet_b0_partial_ft.pt
 ```
 
-Preview the augmentation pipeline / smoke-test the crop & TTS:
-
-```bash
-python -m src.augment --image data/raw/asl_alphabet_train/asl_alphabet_train/A/A1.jpg --n 8
-# add --backgrounds data/backgrounds to also preview background replacement (#10)
-python -m src.crop            # live crop viewer
-python -m app.tts "hello world"
-```
-
-Background replacement (compositing the segmented hand over random rooms — the
-structural single-signer antidote) lives in `src.augment.BackgroundReplacer` and is
-enabled at train time with `--backgrounds` (see `data/backgrounds/README.md`):
-`python -m src.train --backgrounds data/backgrounds ...`. Its effect on webcam
-robustness is measured in [`docs/RESULTS_bg_ablation.md`](docs/RESULTS_bg_ablation.md).
-
-### Colab notes
-Free **T4**: ~15–40 min/epoch at 224² with mixed precision (AMP). Cache the cropped
-images to Google Drive once to cut epoch time, then train off the cache:
-
-```bash
-python -m src.cache_crops --src-root "$DATA/asl_alphabet_train/asl_alphabet_train" \
-    --cache-root /content/drive/MyDrive/dlq/data/cache_crops   # persists across sessions
-python -m src.train --root /content/drive/MyDrive/dlq/data/cache_crops --wandb-mode online
-```
-
-`cache_crops` is resumable — re-run it after a disconnect and it skips images already
-cached. Demo inference runs on **CPU**.
+Advanced experiment commands (`--rebalance-from`, `--geometry-safe-classes auto`,
+cache-crop training, partial-FT reproduce): see the docs index below.
 
 ---
 
-## Model & training (summary)
+## Docs index
 
-- **EfficientNet-B0**, ImageNet-pretrained (`timm`); head = `Dropout(0.3) → Linear(1280 → 29)`.
-  - **Stage 1:** freeze backbone, train head (LR 1e-3).
-  - **Stage 2:** unfreeze, fine-tune whole net (LR 1e-4).
-- **Baselines:** compact 3-block CNN from scratch; logistic-regression-on-pixels
-  sanity floor.
-- **Loss:** cross-entropy, label smoothing 0.1. **Optimizer:** AdamW (wd 0.01),
-  cosine decay + warmup, early stopping on the **leakage-safe** val split, AMP,
-  batch 32–64 at 224².
-- **Preprocessing:** resize 224², RGB, ImageNet mean/std — the **exact same
-  `src/crop.py` pipeline** runs in training and the app (parity-tested).
-- **Augmentation** (the single-signer antidote): geometric (rotation ±15–20°,
-  shift, scale, perspective, shear); photometric (brightness/contrast/hue jitter,
-  gamma, noise, blur); structural (cutout, background replacement on
-  MediaPipe-segmented hands). Albumentations.
-  - Two policies (#12): `default` as above, and `geometry_safe`, which softens
-    **only** the pixel-moving ops for named classes — for handshapes whose identity
-    is a small geometric detail (V vs K is thumb placement), ±20° rotation and a
-    15%-of-frame dropout hole can erase the distinguishing feature while the label
-    stays put. Aimed per class via `--geometry-safe-classes`, train-only.
-
-### Targets & honest-metrics policy
-| Metric | Target |
-|---|---|
-| Leakage-safe frame-range split accuracy | **> 95%** |
-| **Own webcam test set** (the real, reported number) | **≥ 90%** |
-| Per-class accuracy / macro-F1 | **no class below 85%** |
-
-**We never report the naïve random-split number.** And the webcam number only
-stays honest while the set stays quarantined — it never trains and never selects a
-model ([protocol](docs/WEBCAM_TESTSET_PROTOCOL.md)).
-
-### Where we are
-
-Transfer learning v1 is trained and evaluated — **dev-val 0.9545, macro-F1
-0.9518** ([full results + error analysis](docs/RESULTS.md)). That clears the >95%
-split target but **misses the per-class bar**: S, V and X are below 85%, and
-between them hold 86% of all errors. The reported webcam number does not exist
-yet.
-
-Measured confusions differ from the textbook list: **V→K (219)** and **S→E (160)**
-dominate, X fails diffusely, while A/E never confuses at all. `WATCH_CONFUSIONS`
-in `src/evaluate.py` now reflects what was measured, and the harness prints the
-largest confusions unconditionally so an unanticipated one cannot hide.
-
-**Two of those three are now fixed** ([method + before/after
-table](docs/RESULTS_class_fixes.md), #12): aiming the augmentation instead of
-adding more took **V 0.630 → 0.978** and **X 0.507 → 0.933**, cutting total errors
-791 → 391 (dev-val 0.9775, macro-F1 0.9775). **S is still at 0.770**, so the
-per-class bar is still missed and #12 stays open.
-
-Inspecting S's failures turned up why, and it is not a modelling problem: the
-dataset is **backlit**, hand at grey levels 9–89 against a background pinned at
-240–255. Every solved class is one you can read from the *silhouette*; S vs E is
-the single pair where both handshapes are compact fists, so the only cue is
-interior shading — which the exposure crushes. A shadow lift makes the thumb
-plainly visible, so the fix is an exposure-normalising step in the preprocessing
-contract, not more augmentation.
-
-⚠️ The same investigation asked whether MediaPipe can even see these hands.
-Dataset-wide it detects one in **74%** of frames (854/1160, 40 per class). An
-earlier **34%** figure came from the dumped error frames alone — all
-misclassified, so biased toward the darkest in the set — and should not be cited;
-it was briefly used to argue #11's crop cache was a dead end, which overstated
-the case.
-
-The rate is nowhere near uniform, and the mean hides that. Open handshapes detect
-near 100%, while **M (45%)** and **N (42%)** are the real failures — and M↔N is
-also a top confusion pair, so one cause produces two symptoms. **S** detects at
-88% dataset-wide but **0/20 on its own val error frames**, which is what makes
-its val tail worth investigating separately.
-
-So #11's crop cache silently falls back to centre crops on roughly a quarter of
-frames, and the "mandatory" crop bridge for the demo (#13/#14) is unreliable on
-closed handshapes. Reproduce with
-`python scripts/check_hand_detection.py --root <class root>`.
-
----
-
-## Milestones (8 weeks)
-
-1. **Foundations** — repo, env, Kaggle download, EDA, leakage-safe split + split-test,
-   lock the crop/preprocessing contract, compact-CNN baseline.
-2. **Transfer learning v1** — EfficientNet-B0 two-stage training, honest validation
-   number, eval harness + confusion matrix.
-3. **Augmentation & robustness** — heavy augmentation + background replacement,
-   MediaPipe-crop the training data, fix worst-confused classes.
-4. **Webcam bridge + letter demo** — MediaPipe crop → model live; first
-   "one letter at a time" demo.
-5. **Capture our own test set** — everyone records every sign; measure real
-   accuracy; diagnose the gap.
-6. **Close the gap + word-speller** — reach ≥90% webcam accuracy; word-building +
-   space/delete + TTS. **★ Milestone demo.**
-7. **Polish & benchmark** — optional landmark-MLP comparison, export model, UX
-   polish, freeze final metrics.
-8. **Report & ship** — final report, figures, README, recorded demo video, retro +
-   scope the word-level upgrade.
-
-Full plan: [`docs/PROJECT_PLAN.md`](docs/PROJECT_PLAN.md). Report skeleton:
-[`docs/REPORT_TEMPLATE.md`](docs/REPORT_TEMPLATE.md).
+- **[`docs/CURRENT_RESULTS.md`](docs/CURRENT_RESULTS.md)** — current state: checkpoints, the three-way dev-val comparison, honest gaps.
+- **[`docs/reports/partial_finetune_targeted.md`](docs/reports/partial_finetune_targeted.md)** — the partial-FT experiment (verdict: TRADEOFF).
+- **[`docs/reports/partial_finetune_training.md`](docs/reports/partial_finetune_training.md)** — the partial-FT training sweep.
+- **[`docs/reports/s_to_e_investigation_timeline.md`](docs/reports/s_to_e_investigation_timeline.md)** — the full S→E diagnosis (crop → exposure → embeddings → head), what was ruled out and why.
+- **[`docs/reports/head_only_cached_embeddings.md`](docs/reports/head_only_cached_embeddings.md)** — the head-only FT experiment.
+- **[`docs/RESULTS.md`](docs/RESULTS.md)** — transfer-learning v1 (#6) results.
+- **[`docs/RESULTS_class_fixes.md`](docs/RESULTS_class_fixes.md)** — the aimed-augmentation class-fix work (V, X), the S/exposure investigation, reproduce recipe.
+- **[`docs/RESULTS_bg_ablation.md`](docs/RESULTS_bg_ablation.md)** — background-replacement ablation.
+- **[`docs/PREPROCESSING_CONTRACT.md`](docs/PREPROCESSING_CONTRACT.md)** — the FROZEN resize+normalize contract and its change-control rule.
+- **[`docs/WEBCAM_TESTSET_PROTOCOL.md`](docs/WEBCAM_TESTSET_PROTOCOL.md)** — how to record the reported benchmark; quarantine rules.
+- **[`docs/SETUP.md`](docs/SETUP.md)** — full setup, Kaggle, and Colab recipes.
+- **[`docs/PROJECT_PLAN.md`](docs/PROJECT_PLAN.md)** — plan, milestones, ethics.
+- **[`docs/REPORT_TEMPLATE.md`](docs/REPORT_TEMPLATE.md)** — final-report skeleton.
 
 ---
 
@@ -422,29 +225,17 @@ Full plan: [`docs/PROJECT_PLAN.md`](docs/PROJECT_PLAN.md). Report skeleton:
 pytest            # runs from the repo root
 ```
 
-Two tests are load-bearing for this project's integrity:
+Two suites are load-bearing:
 
-- **`tests/test_split_leakage.py`** — proves no near-duplicate frame leaks between
-  train and val (the anti-99.9%-fantasy guard).
-- **`tests/test_preprocessing_parity.py`** — proves the training and the live-app
-  preprocessing are byte-for-byte identical (the anti-silent-accuracy-loss guard).
+- **`tests/test_split_leakage.py`** — proves no near-duplicate frame leaks
+  between train and val (the anti-99.9%-fantasy guard).
+- **`tests/test_preprocessing_parity.py`** — proves training and live-app
+  resize+normalize are identical (the anti-silent-accuracy-loss guard).
 
-Tests are written to run without a GPU: torch/mediapipe-dependent assertions are
-skipped automatically if those packages aren't installed, but the split-leakage and
-core contract tests only need numpy + OpenCV.
-
-The preprocessing contract (`IMG_SIZE`, ImageNet mean/std, `BBOX_MARGIN`) is
-**frozen** — any change requires Person B sign-off. Full spec and change-control
-rule: [`docs/PREPROCESSING_CONTRACT.md`](docs/PREPROCESSING_CONTRACT.md).
-
----
-
-## Upgrade path (documented, not built now)
-
-From fingerspelling to **word-level** recognition: **Google ASL Signs**
-(`kaggle.com/competitions/asl-signs`) — 94,744 clips, 250 words, 21 signers,
-landmark sequences → a small Transformer. Scoped in Week 8's retro; see
-`docs/PROJECT_PLAN.md`.
+The S→E diagnosis and cached fine-tunes are guarded too (`test_s_to_e_embeddings.py`,
+`test_s_to_e_head.py`, `test_head_only_cached.py`, `test_partial_finetune.py`).
+Tests run without a GPU: mediapipe/torch-heavy assertions skip when those packages
+are missing.
 
 ---
 
@@ -456,8 +247,8 @@ landmark sequences → a small Transformer. Scoped in Week 8's retro; see
   evaluated by that community; hearing developers are not the arbiters of whether
   it works.
 - **Be explicit about accuracy limits.** Report the honest webcam number and its
-  failure modes (lighting, skin tone, hand size, left/right hand, the M/N/S/T etc.
-  confusions), not the flattering split number.
+  failure modes (lighting, skin tone, hand size, left/right hand, M/N/S/T and
+  K/V confusions), not the flattering split number.
 - Fingerspelling is used in ASL mainly for names and loanwords; a fingerspelling
   reader is a small building block, not a communication replacement.
 
@@ -467,8 +258,8 @@ landmark sequences → a small Transformer. Scoped in Week 8's retro; see
 
 Code in this repo: see `LICENSE` (team's choice). **The ASL Alphabet dataset is
 distributed under GPL-2.0** — mind its terms (notably around derivative works and
-distribution) **before any commercial use**. The dataset is *not* redistributed in
-this repo; download it yourself from Kaggle.
+distribution) **before any commercial use**. The dataset is *not* redistributed
+in this repo; download it yourself from Kaggle.
 
 ---
 

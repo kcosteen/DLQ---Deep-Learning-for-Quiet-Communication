@@ -1,0 +1,3350 @@
+{
+  "schema": "asl-s_to_e-error-analysis/v1",
+  "created": "2026-08-09T15:03:43+00:00",
+  "checkpoint": "checkpoints/efficientnet_b0_targeted.pt",
+  "arch": "efficientnet",
+  "manifest": "data/split_manifest.json",
+  "manifest_sha256": "454ca31b1d6a2b8a4a6a5343f9027bb5bfc397b427fe33527501ac2ac59de842",
+  "split_note": "dev val = leakage-safe frame-range split, same signer, same room (S2401..S3000). NOT the reported metric.",
+  "totals": {
+    "s_val_samples": 600,
+    "correct_s": 462,
+    "s_to_e": 138,
+    "s_recall": 0.77
+  },
+  "error_probs": {
+    "p_e_mean": 0.5694323987632558,
+    "p_e_median": 0.5486636161804199,
+    "p_s_mean": 0.1951697242270777,
+    "p_s_median": 0.19573858380317688,
+    "margin_mean": 0.37426267453617806,
+    "margin_median": 0.360247403383255,
+    "count_p_e_ge_0.9": 0,
+    "count_margin_lt_0.1": 20
+  },
+  "frame_clustering": {
+    "n_runs": 27,
+    "longest_run": 41,
+    "longest_run_pct": 29.71014492753623,
+    "top3_runs_pct": 63.04347826086956,
+    "runs": [
+      {
+        "start": 2529,
+        "end": 2529,
+        "length": 1
+      },
+      {
+        "start": 2536,
+        "end": 2536,
+        "length": 1
+      },
+      {
+        "start": 2538,
+        "end": 2539,
+        "length": 2
+      },
+      {
+        "start": 2541,
+        "end": 2546,
+        "length": 6
+      },
+      {
+        "start": 2548,
+        "end": 2548,
+        "length": 1
+      },
+      {
+        "start": 2550,
+        "end": 2554,
+        "length": 5
+      },
+      {
+        "start": 2566,
+        "end": 2566,
+        "length": 1
+      },
+      {
+        "start": 2568,
+        "end": 2569,
+        "length": 2
+      },
+      {
+        "start": 2571,
+        "end": 2571,
+        "length": 1
+      },
+      {
+        "start": 2575,
+        "end": 2582,
+        "length": 8
+      },
+      {
+        "start": 2584,
+        "end": 2619,
+        "length": 36
+      },
+      {
+        "start": 2777,
+        "end": 2777,
+        "length": 1
+      },
+      {
+        "start": 2785,
+        "end": 2788,
+        "length": 4
+      },
+      {
+        "start": 2790,
+        "end": 2791,
+        "length": 2
+      },
+      {
+        "start": 2793,
+        "end": 2793,
+        "length": 1
+      },
+      {
+        "start": 2796,
+        "end": 2796,
+        "length": 1
+      },
+      {
+        "start": 2799,
+        "end": 2799,
+        "length": 1
+      },
+      {
+        "start": 2801,
+        "end": 2810,
+        "length": 10
+      },
+      {
+        "start": 2812,
+        "end": 2814,
+        "length": 3
+      },
+      {
+        "start": 2824,
+        "end": 2824,
+        "length": 1
+      },
+      {
+        "start": 2831,
+        "end": 2871,
+        "length": 41
+      },
+      {
+        "start": 2875,
+        "end": 2877,
+        "length": 3
+      },
+      {
+        "start": 2897,
+        "end": 2898,
+        "length": 2
+      },
+      {
+        "start": 2929,
+        "end": 2929,
+        "length": 1
+      },
+      {
+        "start": 2936,
+        "end": 2936,
+        "length": 1
+      },
+      {
+        "start": 2970,
+        "end": 2970,
+        "length": 1
+      },
+      {
+        "start": 2982,
+        "end": 2982,
+        "length": 1
+      }
+    ]
+  },
+  "gallery_files": {
+    "A_highest_pE.png": "docs/figures/error_gallery_targeted/S_to_E/A_highest_pE.png",
+    "B_boundary_margin.png": "docs/figures/error_gallery_targeted/S_to_E/B_boundary_margin.png",
+    "C_random_errors.png": "docs/figures/error_gallery_targeted/S_to_E/C_random_errors.png",
+    "D_correct_S_control.png": "docs/figures/error_gallery_targeted/S_to_E/D_correct_S_control.png"
+  },
+  "errors": [
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2529.jpg",
+      "frame_id": 2529,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.34124475717544556,
+      "p_e": 0.39908531308174133,
+      "margin": 0.057840555906295776,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.39908531308174133
+        },
+        {
+          "class": "S",
+          "prob": 0.34124475717544556
+        },
+        {
+          "class": "B",
+          "prob": 0.02338740974664688
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2536.jpg",
+      "frame_id": 2536,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.32311883568763733,
+      "p_e": 0.41361451148986816,
+      "margin": 0.09049567580223083,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.41361451148986816
+        },
+        {
+          "class": "S",
+          "prob": 0.32311883568763733
+        },
+        {
+          "class": "A",
+          "prob": 0.028564393520355225
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2538.jpg",
+      "frame_id": 2538,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.30082958936691284,
+      "p_e": 0.44799089431762695,
+      "margin": 0.1471613049507141,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.44799089431762695
+        },
+        {
+          "class": "S",
+          "prob": 0.30082958936691284
+        },
+        {
+          "class": "X",
+          "prob": 0.021758385002613068
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2539.jpg",
+      "frame_id": 2539,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.3002104163169861,
+      "p_e": 0.4668891727924347,
+      "margin": 0.1666787564754486,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4668891727924347
+        },
+        {
+          "class": "S",
+          "prob": 0.3002104163169861
+        },
+        {
+          "class": "X",
+          "prob": 0.019814062863588333
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2541.jpg",
+      "frame_id": 2541,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.3323710262775421,
+      "p_e": 0.4277084767818451,
+      "margin": 0.09533745050430298,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4277084767818451
+        },
+        {
+          "class": "S",
+          "prob": 0.3323710262775421
+        },
+        {
+          "class": "A",
+          "prob": 0.019991841167211533
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2542.jpg",
+      "frame_id": 2542,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.18700221180915833,
+      "p_e": 0.6221538782119751,
+      "margin": 0.4351516664028168,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6221538782119751
+        },
+        {
+          "class": "S",
+          "prob": 0.18700221180915833
+        },
+        {
+          "class": "A",
+          "prob": 0.01502151507884264
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2543.jpg",
+      "frame_id": 2543,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.14990460872650146,
+      "p_e": 0.621628999710083,
+      "margin": 0.47172439098358154,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.621628999710083
+        },
+        {
+          "class": "S",
+          "prob": 0.14990460872650146
+        },
+        {
+          "class": "A",
+          "prob": 0.02784457430243492
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2544.jpg",
+      "frame_id": 2544,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.12239515036344528,
+      "p_e": 0.6999645829200745,
+      "margin": 0.5775694325566292,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6999645829200745
+        },
+        {
+          "class": "S",
+          "prob": 0.12239515036344528
+        },
+        {
+          "class": "X",
+          "prob": 0.014749023132026196
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2545.jpg",
+      "frame_id": 2545,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.135214701294899,
+      "p_e": 0.6941595077514648,
+      "margin": 0.5589448064565659,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6941595077514648
+        },
+        {
+          "class": "S",
+          "prob": 0.135214701294899
+        },
+        {
+          "class": "X",
+          "prob": 0.013774793595075607
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2546.jpg",
+      "frame_id": 2546,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.11147713661193848,
+      "p_e": 0.7311080694198608,
+      "margin": 0.6196309328079224,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7311080694198608
+        },
+        {
+          "class": "S",
+          "prob": 0.11147713661193848
+        },
+        {
+          "class": "X",
+          "prob": 0.011202748864889145
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2548.jpg",
+      "frame_id": 2548,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.20106497406959534,
+      "p_e": 0.593307375907898,
+      "margin": 0.3922424018383026,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.593307375907898
+        },
+        {
+          "class": "S",
+          "prob": 0.20106497406959534
+        },
+        {
+          "class": "N",
+          "prob": 0.024472322314977646
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2550.jpg",
+      "frame_id": 2550,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.2244640290737152,
+      "p_e": 0.5618492960929871,
+      "margin": 0.33738526701927185,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5618492960929871
+        },
+        {
+          "class": "S",
+          "prob": 0.2244640290737152
+        },
+        {
+          "class": "T",
+          "prob": 0.020885786041617393
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2551.jpg",
+      "frame_id": 2551,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.26505744457244873,
+      "p_e": 0.5373121500015259,
+      "margin": 0.27225470542907715,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5373121500015259
+        },
+        {
+          "class": "S",
+          "prob": 0.26505744457244873
+        },
+        {
+          "class": "N",
+          "prob": 0.019194122403860092
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2552.jpg",
+      "frame_id": 2552,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.25769591331481934,
+      "p_e": 0.5422258377075195,
+      "margin": 0.2845299243927002,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5422258377075195
+        },
+        {
+          "class": "S",
+          "prob": 0.25769591331481934
+        },
+        {
+          "class": "N",
+          "prob": 0.022315694019198418
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2553.jpg",
+      "frame_id": 2553,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.36828380823135376,
+      "p_e": 0.38869526982307434,
+      "margin": 0.02041146159172058,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.38869526982307434
+        },
+        {
+          "class": "S",
+          "prob": 0.36828380823135376
+        },
+        {
+          "class": "X",
+          "prob": 0.027358602732419968
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2554.jpg",
+      "frame_id": 2554,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.32633382081985474,
+      "p_e": 0.4581467807292938,
+      "margin": 0.1318129599094391,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4581467807292938
+        },
+        {
+          "class": "S",
+          "prob": 0.32633382081985474
+        },
+        {
+          "class": "T",
+          "prob": 0.022431455552577972
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2566.jpg",
+      "frame_id": 2566,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.2761004567146301,
+      "p_e": 0.39127036929130554,
+      "margin": 0.11516991257667542,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.39127036929130554
+        },
+        {
+          "class": "S",
+          "prob": 0.2761004567146301
+        },
+        {
+          "class": "A",
+          "prob": 0.05049528181552887
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2568.jpg",
+      "frame_id": 2568,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.22573979198932648,
+      "p_e": 0.5199934244155884,
+      "margin": 0.2942536324262619,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5199934244155884
+        },
+        {
+          "class": "S",
+          "prob": 0.22573979198932648
+        },
+        {
+          "class": "X",
+          "prob": 0.03701827675104141
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2569.jpg",
+      "frame_id": 2569,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.2922426462173462,
+      "p_e": 0.40728673338890076,
+      "margin": 0.11504408717155457,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.40728673338890076
+        },
+        {
+          "class": "S",
+          "prob": 0.2922426462173462
+        },
+        {
+          "class": "A",
+          "prob": 0.03267413750290871
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2571.jpg",
+      "frame_id": 2571,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.2967712879180908,
+      "p_e": 0.45718660950660706,
+      "margin": 0.16041532158851624,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.45718660950660706
+        },
+        {
+          "class": "S",
+          "prob": 0.2967712879180908
+        },
+        {
+          "class": "N",
+          "prob": 0.026191050186753273
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2575.jpg",
+      "frame_id": 2575,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.2016938179731369,
+      "p_e": 0.5448278188705444,
+      "margin": 0.34313400089740753,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5448278188705444
+        },
+        {
+          "class": "S",
+          "prob": 0.2016938179731369
+        },
+        {
+          "class": "X",
+          "prob": 0.03852095827460289
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2576.jpg",
+      "frame_id": 2576,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.38082852959632874,
+      "p_e": 0.3956432640552521,
+      "margin": 0.01481473445892334,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.3956432640552521
+        },
+        {
+          "class": "S",
+          "prob": 0.38082852959632874
+        },
+        {
+          "class": "N",
+          "prob": 0.0282694511115551
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2577.jpg",
+      "frame_id": 2577,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.2562268078327179,
+      "p_e": 0.5466570258140564,
+      "margin": 0.2904302179813385,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5466570258140564
+        },
+        {
+          "class": "S",
+          "prob": 0.2562268078327179
+        },
+        {
+          "class": "X",
+          "prob": 0.020252827554941177
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2578.jpg",
+      "frame_id": 2578,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.24557307362556458,
+      "p_e": 0.5293864607810974,
+      "margin": 0.28381338715553284,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5293864607810974
+        },
+        {
+          "class": "S",
+          "prob": 0.24557307362556458
+        },
+        {
+          "class": "N",
+          "prob": 0.028344329446554184
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2579.jpg",
+      "frame_id": 2579,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.24244847893714905,
+      "p_e": 0.500700831413269,
+      "margin": 0.25825235247612,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.500700831413269
+        },
+        {
+          "class": "S",
+          "prob": 0.24244847893714905
+        },
+        {
+          "class": "X",
+          "prob": 0.040516506880521774
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2580.jpg",
+      "frame_id": 2580,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.2740131616592407,
+      "p_e": 0.48091500997543335,
+      "margin": 0.20690184831619263,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.48091500997543335
+        },
+        {
+          "class": "S",
+          "prob": 0.2740131616592407
+        },
+        {
+          "class": "N",
+          "prob": 0.03100275620818138
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2581.jpg",
+      "frame_id": 2581,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.26428288221359253,
+      "p_e": 0.5198928713798523,
+      "margin": 0.25560998916625977,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5198928713798523
+        },
+        {
+          "class": "S",
+          "prob": 0.26428288221359253
+        },
+        {
+          "class": "X",
+          "prob": 0.024214595556259155
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2582.jpg",
+      "frame_id": 2582,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.32382163405418396,
+      "p_e": 0.437799870967865,
+      "margin": 0.11397823691368103,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.437799870967865
+        },
+        {
+          "class": "S",
+          "prob": 0.32382163405418396
+        },
+        {
+          "class": "N",
+          "prob": 0.028855910524725914
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2584.jpg",
+      "frame_id": 2584,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.2575049102306366,
+      "p_e": 0.49658137559890747,
+      "margin": 0.23907646536827087,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.49658137559890747
+        },
+        {
+          "class": "S",
+          "prob": 0.2575049102306366
+        },
+        {
+          "class": "N",
+          "prob": 0.02546180598437786
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2585.jpg",
+      "frame_id": 2585,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.25130200386047363,
+      "p_e": 0.5147095918655396,
+      "margin": 0.2634075880050659,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5147095918655396
+        },
+        {
+          "class": "S",
+          "prob": 0.25130200386047363
+        },
+        {
+          "class": "N",
+          "prob": 0.026561684906482697
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2586.jpg",
+      "frame_id": 2586,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.22640018165111542,
+      "p_e": 0.5218656063079834,
+      "margin": 0.295465424656868,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5218656063079834
+        },
+        {
+          "class": "S",
+          "prob": 0.22640018165111542
+        },
+        {
+          "class": "N",
+          "prob": 0.029066449031233788
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2587.jpg",
+      "frame_id": 2587,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.3399753272533417,
+      "p_e": 0.39647507667541504,
+      "margin": 0.056499749422073364,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.39647507667541504
+        },
+        {
+          "class": "S",
+          "prob": 0.3399753272533417
+        },
+        {
+          "class": "N",
+          "prob": 0.037456151098012924
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2588.jpg",
+      "frame_id": 2588,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.20888902246952057,
+      "p_e": 0.5719943642616272,
+      "margin": 0.36310534179210663,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5719943642616272
+        },
+        {
+          "class": "S",
+          "prob": 0.20888902246952057
+        },
+        {
+          "class": "N",
+          "prob": 0.0266534723341465
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2589.jpg",
+      "frame_id": 2589,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.11210127919912338,
+      "p_e": 0.7144826650619507,
+      "margin": 0.6023813858628273,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7144826650619507
+        },
+        {
+          "class": "S",
+          "prob": 0.11210127919912338
+        },
+        {
+          "class": "N",
+          "prob": 0.022770972922444344
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2590.jpg",
+      "frame_id": 2590,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.1524948626756668,
+      "p_e": 0.6421402096748352,
+      "margin": 0.4896453469991684,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6421402096748352
+        },
+        {
+          "class": "S",
+          "prob": 0.1524948626756668
+        },
+        {
+          "class": "N",
+          "prob": 0.028134537860751152
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2591.jpg",
+      "frame_id": 2591,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.1923934370279312,
+      "p_e": 0.5776249766349792,
+      "margin": 0.38523153960704803,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5776249766349792
+        },
+        {
+          "class": "S",
+          "prob": 0.1923934370279312
+        },
+        {
+          "class": "N",
+          "prob": 0.03249933570623398
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2592.jpg",
+      "frame_id": 2592,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.2381964921951294,
+      "p_e": 0.5176268815994263,
+      "margin": 0.2794303894042969,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5176268815994263
+        },
+        {
+          "class": "S",
+          "prob": 0.2381964921951294
+        },
+        {
+          "class": "N",
+          "prob": 0.03134356811642647
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2593.jpg",
+      "frame_id": 2593,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.19266200065612793,
+      "p_e": 0.5733680129051208,
+      "margin": 0.3807060122489929,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5733680129051208
+        },
+        {
+          "class": "S",
+          "prob": 0.19266200065612793
+        },
+        {
+          "class": "N",
+          "prob": 0.02895776927471161
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2594.jpg",
+      "frame_id": 2594,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.14699769020080566,
+      "p_e": 0.647081732749939,
+      "margin": 0.5000840425491333,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.647081732749939
+        },
+        {
+          "class": "S",
+          "prob": 0.14699769020080566
+        },
+        {
+          "class": "N",
+          "prob": 0.022708434611558914
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2595.jpg",
+      "frame_id": 2595,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.18839964270591736,
+      "p_e": 0.5832899808883667,
+      "margin": 0.39489033818244934,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5832899808883667
+        },
+        {
+          "class": "S",
+          "prob": 0.18839964270591736
+        },
+        {
+          "class": "N",
+          "prob": 0.03136827424168587
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2596.jpg",
+      "frame_id": 2596,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.13765564560890198,
+      "p_e": 0.6715940237045288,
+      "margin": 0.5339383780956268,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6715940237045288
+        },
+        {
+          "class": "S",
+          "prob": 0.13765564560890198
+        },
+        {
+          "class": "X",
+          "prob": 0.022894520312547684
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2597.jpg",
+      "frame_id": 2597,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.22013433277606964,
+      "p_e": 0.583372950553894,
+      "margin": 0.3632386177778244,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.583372950553894
+        },
+        {
+          "class": "S",
+          "prob": 0.22013433277606964
+        },
+        {
+          "class": "N",
+          "prob": 0.02367902547121048
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2598.jpg",
+      "frame_id": 2598,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.04902833700180054,
+      "p_e": 0.8012086153030396,
+      "margin": 0.752180278301239,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.8012086153030396
+        },
+        {
+          "class": "S",
+          "prob": 0.04902833700180054
+        },
+        {
+          "class": "N",
+          "prob": 0.01809895783662796
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2599.jpg",
+      "frame_id": 2599,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.07231412827968597,
+      "p_e": 0.7606827020645142,
+      "margin": 0.6883685737848282,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7606827020645142
+        },
+        {
+          "class": "S",
+          "prob": 0.07231412827968597
+        },
+        {
+          "class": "N",
+          "prob": 0.02266765758395195
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2600.jpg",
+      "frame_id": 2600,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.09012790024280548,
+      "p_e": 0.7496294379234314,
+      "margin": 0.6595015376806259,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7496294379234314
+        },
+        {
+          "class": "S",
+          "prob": 0.09012790024280548
+        },
+        {
+          "class": "N",
+          "prob": 0.018526699393987656
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2601.jpg",
+      "frame_id": 2601,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.03167879953980446,
+      "p_e": 0.8333459496498108,
+      "margin": 0.8016671501100063,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.8333459496498108
+        },
+        {
+          "class": "S",
+          "prob": 0.03167879953980446
+        },
+        {
+          "class": "N",
+          "prob": 0.017590338364243507
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2602.jpg",
+      "frame_id": 2602,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.02887103334069252,
+      "p_e": 0.8226030468940735,
+      "margin": 0.793732013553381,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.8226030468940735
+        },
+        {
+          "class": "X",
+          "prob": 0.029125485569238663
+        },
+        {
+          "class": "S",
+          "prob": 0.02887103334069252
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2603.jpg",
+      "frame_id": 2603,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.03235829994082451,
+      "p_e": 0.8197281956672668,
+      "margin": 0.7873698957264423,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.8197281956672668
+        },
+        {
+          "class": "S",
+          "prob": 0.03235829994082451
+        },
+        {
+          "class": "X",
+          "prob": 0.02016061171889305
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2604.jpg",
+      "frame_id": 2604,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.03550519421696663,
+      "p_e": 0.793811023235321,
+      "margin": 0.7583058290183544,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.793811023235321
+        },
+        {
+          "class": "S",
+          "prob": 0.03550519421696663
+        },
+        {
+          "class": "X",
+          "prob": 0.033628225326538086
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2605.jpg",
+      "frame_id": 2605,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.201811745762825,
+      "p_e": 0.4625144600868225,
+      "margin": 0.2607027143239975,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4625144600868225
+        },
+        {
+          "class": "S",
+          "prob": 0.201811745762825
+        },
+        {
+          "class": "X",
+          "prob": 0.07788964360952377
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2606.jpg",
+      "frame_id": 2606,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.09840729087591171,
+      "p_e": 0.519598126411438,
+      "margin": 0.4211908355355263,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.519598126411438
+        },
+        {
+          "class": "X",
+          "prob": 0.12116897851228714
+        },
+        {
+          "class": "S",
+          "prob": 0.09840729087591171
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2607.jpg",
+      "frame_id": 2607,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.22691823542118073,
+      "p_e": 0.5258619785308838,
+      "margin": 0.29894374310970306,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5258619785308838
+        },
+        {
+          "class": "S",
+          "prob": 0.22691823542118073
+        },
+        {
+          "class": "X",
+          "prob": 0.035854171961545944
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2608.jpg",
+      "frame_id": 2608,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.16774395108222961,
+      "p_e": 0.5165717005729675,
+      "margin": 0.3488277494907379,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5165717005729675
+        },
+        {
+          "class": "S",
+          "prob": 0.16774395108222961
+        },
+        {
+          "class": "X",
+          "prob": 0.06457799673080444
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2609.jpg",
+      "frame_id": 2609,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.22093838453292847,
+      "p_e": 0.3726460337638855,
+      "margin": 0.15170764923095703,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.3726460337638855
+        },
+        {
+          "class": "S",
+          "prob": 0.22093838453292847
+        },
+        {
+          "class": "X",
+          "prob": 0.10465240478515625
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2610.jpg",
+      "frame_id": 2610,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.05356023088097572,
+      "p_e": 0.7616394758224487,
+      "margin": 0.708079244941473,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7616394758224487
+        },
+        {
+          "class": "S",
+          "prob": 0.05356023088097572
+        },
+        {
+          "class": "X",
+          "prob": 0.024202097207307816
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2611.jpg",
+      "frame_id": 2611,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.21239721775054932,
+      "p_e": 0.4812127351760864,
+      "margin": 0.2688155174255371,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4812127351760864
+        },
+        {
+          "class": "S",
+          "prob": 0.21239721775054932
+        },
+        {
+          "class": "X",
+          "prob": 0.04950530454516411
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2612.jpg",
+      "frame_id": 2612,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.1904071718454361,
+      "p_e": 0.5506702065467834,
+      "margin": 0.36026303470134735,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5506702065467834
+        },
+        {
+          "class": "S",
+          "prob": 0.1904071718454361
+        },
+        {
+          "class": "N",
+          "prob": 0.04300568252801895
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2613.jpg",
+      "frame_id": 2613,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.08642442524433136,
+      "p_e": 0.6954971551895142,
+      "margin": 0.6090727299451828,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6954971551895142
+        },
+        {
+          "class": "S",
+          "prob": 0.08642442524433136
+        },
+        {
+          "class": "N",
+          "prob": 0.02800314873456955
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2614.jpg",
+      "frame_id": 2614,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.2779436409473419,
+      "p_e": 0.4301888644695282,
+      "margin": 0.15224522352218628,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4301888644695282
+        },
+        {
+          "class": "S",
+          "prob": 0.2779436409473419
+        },
+        {
+          "class": "N",
+          "prob": 0.042289700359106064
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2615.jpg",
+      "frame_id": 2615,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.16657476127147675,
+      "p_e": 0.5407240986824036,
+      "margin": 0.3741493374109268,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5407240986824036
+        },
+        {
+          "class": "S",
+          "prob": 0.16657476127147675
+        },
+        {
+          "class": "X",
+          "prob": 0.04446642845869064
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2616.jpg",
+      "frame_id": 2616,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.1189015656709671,
+      "p_e": 0.5429380536079407,
+      "margin": 0.42403648793697357,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5429380536079407
+        },
+        {
+          "class": "S",
+          "prob": 0.1189015656709671
+        },
+        {
+          "class": "X",
+          "prob": 0.07622714340686798
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2617.jpg",
+      "frame_id": 2617,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.2163732349872589,
+      "p_e": 0.5039123892784119,
+      "margin": 0.28753915429115295,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5039123892784119
+        },
+        {
+          "class": "S",
+          "prob": 0.2163732349872589
+        },
+        {
+          "class": "X",
+          "prob": 0.035386405885219574
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2618.jpg",
+      "frame_id": 2618,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.2800721526145935,
+      "p_e": 0.4231896698474884,
+      "margin": 0.1431175172328949,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4231896698474884
+        },
+        {
+          "class": "S",
+          "prob": 0.2800721526145935
+        },
+        {
+          "class": "N",
+          "prob": 0.03650384768843651
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2619.jpg",
+      "frame_id": 2619,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.299945205450058,
+      "p_e": 0.3342146575450897,
+      "margin": 0.03426945209503174,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.3342146575450897
+        },
+        {
+          "class": "S",
+          "prob": 0.299945205450058
+        },
+        {
+          "class": "X",
+          "prob": 0.06713185459375381
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2777.jpg",
+      "frame_id": 2777,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.27464529871940613,
+      "p_e": 0.4322972893714905,
+      "margin": 0.15765199065208435,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4322972893714905
+        },
+        {
+          "class": "S",
+          "prob": 0.27464529871940613
+        },
+        {
+          "class": "X",
+          "prob": 0.04113287106156349
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2785.jpg",
+      "frame_id": 2785,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.2895282804965973,
+      "p_e": 0.43600040674209595,
+      "margin": 0.14647212624549866,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.43600040674209595
+        },
+        {
+          "class": "S",
+          "prob": 0.2895282804965973
+        },
+        {
+          "class": "Z",
+          "prob": 0.027791278436779976
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2786.jpg",
+      "frame_id": 2786,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.3278419077396393,
+      "p_e": 0.3951200842857361,
+      "margin": 0.0672781765460968,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.3951200842857361
+        },
+        {
+          "class": "S",
+          "prob": 0.3278419077396393
+        },
+        {
+          "class": "X",
+          "prob": 0.023960202932357788
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2787.jpg",
+      "frame_id": 2787,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.24390164017677307,
+      "p_e": 0.4702465534210205,
+      "margin": 0.22634491324424744,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4702465534210205
+        },
+        {
+          "class": "S",
+          "prob": 0.24390164017677307
+        },
+        {
+          "class": "X",
+          "prob": 0.028781335800886154
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2788.jpg",
+      "frame_id": 2788,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.22946573793888092,
+      "p_e": 0.4838544726371765,
+      "margin": 0.2543887346982956,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4838544726371765
+        },
+        {
+          "class": "S",
+          "prob": 0.22946573793888092
+        },
+        {
+          "class": "X",
+          "prob": 0.025957541540265083
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2790.jpg",
+      "frame_id": 2790,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.16660641133785248,
+      "p_e": 0.5834972262382507,
+      "margin": 0.41689081490039825,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5834972262382507
+        },
+        {
+          "class": "S",
+          "prob": 0.16660641133785248
+        },
+        {
+          "class": "X",
+          "prob": 0.030028684064745903
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2791.jpg",
+      "frame_id": 2791,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.3093402683734894,
+      "p_e": 0.4080054461956024,
+      "margin": 0.09866517782211304,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4080054461956024
+        },
+        {
+          "class": "S",
+          "prob": 0.3093402683734894
+        },
+        {
+          "class": "X",
+          "prob": 0.03676454722881317
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2793.jpg",
+      "frame_id": 2793,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.2838256061077118,
+      "p_e": 0.44425854086875916,
+      "margin": 0.16043293476104736,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.44425854086875916
+        },
+        {
+          "class": "S",
+          "prob": 0.2838256061077118
+        },
+        {
+          "class": "X",
+          "prob": 0.03860524669289589
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2796.jpg",
+      "frame_id": 2796,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.3093512952327728,
+      "p_e": 0.3715062439441681,
+      "margin": 0.062154948711395264,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.3715062439441681
+        },
+        {
+          "class": "S",
+          "prob": 0.3093512952327728
+        },
+        {
+          "class": "X",
+          "prob": 0.04829590395092964
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2799.jpg",
+      "frame_id": 2799,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.29716598987579346,
+      "p_e": 0.4022273123264313,
+      "margin": 0.10506132245063782,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4022273123264313
+        },
+        {
+          "class": "S",
+          "prob": 0.29716598987579346
+        },
+        {
+          "class": "X",
+          "prob": 0.028896523639559746
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2801.jpg",
+      "frame_id": 2801,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.30883660912513733,
+      "p_e": 0.373060941696167,
+      "margin": 0.06422433257102966,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.373060941696167
+        },
+        {
+          "class": "S",
+          "prob": 0.30883660912513733
+        },
+        {
+          "class": "X",
+          "prob": 0.030908674001693726
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2802.jpg",
+      "frame_id": 2802,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.2942470610141754,
+      "p_e": 0.39006486535072327,
+      "margin": 0.09581780433654785,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.39006486535072327
+        },
+        {
+          "class": "S",
+          "prob": 0.2942470610141754
+        },
+        {
+          "class": "X",
+          "prob": 0.03623289242386818
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2803.jpg",
+      "frame_id": 2803,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.18634667992591858,
+      "p_e": 0.5051781535148621,
+      "margin": 0.3188314735889435,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5051781535148621
+        },
+        {
+          "class": "S",
+          "prob": 0.18634667992591858
+        },
+        {
+          "class": "X",
+          "prob": 0.03286048397421837
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2804.jpg",
+      "frame_id": 2804,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.11025022715330124,
+      "p_e": 0.591889500617981,
+      "margin": 0.4816392734646797,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.591889500617981
+        },
+        {
+          "class": "S",
+          "prob": 0.11025022715330124
+        },
+        {
+          "class": "X",
+          "prob": 0.03277822956442833
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2805.jpg",
+      "frame_id": 2805,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.10320093482732773,
+      "p_e": 0.6318849921226501,
+      "margin": 0.5286840572953224,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6318849921226501
+        },
+        {
+          "class": "S",
+          "prob": 0.10320093482732773
+        },
+        {
+          "class": "X",
+          "prob": 0.022442437708377838
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2806.jpg",
+      "frame_id": 2806,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.07452988624572754,
+      "p_e": 0.6739089488983154,
+      "margin": 0.5993790626525879,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6739089488983154
+        },
+        {
+          "class": "S",
+          "prob": 0.07452988624572754
+        },
+        {
+          "class": "X",
+          "prob": 0.02115822024643421
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2807.jpg",
+      "frame_id": 2807,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.07669450342655182,
+      "p_e": 0.6640748977661133,
+      "margin": 0.5873803943395615,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6640748977661133
+        },
+        {
+          "class": "S",
+          "prob": 0.07669450342655182
+        },
+        {
+          "class": "X",
+          "prob": 0.02376159466803074
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2808.jpg",
+      "frame_id": 2808,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.07146963477134705,
+      "p_e": 0.6748358607292175,
+      "margin": 0.6033662259578705,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6748358607292175
+        },
+        {
+          "class": "S",
+          "prob": 0.07146963477134705
+        },
+        {
+          "class": "X",
+          "prob": 0.023765284568071365
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2809.jpg",
+      "frame_id": 2809,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.07984445989131927,
+      "p_e": 0.6536054611206055,
+      "margin": 0.5737610012292862,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6536054611206055
+        },
+        {
+          "class": "S",
+          "prob": 0.07984445989131927
+        },
+        {
+          "class": "Z",
+          "prob": 0.024338718503713608
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2810.jpg",
+      "frame_id": 2810,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.13239310681819916,
+      "p_e": 0.6074721813201904,
+      "margin": 0.47507907450199127,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6074721813201904
+        },
+        {
+          "class": "S",
+          "prob": 0.13239310681819916
+        },
+        {
+          "class": "V",
+          "prob": 0.02082580141723156
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2812.jpg",
+      "frame_id": 2812,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.18079300224781036,
+      "p_e": 0.5357339382171631,
+      "margin": 0.3549409359693527,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5357339382171631
+        },
+        {
+          "class": "S",
+          "prob": 0.18079300224781036
+        },
+        {
+          "class": "X",
+          "prob": 0.024046918377280235
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2813.jpg",
+      "frame_id": 2813,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.07836871594190598,
+      "p_e": 0.7226485013961792,
+      "margin": 0.6442797854542732,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7226485013961792
+        },
+        {
+          "class": "S",
+          "prob": 0.07836871594190598
+        },
+        {
+          "class": "V",
+          "prob": 0.014932054094970226
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2814.jpg",
+      "frame_id": 2814,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.3203261196613312,
+      "p_e": 0.4174133837223053,
+      "margin": 0.09708726406097412,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4174133837223053
+        },
+        {
+          "class": "S",
+          "prob": 0.3203261196613312
+        },
+        {
+          "class": "X",
+          "prob": 0.024113135412335396
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2824.jpg",
+      "frame_id": 2824,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.29558390378952026,
+      "p_e": 0.4173697531223297,
+      "margin": 0.12178584933280945,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4173697531223297
+        },
+        {
+          "class": "S",
+          "prob": 0.29558390378952026
+        },
+        {
+          "class": "X",
+          "prob": 0.05587679520249367
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2831.jpg",
+      "frame_id": 2831,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.14176435768604279,
+      "p_e": 0.5355759859085083,
+      "margin": 0.3938116282224655,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5355759859085083
+        },
+        {
+          "class": "S",
+          "prob": 0.14176435768604279
+        },
+        {
+          "class": "X",
+          "prob": 0.06490236520767212
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2832.jpg",
+      "frame_id": 2832,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.33716535568237305,
+      "p_e": 0.3458600640296936,
+      "margin": 0.008694708347320557,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.3458600640296936
+        },
+        {
+          "class": "S",
+          "prob": 0.33716535568237305
+        },
+        {
+          "class": "X",
+          "prob": 0.052251607179641724
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2833.jpg",
+      "frame_id": 2833,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.15133468806743622,
+      "p_e": 0.5661909580230713,
+      "margin": 0.41485626995563507,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5661909580230713
+        },
+        {
+          "class": "S",
+          "prob": 0.15133468806743622
+        },
+        {
+          "class": "X",
+          "prob": 0.0474366694688797
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2834.jpg",
+      "frame_id": 2834,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.19881516695022583,
+      "p_e": 0.5176681280136108,
+      "margin": 0.318852961063385,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5176681280136108
+        },
+        {
+          "class": "S",
+          "prob": 0.19881516695022583
+        },
+        {
+          "class": "X",
+          "prob": 0.050174254924058914
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2835.jpg",
+      "frame_id": 2835,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.29270827770233154,
+      "p_e": 0.410635769367218,
+      "margin": 0.11792749166488647,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.410635769367218
+        },
+        {
+          "class": "S",
+          "prob": 0.29270827770233154
+        },
+        {
+          "class": "X",
+          "prob": 0.04295073449611664
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2836.jpg",
+      "frame_id": 2836,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.1880815178155899,
+      "p_e": 0.5354754328727722,
+      "margin": 0.3473939150571823,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5354754328727722
+        },
+        {
+          "class": "S",
+          "prob": 0.1880815178155899
+        },
+        {
+          "class": "X",
+          "prob": 0.04004884883761406
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2837.jpg",
+      "frame_id": 2837,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.12443837523460388,
+      "p_e": 0.6559239029884338,
+      "margin": 0.53148552775383,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6559239029884338
+        },
+        {
+          "class": "S",
+          "prob": 0.12443837523460388
+        },
+        {
+          "class": "X",
+          "prob": 0.022203778848052025
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2838.jpg",
+      "frame_id": 2838,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.21783235669136047,
+      "p_e": 0.5511478781700134,
+      "margin": 0.33331552147865295,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5511478781700134
+        },
+        {
+          "class": "S",
+          "prob": 0.21783235669136047
+        },
+        {
+          "class": "X",
+          "prob": 0.017563169822096825
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2839.jpg",
+      "frame_id": 2839,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.3168885409832001,
+      "p_e": 0.44415006041526794,
+      "margin": 0.12726151943206787,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.44415006041526794
+        },
+        {
+          "class": "S",
+          "prob": 0.3168885409832001
+        },
+        {
+          "class": "X",
+          "prob": 0.021795863285660744
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2840.jpg",
+      "frame_id": 2840,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.10627368837594986,
+      "p_e": 0.7145581841468811,
+      "margin": 0.6082844957709312,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7145581841468811
+        },
+        {
+          "class": "S",
+          "prob": 0.10627368837594986
+        },
+        {
+          "class": "X",
+          "prob": 0.013215872459113598
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2841.jpg",
+      "frame_id": 2841,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.13982999324798584,
+      "p_e": 0.6513585448265076,
+      "margin": 0.5115285515785217,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6513585448265076
+        },
+        {
+          "class": "S",
+          "prob": 0.13982999324798584
+        },
+        {
+          "class": "V",
+          "prob": 0.015042712911963463
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2842.jpg",
+      "frame_id": 2842,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.1267343908548355,
+      "p_e": 0.6764731407165527,
+      "margin": 0.5497387498617172,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6764731407165527
+        },
+        {
+          "class": "S",
+          "prob": 0.1267343908548355
+        },
+        {
+          "class": "V",
+          "prob": 0.012193596921861172
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2843.jpg",
+      "frame_id": 2843,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.08385476469993591,
+      "p_e": 0.7388423681259155,
+      "margin": 0.6549876034259796,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7388423681259155
+        },
+        {
+          "class": "S",
+          "prob": 0.08385476469993591
+        },
+        {
+          "class": "nothing",
+          "prob": 0.010581882670521736
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2844.jpg",
+      "frame_id": 2844,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.08226405084133148,
+      "p_e": 0.7202596664428711,
+      "margin": 0.6379956156015396,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7202596664428711
+        },
+        {
+          "class": "S",
+          "prob": 0.08226405084133148
+        },
+        {
+          "class": "N",
+          "prob": 0.012525847181677818
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2845.jpg",
+      "frame_id": 2845,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.0926007330417633,
+      "p_e": 0.7029743790626526,
+      "margin": 0.6103736460208893,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7029743790626526
+        },
+        {
+          "class": "S",
+          "prob": 0.0926007330417633
+        },
+        {
+          "class": "T",
+          "prob": 0.012618662789463997
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2846.jpg",
+      "frame_id": 2846,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.1108073741197586,
+      "p_e": 0.6749653220176697,
+      "margin": 0.5641579478979111,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6749653220176697
+        },
+        {
+          "class": "S",
+          "prob": 0.1108073741197586
+        },
+        {
+          "class": "A",
+          "prob": 0.012046764604747295
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2847.jpg",
+      "frame_id": 2847,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.0711037665605545,
+      "p_e": 0.736377477645874,
+      "margin": 0.6652737110853195,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.736377477645874
+        },
+        {
+          "class": "S",
+          "prob": 0.0711037665605545
+        },
+        {
+          "class": "N",
+          "prob": 0.012372936122119427
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2848.jpg",
+      "frame_id": 2848,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.10331446677446365,
+      "p_e": 0.6870205998420715,
+      "margin": 0.5837061330676079,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6870205998420715
+        },
+        {
+          "class": "S",
+          "prob": 0.10331446677446365
+        },
+        {
+          "class": "N",
+          "prob": 0.013934877701103687
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2849.jpg",
+      "frame_id": 2849,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.09500893205404282,
+      "p_e": 0.7067465782165527,
+      "margin": 0.6117376461625099,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7067465782165527
+        },
+        {
+          "class": "S",
+          "prob": 0.09500893205404282
+        },
+        {
+          "class": "N",
+          "prob": 0.015068640932440758
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2850.jpg",
+      "frame_id": 2850,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.07520483434200287,
+      "p_e": 0.7254412174224854,
+      "margin": 0.6502363830804825,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7254412174224854
+        },
+        {
+          "class": "S",
+          "prob": 0.07520483434200287
+        },
+        {
+          "class": "A",
+          "prob": 0.013877127319574356
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2851.jpg",
+      "frame_id": 2851,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.06505566835403442,
+      "p_e": 0.7443196773529053,
+      "margin": 0.6792640089988708,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7443196773529053
+        },
+        {
+          "class": "S",
+          "prob": 0.06505566835403442
+        },
+        {
+          "class": "N",
+          "prob": 0.012781530618667603
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2852.jpg",
+      "frame_id": 2852,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.11043602228164673,
+      "p_e": 0.6647106409072876,
+      "margin": 0.5542746186256409,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6647106409072876
+        },
+        {
+          "class": "S",
+          "prob": 0.11043602228164673
+        },
+        {
+          "class": "nothing",
+          "prob": 0.014036002568900585
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2853.jpg",
+      "frame_id": 2853,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.06261195987462997,
+      "p_e": 0.7544311881065369,
+      "margin": 0.6918192282319069,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7544311881065369
+        },
+        {
+          "class": "S",
+          "prob": 0.06261195987462997
+        },
+        {
+          "class": "A",
+          "prob": 0.0122952526435256
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2854.jpg",
+      "frame_id": 2854,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.07829096168279648,
+      "p_e": 0.7224027514457703,
+      "margin": 0.6441117897629738,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7224027514457703
+        },
+        {
+          "class": "S",
+          "prob": 0.07829096168279648
+        },
+        {
+          "class": "A",
+          "prob": 0.01232179906219244
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2855.jpg",
+      "frame_id": 2855,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.07226639240980148,
+      "p_e": 0.7446112632751465,
+      "margin": 0.672344870865345,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7446112632751465
+        },
+        {
+          "class": "S",
+          "prob": 0.07226639240980148
+        },
+        {
+          "class": "N",
+          "prob": 0.01253445353358984
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2856.jpg",
+      "frame_id": 2856,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.12957270443439484,
+      "p_e": 0.6630827188491821,
+      "margin": 0.5335100144147873,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6630827188491821
+        },
+        {
+          "class": "S",
+          "prob": 0.12957270443439484
+        },
+        {
+          "class": "A",
+          "prob": 0.013538764789700508
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2857.jpg",
+      "frame_id": 2857,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.12092211097478867,
+      "p_e": 0.6704927086830139,
+      "margin": 0.5495705977082253,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6704927086830139
+        },
+        {
+          "class": "S",
+          "prob": 0.12092211097478867
+        },
+        {
+          "class": "A",
+          "prob": 0.013188946060836315
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2858.jpg",
+      "frame_id": 2858,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.06666150689125061,
+      "p_e": 0.7449299693107605,
+      "margin": 0.6782684624195099,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7449299693107605
+        },
+        {
+          "class": "S",
+          "prob": 0.06666150689125061
+        },
+        {
+          "class": "N",
+          "prob": 0.011095665395259857
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2859.jpg",
+      "frame_id": 2859,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.0754740908741951,
+      "p_e": 0.745229184627533,
+      "margin": 0.6697550937533379,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.745229184627533
+        },
+        {
+          "class": "S",
+          "prob": 0.0754740908741951
+        },
+        {
+          "class": "N",
+          "prob": 0.0105368010699749
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2860.jpg",
+      "frame_id": 2860,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.08769512921571732,
+      "p_e": 0.7037737965583801,
+      "margin": 0.6160786673426628,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7037737965583801
+        },
+        {
+          "class": "S",
+          "prob": 0.08769512921571732
+        },
+        {
+          "class": "nothing",
+          "prob": 0.013614224269986153
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2861.jpg",
+      "frame_id": 2861,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.05746059492230415,
+      "p_e": 0.7600363492965698,
+      "margin": 0.7025757543742657,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7600363492965698
+        },
+        {
+          "class": "S",
+          "prob": 0.05746059492230415
+        },
+        {
+          "class": "nothing",
+          "prob": 0.010789351537823677
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2862.jpg",
+      "frame_id": 2862,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.06636124104261398,
+      "p_e": 0.771954357624054,
+      "margin": 0.70559311658144,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.771954357624054
+        },
+        {
+          "class": "S",
+          "prob": 0.06636124104261398
+        },
+        {
+          "class": "X",
+          "prob": 0.010514833964407444
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2863.jpg",
+      "frame_id": 2863,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.058974120765924454,
+      "p_e": 0.772189736366272,
+      "margin": 0.7132156156003475,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.772189736366272
+        },
+        {
+          "class": "S",
+          "prob": 0.058974120765924454
+        },
+        {
+          "class": "X",
+          "prob": 0.010007438249886036
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2864.jpg",
+      "frame_id": 2864,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.06259004026651382,
+      "p_e": 0.782527506351471,
+      "margin": 0.7199374660849571,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.782527506351471
+        },
+        {
+          "class": "S",
+          "prob": 0.06259004026651382
+        },
+        {
+          "class": "V",
+          "prob": 0.010484643280506134
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2865.jpg",
+      "frame_id": 2865,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.10082677751779556,
+      "p_e": 0.7269376516342163,
+      "margin": 0.6261108741164207,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.7269376516342163
+        },
+        {
+          "class": "S",
+          "prob": 0.10082677751779556
+        },
+        {
+          "class": "X",
+          "prob": 0.012236989103257656
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2866.jpg",
+      "frame_id": 2866,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.21821974217891693,
+      "p_e": 0.5784515142440796,
+      "margin": 0.36023177206516266,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5784515142440796
+        },
+        {
+          "class": "S",
+          "prob": 0.21821974217891693
+        },
+        {
+          "class": "X",
+          "prob": 0.016341939568519592
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2867.jpg",
+      "frame_id": 2867,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.14112906157970428,
+      "p_e": 0.6834816336631775,
+      "margin": 0.5423525720834732,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6834816336631775
+        },
+        {
+          "class": "S",
+          "prob": 0.14112906157970428
+        },
+        {
+          "class": "X",
+          "prob": 0.013764563947916031
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2868.jpg",
+      "frame_id": 2868,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.21156969666481018,
+      "p_e": 0.6037116050720215,
+      "margin": 0.3921419084072113,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6037116050720215
+        },
+        {
+          "class": "S",
+          "prob": 0.21156969666481018
+        },
+        {
+          "class": "X",
+          "prob": 0.0169482734054327
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2869.jpg",
+      "frame_id": 2869,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.34177166223526,
+      "p_e": 0.4522300660610199,
+      "margin": 0.11045840382575989,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4522300660610199
+        },
+        {
+          "class": "S",
+          "prob": 0.34177166223526
+        },
+        {
+          "class": "V",
+          "prob": 0.017032356932759285
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2870.jpg",
+      "frame_id": 2870,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.25310784578323364,
+      "p_e": 0.5507580041885376,
+      "margin": 0.29765015840530396,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.5507580041885376
+        },
+        {
+          "class": "S",
+          "prob": 0.25310784578323364
+        },
+        {
+          "class": "V",
+          "prob": 0.015394343063235283
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2871.jpg",
+      "frame_id": 2871,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.14546197652816772,
+      "p_e": 0.6836010217666626,
+      "margin": 0.5381390452384949,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.6836010217666626
+        },
+        {
+          "class": "S",
+          "prob": 0.14546197652816772
+        },
+        {
+          "class": "V",
+          "prob": 0.013325609266757965
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2875.jpg",
+      "frame_id": 2875,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.30082136392593384,
+      "p_e": 0.4756520390510559,
+      "margin": 0.17483067512512207,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4756520390510559
+        },
+        {
+          "class": "S",
+          "prob": 0.30082136392593384
+        },
+        {
+          "class": "V",
+          "prob": 0.017827600240707397
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2876.jpg",
+      "frame_id": 2876,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.3593604862689972,
+      "p_e": 0.3919498324394226,
+      "margin": 0.032589346170425415,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.3919498324394226
+        },
+        {
+          "class": "S",
+          "prob": 0.3593604862689972
+        },
+        {
+          "class": "X",
+          "prob": 0.01825157180428505
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2877.jpg",
+      "frame_id": 2877,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.3388619124889374,
+      "p_e": 0.42627447843551636,
+      "margin": 0.08741256594657898,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.42627447843551636
+        },
+        {
+          "class": "S",
+          "prob": 0.3388619124889374
+        },
+        {
+          "class": "V",
+          "prob": 0.01780625618994236
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2897.jpg",
+      "frame_id": 2897,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.30898740887641907,
+      "p_e": 0.4685932397842407,
+      "margin": 0.15960583090782166,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4685932397842407
+        },
+        {
+          "class": "S",
+          "prob": 0.30898740887641907
+        },
+        {
+          "class": "X",
+          "prob": 0.020137447863817215
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2898.jpg",
+      "frame_id": 2898,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.3479903042316437,
+      "p_e": 0.418845534324646,
+      "margin": 0.07085523009300232,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.418845534324646
+        },
+        {
+          "class": "S",
+          "prob": 0.3479903042316437
+        },
+        {
+          "class": "X",
+          "prob": 0.01981629803776741
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2929.jpg",
+      "frame_id": 2929,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.3599509596824646,
+      "p_e": 0.38187479972839355,
+      "margin": 0.021923840045928955,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.38187479972839355
+        },
+        {
+          "class": "S",
+          "prob": 0.3599509596824646
+        },
+        {
+          "class": "A",
+          "prob": 0.0274849534034729
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2936.jpg",
+      "frame_id": 2936,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.353199303150177,
+      "p_e": 0.4429020881652832,
+      "margin": 0.0897027850151062,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.4429020881652832
+        },
+        {
+          "class": "S",
+          "prob": 0.353199303150177
+        },
+        {
+          "class": "B",
+          "prob": 0.01460620854049921
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2970.jpg",
+      "frame_id": 2970,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.3088395297527313,
+      "p_e": 0.477535605430603,
+      "margin": 0.1686960756778717,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.477535605430603
+        },
+        {
+          "class": "S",
+          "prob": 0.3088395297527313
+        },
+        {
+          "class": "V",
+          "prob": 0.016186734661459923
+        }
+      ]
+    },
+    {
+      "path": "data/raw/asl_alphabet_train/S/S2982.jpg",
+      "frame_id": 2982,
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.378547728061676,
+      "p_e": 0.3983830213546753,
+      "margin": 0.019835293292999268,
+      "top3": [
+        {
+          "class": "E",
+          "prob": 0.3983830213546753
+        },
+        {
+          "class": "S",
+          "prob": 0.378547728061676
+        },
+        {
+          "class": "X",
+          "prob": 0.014596918597817421
+        }
+      ]
+    }
+  ]
+}

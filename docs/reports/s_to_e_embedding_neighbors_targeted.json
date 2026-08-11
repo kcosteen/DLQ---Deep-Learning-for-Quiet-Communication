@@ -1,0 +1,491 @@
+{
+  "schema": "asl-s_to_e-embedding-neighbors/v1",
+  "created": "2026-08-10T00:01:20+00:00",
+  "checkpoint": "checkpoints/efficientnet_b0_targeted.pt",
+  "arch": "efficientnet",
+  "manifest": "data/split_manifest.json",
+  "embedding": {
+    "source": "penultimate EfficientNet-B0 pooled feature vector: timm efficientnet_b0 (num_classes=0, global_pool='avg') = model[0] of nn.Sequential(backbone, head)",
+    "layer": "model[0], immediately before head[0]=Dropout(0.3) and head[1]=Linear(1280, 29)",
+    "dim": 1280,
+    "verification": "asserted head structure Dropout+Linear(1280,29) and torch.allclose(model(x), head(backbone(x)))",
+    "normalization": "row-wise L2-normalization before any cosine product",
+    "similarity": "cosine on L2-normalized embeddings (plain dot product)"
+  },
+  "embeddings_cache": "data/s_e_embeddings_targeted.npz",
+  "pools": {
+    "n_correct_s": 462,
+    "n_actual_e": 600
+  },
+  "representative_queries": {
+    "2575": {
+      "path": "data/raw/asl_alphabet_train/S/S2575.jpg",
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.2016938179731369,
+      "p_e": 0.5448278188705444,
+      "s_neighbors": [
+        {
+          "frame_id": 2572,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.9549292922019958
+        },
+        {
+          "frame_id": 2574,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.9515816569328308
+        },
+        {
+          "frame_id": 2570,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.9328904747962952
+        },
+        {
+          "frame_id": 2583,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.9250399470329285
+        },
+        {
+          "frame_id": 2573,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.9172993898391724
+        }
+      ],
+      "e_neighbors": [
+        {
+          "frame_id": 2541,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.5277500152587891
+        },
+        {
+          "frame_id": 2539,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.5229927897453308
+        },
+        {
+          "frame_id": 2538,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.5177241563796997
+        },
+        {
+          "frame_id": 2995,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.5169026255607605
+        },
+        {
+          "frame_id": 2540,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.5131194591522217
+        }
+      ]
+    },
+    "2601": {
+      "path": "data/raw/asl_alphabet_train/S/S2601.jpg",
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.03167879953980446,
+      "p_e": 0.8333459496498108,
+      "s_neighbors": [
+        {
+          "frame_id": 2574,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.7729309797286987
+        },
+        {
+          "frame_id": 2583,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.7723690867424011
+        },
+        {
+          "frame_id": 2555,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.7578635811805725
+        },
+        {
+          "frame_id": 2556,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.7362057566642761
+        },
+        {
+          "frame_id": 2572,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.7356553077697754
+        }
+      ],
+      "e_neighbors": [
+        {
+          "frame_id": 2546,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.6944887042045593
+        },
+        {
+          "frame_id": 2543,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.6818199157714844
+        },
+        {
+          "frame_id": 2545,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.6793133616447449
+        },
+        {
+          "frame_id": 2965,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.6781481504440308
+        },
+        {
+          "frame_id": 2544,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.6766240000724792
+        }
+      ]
+    },
+    "2805": {
+      "path": "data/raw/asl_alphabet_train/S/S2805.jpg",
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.10320093482732773,
+      "p_e": 0.6318849921226501,
+      "s_neighbors": [
+        {
+          "frame_id": 2800,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.932958722114563
+        },
+        {
+          "frame_id": 2811,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.9126799702644348
+        },
+        {
+          "frame_id": 2789,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.8930862545967102
+        },
+        {
+          "frame_id": 2798,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.8821401596069336
+        },
+        {
+          "frame_id": 2784,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.8699321150779724
+        }
+      ],
+      "e_neighbors": [
+        {
+          "frame_id": 2463,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.7343813180923462
+        },
+        {
+          "frame_id": 2461,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.7270399928092957
+        },
+        {
+          "frame_id": 2460,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.7230960726737976
+        },
+        {
+          "frame_id": 2481,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.7124332189559937
+        },
+        {
+          "frame_id": 2459,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.7117406129837036
+        }
+      ]
+    },
+    "2864": {
+      "path": "data/raw/asl_alphabet_train/S/S2864.jpg",
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.06259004026651382,
+      "p_e": 0.782527506351471,
+      "s_neighbors": [
+        {
+          "frame_id": 2873,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.8594631552696228
+        },
+        {
+          "frame_id": 2872,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.8537096977233887
+        },
+        {
+          "frame_id": 2874,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.830225944519043
+        },
+        {
+          "frame_id": 2878,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.8290913105010986
+        },
+        {
+          "frame_id": 2893,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.825249433517456
+        }
+      ],
+      "e_neighbors": [
+        {
+          "frame_id": 2418,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.687404453754425
+        },
+        {
+          "frame_id": 2997,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.6768044233322144
+        },
+        {
+          "frame_id": 2999,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.6588174104690552
+        },
+        {
+          "frame_id": 2994,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.6540883183479309
+        },
+        {
+          "frame_id": 2995,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.653542160987854
+        }
+      ]
+    },
+    "2832": {
+      "path": "data/raw/asl_alphabet_train/S/S2832.jpg",
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.33716535568237305,
+      "p_e": 0.3458600640296936,
+      "s_neighbors": [
+        {
+          "frame_id": 2830,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.9643322229385376
+        },
+        {
+          "frame_id": 2829,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.9377814531326294
+        },
+        {
+          "frame_id": 2826,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.923262894153595
+        },
+        {
+          "frame_id": 2825,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.9159400463104248
+        },
+        {
+          "frame_id": 2827,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.9095016717910767
+        }
+      ],
+      "e_neighbors": [
+        {
+          "frame_id": 2461,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.4895309507846832
+        },
+        {
+          "frame_id": 2462,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.47842085361480713
+        },
+        {
+          "frame_id": 2418,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.4765983521938324
+        },
+        {
+          "frame_id": 2463,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.4747998118400574
+        },
+        {
+          "frame_id": 2927,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.46770620346069336
+        }
+      ]
+    },
+    "2876": {
+      "path": "data/raw/asl_alphabet_train/S/S2876.jpg",
+      "true": "S",
+      "pred": "E",
+      "p_s": 0.3593604862689972,
+      "p_e": 0.3919498324394226,
+      "s_neighbors": [
+        {
+          "frame_id": 2873,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.9759515523910522
+        },
+        {
+          "frame_id": 2878,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.9729711413383484
+        },
+        {
+          "frame_id": 2874,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.971457302570343
+        },
+        {
+          "frame_id": 2872,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.965480625629425
+        },
+        {
+          "frame_id": 2879,
+          "true": "S",
+          "pred": "S",
+          "cosine_similarity": 0.9625493884086609
+        }
+      ],
+      "e_neighbors": [
+        {
+          "frame_id": 2997,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.4800683856010437
+        },
+        {
+          "frame_id": 2999,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.46806931495666504
+        },
+        {
+          "frame_id": 2418,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.4665822982788086
+        },
+        {
+          "frame_id": 2927,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.46523168683052063
+        },
+        {
+          "frame_id": 2930,
+          "true": "E",
+          "pred": "E",
+          "cosine_similarity": 0.46263110637664795
+        }
+      ]
+    }
+  },
+  "s_to_e_138": {
+    "n": 138,
+    "closer_to_e": 0,
+    "closer_to_s": 138,
+    "ties": 0,
+    "mean_nearest_s_sim": 0.8995443850323774,
+    "mean_nearest_e_sim": 0.6060704765976339,
+    "nearest_e_minus_nearest_s": {
+      "mean": -0.29347390843474347,
+      "std": 0.12521422139556795,
+      "min": -0.49588316679000854,
+      "p25": -0.39939892292022705,
+      "p50": -0.3245134651660919,
+      "p75": -0.18735027313232422,
+      "max": -0.012685716152191162
+    }
+  },
+  "correct_s_control": {
+    "n": 462,
+    "closer_to_e": 0,
+    "closer_to_s": 462,
+    "ties": 0,
+    "mean_nearest_s_sim": 0.9752295490725216,
+    "mean_nearest_e_sim": 0.36452542006711425,
+    "nearest_e_minus_nearest_s": {
+      "mean": -0.6107041290054074,
+      "std": 0.11080035492492264,
+      "min": -0.8063380718231201,
+      "p25": -0.7072287127375603,
+      "p50": -0.6214212030172348,
+      "p75": -0.5241551920771599,
+      "max": -0.320792555809021
+    }
+  },
+  "gallery_files": {
+    "S2575_neighbors.png": "docs/figures/error_gallery_targeted/S_to_E/G_embedding_neighbors_human/S2575_neighbors.png",
+    "S2601_neighbors.png": "docs/figures/error_gallery_targeted/S_to_E/G_embedding_neighbors_human/S2601_neighbors.png",
+    "S2805_neighbors.png": "docs/figures/error_gallery_targeted/S_to_E/G_embedding_neighbors_human/S2805_neighbors.png",
+    "S2864_neighbors.png": "docs/figures/error_gallery_targeted/S_to_E/G_embedding_neighbors_human/S2864_neighbors.png",
+    "S2832_neighbors.png": "docs/figures/error_gallery_targeted/S_to_E/G_embedding_neighbors_human/S2832_neighbors.png",
+    "S2876_neighbors.png": "docs/figures/error_gallery_targeted/S_to_E/G_embedding_neighbors_human/S2876_neighbors.png"
+  },
+  "note": "Descriptive only. nearest-to-E is a possible representation/data-overlap signal; nearest-to-correct-S-while-predicting-E is a possible head/decision-boundary signal. Neither is treated as a conclusion, and no fix is proposed."
+}
