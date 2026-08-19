@@ -1,5 +1,9 @@
 # S -> E visual notes — efficientnet_b0_targeted (diagnosis only)
 
+> **For the full investigation summary, see
+> [`s_to_e_investigation_timeline.md`](s_to_e_investigation_timeline.md).**
+> This document is a source report for that synthesis.
+
 Descriptive comparison between the 138 S->E errors and the 462 correct-S
 recognitions of `checkpoints/efficientnet_b0_targeted.pt` on the exact dev-val
 split (`data/split_manifest.json`, sha256 `454ca31b…`, frames S2401..S3000).

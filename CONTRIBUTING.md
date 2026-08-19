@@ -13,7 +13,7 @@
 Issues are labelled `person-A` / `person-B` / `person-C` and attached to weekly
 milestones. Put your GitHub username on the issues assigned to you.
 
-## The two contracts everyone depends on — lock them in Week 1
+## The two contracts everyone depends on
 
 1. **Crop + preprocessing contract (`src/crop.py`).** The MediaPipe hand-crop and
    the resize/normalize must be *identical* in training and in the app. All of it
@@ -34,7 +34,7 @@ guards, not optional niceties.
 - **Shared W&B project** (`asl-fingerspelling`) — everyone logs runs there so we
   compare on the same axes.
 - **Shared webcam test set** (`data/webcam_testset/`) — coordinated by Person A;
-  all three record every sign in varied conditions (Week 5). **This data never
+  all three record every sign in varied conditions. **This data never
   enters training and is never used for model selection.** Capture protocol,
   layout, and the quarantine agreement:
   [`docs/WEBCAM_TESTSET_PROTOCOL.md`](docs/WEBCAM_TESTSET_PROTOCOL.md) (#15).

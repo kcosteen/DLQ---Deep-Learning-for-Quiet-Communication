@@ -1,5 +1,9 @@
 # S->E embedding-neighbor notes — efficientnet_b0_targeted (diagnosis only)
 
+> **For the full investigation summary, see
+> [`s_to_e_investigation_timeline.md`](s_to_e_investigation_timeline.md).**
+> This document is a source report for that synthesis.
+
 ## Method
 
 - Embedding: penultimate EfficientNet-B0 pooled feature vector (`model[0]`, 1280-D), the input to `Dropout(0.3) + Linear(1280, 29)`. Location verified against the head structure and `model(x) == head(backbone(x))`.
