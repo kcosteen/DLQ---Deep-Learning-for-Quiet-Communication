@@ -12,6 +12,8 @@ team, ~8 weeks.
 > it. Please read the [Ethics & honest-limits](#ethics--honest-limits) section
 > before demoing this to anyone.
 
+![ASL Fingerspelling Alphabet](docs/assets/asl.png)
+
 **29 classes:** A–Z plus `space`, `delete`, `nothing`.
 
 ---
