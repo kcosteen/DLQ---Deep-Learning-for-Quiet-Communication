@@ -150,6 +150,8 @@ Reports: [`docs/reports/calibrated_crop_benchmark.json`](docs/reports/calibrated
 
 ### Live webcam test (B, C only — 46 samples)
 
+![Demo: fingerspelling "hi"](docs/assets/demo.gif)
+
 First live-camera benchmark on `efficientnet_b0_targeted.pt`:
 
 | Class | Samples | Accuracy |
