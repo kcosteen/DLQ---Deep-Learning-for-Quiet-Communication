@@ -1,10 +1,9 @@
-# Current results (2026-08-11)
+# Current results (2026-08-15)
 
 Where the project stands *right now*: what we trained, where the checkpoints are,
 and what the numbers honestly say. Everything here is the **leakage-safe dev val
 (temporal split, same signer)** — the *reported* metric is our quarantined webcam
-test set, which has **not** been scored for the new models yet
-([protocol](WEBCAM_TESTSET_PROTOCOL.md)).
+test set, which has partial results on B/C (see README).
 
 ## The short version
 
@@ -86,13 +85,14 @@ Rebuild/train/analyze (needs the embedding cache):
 `scripts/build_embedding_cache.py`, `scripts/train_head_only_cached.py`,
 `scripts/train_partial_finetune.py`, `scripts/analyze_partial_finetune.py`.
 
-## Still missing (honest gap)
+## Known gaps
 
-- **No webcam-set score exists for any of these three models.** The reported
-  number (`≥ 90%`, per the targets in the README) still doesn't exist.
+- **Webcam-set scores exist for B and C only** (46 samples, 100% acc on
+  `efficientnet_b0_targeted.pt`). A scored 0% (19 samples, all confused as S/E).
+  Full 29-class webcam benchmark still pending.
 - S sits at 0.837 dev-val — above the baseline 0.770 but **not over the 85% bar**.
-- Nothing here is git-committed yet; all artifacts from the embedding-cache →
-  partial-FT session are untracked.
+- Crop ablation (symmetric 0.62 vs forearm vs calibrated) completed; symmetric
+  remains the production default. See README crop ablation table.
 
 ## Artifacts index
 

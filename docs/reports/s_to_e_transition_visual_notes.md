@@ -1,5 +1,9 @@
 # S -> E transition-run visual notes — efficientnet_b0_targeted
 
+> **For the full investigation summary, see
+> [`s_to_e_investigation_timeline.md`](s_to_e_investigation_timeline.md).**
+> This document is a source report for that synthesis.
+
 Follow-up to `s_to_e_visual_notes.md`. Instead of group-level averages, this document watches each of the three dominant contiguous error segments over time: what the frames and the model's probabilities do right before a run begins, across the run, and when prediction returns to S.
 
 Generated 2026-08-09T15:52:55+00:00 by `scripts/inspect_s_to_e_runs.py` (diagnosis only; no fixes).

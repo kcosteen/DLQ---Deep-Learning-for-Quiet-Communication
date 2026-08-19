@@ -57,7 +57,7 @@ TTS.
   - *photometric:* brightness/contrast/hue jitter, gamma, Gaussian noise & blur.
   - *background/structure:* random erasing/cutout, random background replacement on
     MediaPipe-segmented hands (`src.augment.BackgroundReplacer`, train-only via
-    `--backgrounds data/backgrounds`; ablation in `docs/RESULTS_bg_ablation.md`, #10).
+    `--backgrounds data/backgrounds`).
   - Use **Albumentations**.
 - **Tooling:** Python 3.10+, PyTorch + timm, torchvision/Albumentations,
   OpenCV + MediaPipe, pyttsx3, Weights & Biases (free), Kaggle API,

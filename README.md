@@ -12,38 +12,24 @@ team, ~8 weeks.
 > it. Please read the [Ethics & honest-limits](#ethics--honest-limits) section
 > before demoing this to anyone.
 
+![ASL Fingerspelling Alphabet](docs/assets/asl.png)
+
 **29 classes:** A–Z plus `space`, `delete`, `nothing`.
 
 ---
 
-## ⚠️ The critical trap: never trust a random split
+## Data split warning
 
-The primary dataset is 87,000 images — but they are **consecutive near-duplicate
-video frames of ONE signer in ONE room**. A random train/val split puts
-near-identical neighbouring frames on both sides and reports a **fake ~99.9%**
-accuracy.
-
-The project is built around two consequences:
-
-1. **We split *each class by frame ranges*** (first 80% of frames → train, last
-   20% → val), never randomly. Implemented in `src/data.py::frame_range_split`,
-   **enforced by `tests/test_split_leakage.py`**, and recorded in
-   `data/split_manifest.json` (deterministic, byte-for-byte reproducible).
-   Augmentation is applied *after* the split, train-only, so no augmented twin of
-   a val frame ever leaks into train.
-2. **This frame-range val is a dev number — NOT the reported metric.** The real
-   benchmark is our own **webcam test set** (`data/webcam_testset/`, recorded by
-   the team, see [protocol](docs/WEBCAM_TESTSET_PROTOCOL.md)). That set is
-   **quarantined**: it never enters training and is never used for model
-   selection. **The number we report is webcam-set accuracy — never the dev-val
-   number, and never the random-split number.**
-
-Targets:
+The 87k images are **consecutive near-duplicate video frames of one signer in
+one room**. A random split leaks near-identical neighbours → fake ~99.9%.
+We use **frame-range splits** (enforced by `tests/test_split_leakage.py`) and
+report **webcam-set accuracy only** — never the dev-val number. See
+[PROJECT_PLAN.md](docs/PROJECT_PLAN.md#critical-trap) for the full explanation.
 
 | Metric | Target |
 |---|---|
 | Leakage-safe frame-range split (dev) | > 95% |
-| **Own webcam test set** (the real, reported number) | ≥ 90% |
+| **Own webcam test set** (reported) | ≥ 90% |
 | Per-class accuracy / macro-F1 | no class below 85% |
 
 ---
@@ -281,7 +267,6 @@ cache-crop training, partial-FT reproduce): see the docs index below.
 - **[`docs/reports/head_only_cached_embeddings.md`](docs/reports/head_only_cached_embeddings.md)** — the head-only FT experiment.
 - **[`docs/RESULTS.md`](docs/RESULTS.md)** — transfer-learning v1 (#6) results.
 - **[`docs/RESULTS_class_fixes.md`](docs/RESULTS_class_fixes.md)** — the aimed-augmentation class-fix work (V, X), the S/exposure investigation, reproduce recipe.
-- **[`docs/RESULTS_bg_ablation.md`](docs/RESULTS_bg_ablation.md)** — background-replacement ablation.
 - **[`docs/PREPROCESSING_CONTRACT.md`](docs/PREPROCESSING_CONTRACT.md)** — the FROZEN resize+normalize contract and its change-control rule.
 - **[`docs/WEBCAM_TESTSET_PROTOCOL.md`](docs/WEBCAM_TESTSET_PROTOCOL.md)** — how to record the reported benchmark; quarantine rules.
 - **[`docs/SETUP.md`](docs/SETUP.md)** — full setup, Kaggle, and Colab recipes.

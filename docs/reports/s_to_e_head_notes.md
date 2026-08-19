@@ -1,5 +1,9 @@
 # S->E head analysis notes — efficientnet_b0_targeted (diagnosis only)
 
+> **For the full investigation summary, see
+> [`s_to_e_investigation_timeline.md`](s_to_e_investigation_timeline.md).**
+> This document is a source report for that synthesis.
+
 All quantities are computed on the cached pooled embeddings (`data/s_e_embeddings_targeted.npz`) recombined with the checkpoint head weights; every S prediction/probability is verified against `data/s_to_e_all_s_records.json` (0 mismatches, max |dp| 1.37e-06).
 
 ## Q1. Are the 138 S->E errors close to or far across the S/E boundary?

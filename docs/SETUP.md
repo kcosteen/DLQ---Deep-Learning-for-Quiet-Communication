@@ -148,4 +148,3 @@ experiments they belong to:
 - Partial-FT / head-only FT reproduce block: [`docs/CURRENT_RESULTS.md`](CURRENT_RESULTS.md)
 - Augmentation preview: `python -m src.augment --image <img> --n 8`
   (add `--backgrounds data/backgrounds` to preview background replacement)
-- Background-replacement ablation: [`docs/RESULTS_bg_ablation.md`](RESULTS_bg_ablation.md)
