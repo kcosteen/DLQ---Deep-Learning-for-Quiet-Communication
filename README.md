@@ -61,8 +61,6 @@ webcam frame → mirror → MediaPipe HandLandmarker (tight bbox, no centre fall
 → preprocess_bgr (same resize + normalize as training) → model → speller → TTS
 ```
 
-![Crop pipeline demo](docs/assets/crop_demo.gif)
-
 MediaPipe is a **localizer only** — it finds the hand bbox, and the crop
 reproduces the training-set framing (hand fills ~45% of the crop, measured by
 `scripts/measure_training_framing.py`). The 0.62 margin was selected by an
@@ -119,6 +117,8 @@ frames). Full details, per-class tables, and reproduce commands:
 [`docs/reports/partial_finetune_targeted.md`](docs/reports/partial_finetune_targeted.md).
 
 ### Crop ablation (val split, 6,282 MediaPipe-detected frames)
+
+![Crop pipeline demo](docs/assets/crop_demo.gif)
 
 4-way comparison on `efficientnet_b0_targeted.pt`:
 
