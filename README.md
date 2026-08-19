@@ -148,7 +148,7 @@ Reports: [`docs/reports/calibrated_crop_benchmark.json`](docs/reports/calibrated
 [`docs/reports/forearm_crop_benchmark.json`](docs/reports/forearm_crop_benchmark.json),
 [`docs/reports/framing_reconstruction_error.json`](docs/reports/framing_reconstruction_error.json).
 
-### Live webcam test (B, C only — 46 samples)
+### Live webcam test
 
 ![Demo: fingerspelling "hi"](docs/assets/demo.gif)
 
