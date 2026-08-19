@@ -70,14 +70,23 @@ input trace ([`docs/reports/model_input_pipeline_ablate.md`](docs/reports/model_
 ### 2. Live / demo pipeline (`app/webcam_speller.py`)
 
 ```
-webcam frame → mirror → MediaPipe HandCropper (bbox + 0.25 margin, centre fallback)
+webcam frame → mirror → MediaPipe HandLandmarker (tight bbox, no centre fallback)
+→ square crop + 0.62 training-derived margin → resize_square → 224²
 → preprocess_bgr (same resize + normalize as training) → model → speller → TTS
 ```
 
-This is where MediaPipe hand-cropping **is** used — and it is a **different
-framing than training** (tight hand crop vs full frame). The webcam benchmark
-exists precisely to measure the effect of that mismatch on strangers' hands;
-until it is scored, the demo's real-world accuracy is unmeasured.
+MediaPipe is a **localizer only** — it finds the hand bbox, and the crop
+reproduces the training-set framing (hand fills ~45% of the crop, measured by
+`scripts/measure_training_framing.py`). The 0.62 margin was selected by an
+offline 4-way crop ablation (symmetric 0.62 vs forearm vs training-calibrated);
+symmetric won. No-hand frames are **never** classified. The crop formula:
+
+```python
+# src/crop.py::crop_square_with_margin
+side = max(bw, bh) * (1 + 2 * margin)   # margin = 0.62
+cx, cy = bbox centre
+square centred on (cx, cy), clamped to frame, resize to 224²
+```
 
 ### 3. Experimental / future paths (not in the current checkpoints)
 
@@ -121,8 +130,52 @@ frames). Full details, per-class tables, and reproduce commands:
 **[`docs/CURRENT_RESULTS.md`](docs/CURRENT_RESULTS.md)** and
 [`docs/reports/partial_finetune_targeted.md`](docs/reports/partial_finetune_targeted.md).
 
-**The reported webcam number does not exist yet** — the test set has not been
-scored for any of these checkpoints.
+### Crop ablation (val split, 6,282 MediaPipe-detected frames)
+
+4-way comparison on `efficientnet_b0_targeted.pt`:
+
+| Method | Accuracy | Macro-F1 | Notes |
+|---|---|---|---|
+| original (all 17,400) | 0.9775 | 0.9775 | raw 200×200, no crop |
+| **symmetric (0.62)** | **0.9823** | **0.9845** | **winner — used in production** |
+| forearm (L=0.7 R=0.7 T=0.4 B=1.8) | 0.9769 | 0.9780 | helps S, hurts M/K/X |
+| calibrated (L=1.15 R=0.88 T=0.71 B=0.57) | 0.9787 | 0.9799 | best training-framing match, hurts N |
+
+Per-class focus (given detection):
+
+| Class | orig | sym | fore | cal |
+|---|---|---|---|---|
+| S | 0.770 | 0.830 | **0.881** | 0.877 |
+| E | 1.000 | 0.995 | 1.000 | 1.000 |
+| M | 0.947 | 0.953 | 0.839 | **0.987** |
+| N | 0.960 | **1.000** | **1.000** | 0.864 |
+| K | 0.943 | **0.947** | 0.902 | 0.918 |
+| V | 0.978 | **1.000** | **1.000** | **1.000** |
+| X | 0.933 | **0.970** | 0.910 | 0.932 |
+
+Derived framing (global median from 63,581 training-set detections):
+L=1.15, R=0.88, T=0.71, B=0.57. Framing reconstruction analysis confirms
+calibrated best matches original hand vertical centre (0.538 vs 0.534) but
+the tighter symmetric crop produces better classifier accuracy.
+
+Reports: [`docs/reports/calibrated_crop_benchmark.json`](docs/reports/calibrated_crop_benchmark.json),
+[`docs/reports/forearm_crop_benchmark.json`](docs/reports/forearm_crop_benchmark.json),
+[`docs/reports/framing_reconstruction_error.json`](docs/reports/framing_reconstruction_error.json).
+
+### Live webcam test (B, C only — 46 samples)
+
+First live-camera benchmark on `efficientnet_b0_targeted.pt`:
+
+| Class | Samples | Accuracy |
+|---|---|---|
+| B | 21 | 1.000 |
+| C | 25 | 1.000 |
+| **Overall** | **46** | **1.000** |
+
+A was also tested (19 samples) but scored 0% — all confused as S (15) or E (4).
+This matches the known A→S/E confusion from the val split and is a classifier
+weakness, not a crop/preprocessing issue. Recorded with `scripts/webcam_testset_generator.py`,
+evaluated with `python -m src.evaluate --webcam data/livetest --num-workers 0`.
 
 ---
 
@@ -132,10 +185,16 @@ scored for any of these checkpoints.
 ├── src/       # crop (preprocess contract) · data (leakage-safe split) · augment
 │              # model · train · evaluate · export · cache_crops · webcam_testset
 ├── app/       # webcam_speller.py (live demo) · tts.py
-├── scripts/   # record_webcam_testset.py, analyze_s_to_e*.py, train_*_cached.py, …
-├── tests/     # split-leakage, preprocessing-parity, S→E/FT suites, …
+├── scripts/   # recording, analysis, benchmarking, and framing measurement tools
+│              # webcam_testset_generator.py  — simple live sample collector
+│              # record_webcam_testset.py     — full protocol-compliant recorder
+│              # analyze_training_framing.py  — 87K training-set MediaPipe analysis
+│              # benchmark_calibrated_crop.py — 4-way crop ablation
+│              # benchmark_pipeline.py        — per-stage latency measurement
+│              # measure_framing_reconstruction.py — training distribution matching
+├── tests/     # split-leakage, preprocessing-parity, crop geometry, webcam bridge, …
 ├── models/    # MediaPipe Tasks assets (hand_landmarker.task, selfie_segmenter.tflite)
-├── data/      # raw/ (gitignored) · webcam_testset/ (gitignored captures) · caches
+├── data/      # raw/ (gitignored) · webcam_testset/ · livetest/ · framing caches
 ├── checkpoints/   # efficientnet_b0_{targeted,head_ft,partial_ft}.pt
 └── docs/      # see "Docs index" below
 ```
@@ -182,18 +241,28 @@ python -m src.evaluate --checkpoint checkpoints/efficientnet_b0_targeted.pt \
     --split data/raw/asl_alphabet_train/asl_alphabet_train \
     --manifest data/split_manifest.json
 
-# Evaluate — THE reported benchmark (needs the webcam test set first)
+# Collect live samples — simple (trackbar + space to record)
+python scripts/webcam_testset_generator.py --camera 0
+
+# Collect live samples — full protocol (person ID, condition tags)
 python scripts/record_webcam_testset.py --person <your-id> --all-classes \
     --count 10 --condition desklamp-plainwall
 python scripts/check_webcam_coverage.py --root data/webcam_testset
-python -m src.evaluate --checkpoint checkpoints/efficientnet_b0_partial_ft.pt \
-    --webcam data/webcam_testset --figures docs/figures
+
+# Evaluate — THE reported benchmark (needs the webcam test set first)
+python -m src.evaluate --checkpoint checkpoints/efficientnet_b0_targeted.pt \
+    --webcam data/webcam_testset --num-workers 0
+
+# Evaluate — quick live test
+python -m src.evaluate --checkpoint checkpoints/efficientnet_b0_targeted.pt \
+    --webcam data/livetest --num-workers 0
 
 # Export for CPU demo inference
 python -m src.export --checkpoint checkpoints/efficientnet_b0_partial_ft.pt --format both
 
 # Live demo
-python -m app.webcam_speller --checkpoint checkpoints/efficientnet_b0_partial_ft.pt
+python -m app.webcam_speller --checkpoint checkpoints/efficientnet_b0_targeted.pt \
+    --device mps --debug --compare-full-frame
 ```
 
 Advanced experiment commands (`--rebalance-from`, `--geometry-safe-classes auto`,
@@ -204,6 +273,8 @@ cache-crop training, partial-FT reproduce): see the docs index below.
 ## Docs index
 
 - **[`docs/CURRENT_RESULTS.md`](docs/CURRENT_RESULTS.md)** — current state: checkpoints, the three-way dev-val comparison, honest gaps.
+- **[`docs/reports/calibrated_crop_benchmark.json`](docs/reports/calibrated_crop_benchmark.json)** — 4-way crop ablation (original/symmetric/forearm/calibrated).
+- **[`docs/reports/framing_reconstruction_error.json`](docs/reports/framing_reconstruction_error.json)** — which crop best reproduces training framing.
 - **[`docs/reports/partial_finetune_targeted.md`](docs/reports/partial_finetune_targeted.md)** — the partial-FT experiment (verdict: TRADEOFF).
 - **[`docs/reports/partial_finetune_training.md`](docs/reports/partial_finetune_training.md)** — the partial-FT training sweep.
 - **[`docs/reports/s_to_e_investigation_timeline.md`](docs/reports/s_to_e_investigation_timeline.md)** — the full S→E diagnosis (crop → exposure → embeddings → head), what was ruled out and why.
