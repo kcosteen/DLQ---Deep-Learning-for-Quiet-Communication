@@ -10,7 +10,7 @@ import pytest
 
 pytest.importorskip("cv2")  # app.webcam_speller imports src.crop -> cv2
 
-from app.webcam_speller import SpellerConfig, WordSpeller  # noqa: E402
+from app.webcam_speller import SpellerConfig, WordSpeller, handle_delete_key  # noqa: E402
 
 
 def _commit(speller, letter, t):
@@ -65,4 +65,29 @@ def test_nothing_is_idle():
     s = WordSpeller(SpellerConfig())
     assert s.update("nothing", 0.99, 0.0) is None
     assert s.update("nothing", 0.99, 1.0) is None
+    assert s.word == ""
+
+
+def test_delete_last_backspaces_and_returns_removed_letter():
+    s = WordSpeller(SpellerConfig())
+    for i, ch in enumerate("CAT"):
+        _commit(s, ch, i * 3.0)
+    assert s.word == "CAT"
+    assert s.delete_last() == "T"
+    assert s.word == "CA"
+    assert s.delete_last() == "A"
+    assert s.delete_last() == "C"
+    assert s.word == ""
+    assert s.delete_last() is None
+    assert s.word == ""
+
+
+def test_handle_delete_key_backspace_and_b():
+    s = WordSpeller(SpellerConfig())
+    _commit(s, "H", 0.0)
+    _commit(s, "I", 3.0)
+    assert handle_delete_key(8, s) == "I"    # Backspace key
+    assert handle_delete_key(ord("b"), s) == "H"  # 'b' key
+    assert s.word == ""
+    assert handle_delete_key(ord("x"), s) is None  # other keys do nothing
     assert s.word == ""

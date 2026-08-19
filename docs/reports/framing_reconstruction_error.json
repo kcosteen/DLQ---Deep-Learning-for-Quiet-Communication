@@ -1,0 +1,6590 @@
+{
+  "n_images": 2201,
+  "records": [
+    {
+      "bbox": [
+        72,
+        67,
+        155,
+        155
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.5647,
+        "hand_cy": 0.5558,
+        "hand_h_frac": 0.4509,
+        "hand_w_frac": 0.4241
+      },
+      "framing_forearm": {
+        "hand_cx": 0.558,
+        "hand_cy": 0.4732,
+        "hand_h_frac": 0.4643,
+        "hand_w_frac": 0.4286
+      },
+      "framing_original": {
+        "hand_cx": 0.5647,
+        "hand_cy": 0.5558,
+        "hand_h_frac": 0.4509,
+        "hand_w_frac": 0.4241
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5201,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.4688,
+        "hand_w_frac": 0.4598
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2401.jpg"
+    },
+    {
+      "bbox": [
+        68,
+        65,
+        153,
+        159
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.5536,
+        "hand_cy": 0.5603,
+        "hand_h_frac": 0.4688,
+        "hand_w_frac": 0.4196
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5536,
+        "hand_cy": 0.4933,
+        "hand_h_frac": 0.4688,
+        "hand_w_frac": 0.4196
+      },
+      "framing_original": {
+        "hand_cx": 0.5536,
+        "hand_cy": 0.5603,
+        "hand_h_frac": 0.4688,
+        "hand_w_frac": 0.4196
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5402,
+        "hand_cy": 0.5491,
+        "hand_h_frac": 0.4821,
+        "hand_w_frac": 0.4375
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2402.jpg"
+    },
+    {
+      "bbox": [
+        64,
+        63,
+        152,
+        159
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.5402,
+        "hand_cy": 0.558,
+        "hand_h_frac": 0.4732,
+        "hand_w_frac": 0.4375
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5402,
+        "hand_cy": 0.5,
+        "hand_h_frac": 0.4554,
+        "hand_w_frac": 0.4286
+      },
+      "framing_original": {
+        "hand_cx": 0.5402,
+        "hand_cy": 0.558,
+        "hand_h_frac": 0.4732,
+        "hand_w_frac": 0.4375
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5469,
+        "hand_cy": 0.558,
+        "hand_h_frac": 0.4643,
+        "hand_w_frac": 0.4241
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2403.jpg"
+    },
+    {
+      "bbox": [
+        61,
+        66,
+        150,
+        163
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.5268,
+        "hand_cy": 0.5737,
+        "hand_h_frac": 0.4866,
+        "hand_w_frac": 0.4375
+      },
+      "framing_forearm": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.5022,
+        "hand_h_frac": 0.4777,
+        "hand_w_frac": 0.442
+      },
+      "framing_original": {
+        "hand_cx": 0.5268,
+        "hand_cy": 0.5737,
+        "hand_h_frac": 0.4866,
+        "hand_w_frac": 0.4375
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5268,
+        "hand_cy": 0.5558,
+        "hand_h_frac": 0.4866,
+        "hand_w_frac": 0.4375
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2404.jpg"
+    },
+    {
+      "bbox": [
+        64,
+        68,
+        147,
+        161
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.5223,
+        "hand_cy": 0.5737,
+        "hand_h_frac": 0.4777,
+        "hand_w_frac": 0.4286
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5223,
+        "hand_cy": 0.4933,
+        "hand_h_frac": 0.4598,
+        "hand_w_frac": 0.4196
+      },
+      "framing_original": {
+        "hand_cx": 0.5223,
+        "hand_cy": 0.5737,
+        "hand_h_frac": 0.4777,
+        "hand_w_frac": 0.4286
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5112,
+        "hand_cy": 0.5402,
+        "hand_h_frac": 0.4821,
+        "hand_w_frac": 0.442
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2405.jpg"
+    },
+    {
+      "bbox": [
+        54,
+        63,
+        145,
+        165
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.4955,
+        "hand_cy": 0.5714,
+        "hand_h_frac": 0.5179,
+        "hand_w_frac": 0.4554
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5067,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.5,
+        "hand_w_frac": 0.4509
+      },
+      "framing_original": {
+        "hand_cx": 0.4955,
+        "hand_cy": 0.5714,
+        "hand_h_frac": 0.5179,
+        "hand_w_frac": 0.4554
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4955,
+        "hand_cy": 0.5714,
+        "hand_h_frac": 0.5179,
+        "hand_w_frac": 0.4554
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2406.jpg"
+    },
+    {
+      "bbox": [
+        55,
+        64,
+        146,
+        166
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.5022,
+        "hand_cy": 0.5804,
+        "hand_h_frac": 0.5179,
+        "hand_w_frac": 0.4509
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5112,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.4777,
+        "hand_w_frac": 0.433
+      },
+      "framing_original": {
+        "hand_cx": 0.5022,
+        "hand_cy": 0.5804,
+        "hand_h_frac": 0.5179,
+        "hand_w_frac": 0.4509
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4978,
+        "hand_cy": 0.5714,
+        "hand_h_frac": 0.5268,
+        "hand_w_frac": 0.4509
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2407.jpg"
+    },
+    {
+      "bbox": [
+        64,
+        80,
+        144,
+        169
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.5134,
+        "hand_cy": 0.596,
+        "hand_h_frac": 0.4866,
+        "hand_w_frac": 0.4286
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.5134,
+        "hand_cy": 0.596,
+        "hand_h_frac": 0.4866,
+        "hand_w_frac": 0.4286
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5045,
+        "hand_cy": 0.5223,
+        "hand_h_frac": 0.5179,
+        "hand_w_frac": 0.3571
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2408.jpg"
+    },
+    {
+      "bbox": [
+        79,
+        60,
+        138,
+        163
+      ],
+      "class": "A",
+      "framing_calibrated": null,
+      "framing_forearm": {
+        "hand_cx": 0.5045,
+        "hand_cy": 0.5692,
+        "hand_h_frac": 0.5134,
+        "hand_w_frac": 0.3393
+      },
+      "framing_original": null,
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/A/A2410.jpg"
+    },
+    {
+      "bbox": [
+        49,
+        65,
+        138,
+        160
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.471,
+        "hand_cy": 0.5558,
+        "hand_h_frac": 0.4866,
+        "hand_w_frac": 0.442
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4688,
+        "hand_cy": 0.4866,
+        "hand_h_frac": 0.5089,
+        "hand_w_frac": 0.4643
+      },
+      "framing_original": {
+        "hand_cx": 0.471,
+        "hand_cy": 0.5558,
+        "hand_h_frac": 0.4866,
+        "hand_w_frac": 0.442
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4754,
+        "hand_cy": 0.5379,
+        "hand_h_frac": 0.4955,
+        "hand_w_frac": 0.4152
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2411.jpg"
+    },
+    {
+      "bbox": [
+        41,
+        70,
+        132,
+        156
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.433,
+        "hand_cy": 0.5647,
+        "hand_h_frac": 0.433,
+        "hand_w_frac": 0.4554
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.433,
+        "hand_cy": 0.5647,
+        "hand_h_frac": 0.433,
+        "hand_w_frac": 0.4554
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/A/A2413.jpg"
+    },
+    {
+      "bbox": [
+        39,
+        66,
+        133,
+        159
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.4353,
+        "hand_cy": 0.567,
+        "hand_h_frac": 0.4732,
+        "hand_w_frac": 0.4688
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5067,
+        "hand_cy": 0.433,
+        "hand_h_frac": 0.4911,
+        "hand_w_frac": 0.2991
+      },
+      "framing_original": {
+        "hand_cx": 0.4353,
+        "hand_cy": 0.567,
+        "hand_h_frac": 0.4732,
+        "hand_w_frac": 0.4688
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.442,
+        "hand_cy": 0.567,
+        "hand_h_frac": 0.5089,
+        "hand_w_frac": 0.4732
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2414.jpg"
+    },
+    {
+      "bbox": [
+        37,
+        65,
+        132,
+        157
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.4241,
+        "hand_cy": 0.5536,
+        "hand_h_frac": 0.4911,
+        "hand_w_frac": 0.4732
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.4241,
+        "hand_cy": 0.5536,
+        "hand_h_frac": 0.4911,
+        "hand_w_frac": 0.4732
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4442,
+        "hand_cy": 0.5246,
+        "hand_h_frac": 0.5134,
+        "hand_w_frac": 0.4777
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2415.jpg"
+    },
+    {
+      "bbox": [
+        37,
+        65,
+        125,
+        163
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.4174,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.5,
+        "hand_w_frac": 0.4598
+      },
+      "framing_forearm": {
+        "hand_cx": 0.2679,
+        "hand_cy": 0.8862,
+        "hand_h_frac": 0.4152,
+        "hand_w_frac": 0.25
+      },
+      "framing_original": {
+        "hand_cx": 0.4174,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.5,
+        "hand_w_frac": 0.4598
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4464,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.5491,
+        "hand_w_frac": 0.4643
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2416.jpg"
+    },
+    {
+      "bbox": [
+        38,
+        55,
+        131,
+        155
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.4241,
+        "hand_cy": 0.5379,
+        "hand_h_frac": 0.4955,
+        "hand_w_frac": 0.4643
+      },
+      "framing_forearm": {
+        "hand_cx": 0.442,
+        "hand_cy": 0.5134,
+        "hand_h_frac": 0.4464,
+        "hand_w_frac": 0.4375
+      },
+      "framing_original": {
+        "hand_cx": 0.4241,
+        "hand_cy": 0.5379,
+        "hand_h_frac": 0.4955,
+        "hand_w_frac": 0.4643
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4241,
+        "hand_cy": 0.5268,
+        "hand_h_frac": 0.5179,
+        "hand_w_frac": 0.4554
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2417.jpg"
+    },
+    {
+      "bbox": [
+        39,
+        57,
+        133,
+        160
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.4263,
+        "hand_cy": 0.5424,
+        "hand_h_frac": 0.5134,
+        "hand_w_frac": 0.4598
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4911,
+        "hand_cy": 0.4688,
+        "hand_h_frac": 0.4643,
+        "hand_w_frac": 0.3214
+      },
+      "framing_original": {
+        "hand_cx": 0.4263,
+        "hand_cy": 0.5424,
+        "hand_h_frac": 0.5134,
+        "hand_w_frac": 0.4598
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4263,
+        "hand_cy": 0.5424,
+        "hand_h_frac": 0.5134,
+        "hand_w_frac": 0.4598
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2418.jpg"
+    },
+    {
+      "bbox": [
+        32,
+        77,
+        105,
+        165
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.4375,
+        "hand_cy": 0.5513,
+        "hand_h_frac": 0.4955,
+        "hand_w_frac": 0.4643
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4955,
+        "hand_cy": 0.4085,
+        "hand_h_frac": 0.4688,
+        "hand_w_frac": 0.3304
+      },
+      "framing_original": {
+        "hand_cx": 0.4375,
+        "hand_cy": 0.5513,
+        "hand_h_frac": 0.4955,
+        "hand_w_frac": 0.4643
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/A/A2419.jpg"
+    },
+    {
+      "bbox": [
+        55,
+        71,
+        127,
+        155
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.4375,
+        "hand_cy": 0.5848,
+        "hand_h_frac": 0.4375,
+        "hand_w_frac": 0.4643
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.4375,
+        "hand_cy": 0.5848,
+        "hand_h_frac": 0.4375,
+        "hand_w_frac": 0.4643
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/A/A2421.jpg"
+    },
+    {
+      "bbox": [
+        31,
+        49,
+        98,
+        158
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.3214,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.5759,
+        "hand_w_frac": 0.3304
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3259,
+        "hand_cy": 0.5022,
+        "hand_h_frac": 0.5848,
+        "hand_w_frac": 0.3125
+      },
+      "framing_original": {
+        "hand_cx": 0.3214,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.5759,
+        "hand_w_frac": 0.3304
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3393,
+        "hand_cy": 0.5089,
+        "hand_h_frac": 0.5446,
+        "hand_w_frac": 0.3482
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2431.jpg"
+    },
+    {
+      "bbox": [
+        72,
+        54,
+        158,
+        158
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.5513,
+        "hand_cy": 0.5558,
+        "hand_h_frac": 0.4955,
+        "hand_w_frac": 0.3884
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.5513,
+        "hand_cy": 0.5558,
+        "hand_h_frac": 0.4955,
+        "hand_w_frac": 0.3884
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5513,
+        "hand_cy": 0.5558,
+        "hand_h_frac": 0.4955,
+        "hand_w_frac": 0.3884
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2445.jpg"
+    },
+    {
+      "bbox": [
+        86,
+        65,
+        175,
+        156
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.6719,
+        "hand_cy": 0.5558,
+        "hand_h_frac": 0.4509,
+        "hand_w_frac": 0.4955
+      },
+      "framing_forearm": {
+        "hand_cx": 0.7009,
+        "hand_cy": 0.4464,
+        "hand_h_frac": 0.4643,
+        "hand_w_frac": 0.5089
+      },
+      "framing_original": {
+        "hand_cx": 0.6719,
+        "hand_cy": 0.5558,
+        "hand_h_frac": 0.4509,
+        "hand_w_frac": 0.4955
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5781,
+        "hand_cy": 0.5223,
+        "hand_h_frac": 0.5179,
+        "hand_w_frac": 0.4241
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2447.jpg"
+    },
+    {
+      "bbox": [
+        98,
+        47,
+        193,
+        158
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.7321,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.5312,
+        "hand_w_frac": 0.5
+      },
+      "framing_forearm": {
+        "hand_cx": 0.7321,
+        "hand_cy": 0.5067,
+        "hand_h_frac": 0.5312,
+        "hand_w_frac": 0.4821
+      },
+      "framing_original": {
+        "hand_cx": 0.7321,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.5312,
+        "hand_w_frac": 0.5
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6674,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.5223,
+        "hand_w_frac": 0.5045
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2448.jpg"
+    },
+    {
+      "bbox": [
+        104,
+        58,
+        200,
+        158
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.7545,
+        "hand_cy": 0.5402,
+        "hand_h_frac": 0.5089,
+        "hand_w_frac": 0.4732
+      },
+      "framing_forearm": {
+        "hand_cx": 0.7589,
+        "hand_cy": 0.4955,
+        "hand_h_frac": 0.4911,
+        "hand_w_frac": 0.4821
+      },
+      "framing_original": {
+        "hand_cx": 0.7545,
+        "hand_cy": 0.5402,
+        "hand_h_frac": 0.5089,
+        "hand_w_frac": 0.4732
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6652,
+        "hand_cy": 0.5446,
+        "hand_h_frac": 0.5179,
+        "hand_w_frac": 0.5
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2449.jpg"
+    },
+    {
+      "bbox": [
+        108,
+        52,
+        193,
+        165
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.7589,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.5402,
+        "hand_w_frac": 0.4643
+      },
+      "framing_forearm": {
+        "hand_cx": 0.7589,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.5938,
+        "hand_w_frac": 0.375
+      },
+      "framing_original": {
+        "hand_cx": 0.7589,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.5402,
+        "hand_w_frac": 0.4643
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6942,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.5357,
+        "hand_w_frac": 0.4688
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2450.jpg"
+    },
+    {
+      "bbox": [
+        101,
+        58,
+        209,
+        159
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.7589,
+        "hand_cy": 0.5536,
+        "hand_h_frac": 0.5089,
+        "hand_w_frac": 0.5089
+      },
+      "framing_forearm": {
+        "hand_cx": 0.7723,
+        "hand_cy": 0.5022,
+        "hand_h_frac": 0.4955,
+        "hand_w_frac": 0.5357
+      },
+      "framing_original": {
+        "hand_cx": 0.7589,
+        "hand_cy": 0.5536,
+        "hand_h_frac": 0.5089,
+        "hand_w_frac": 0.5089
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.683,
+        "hand_cy": 0.5558,
+        "hand_h_frac": 0.4955,
+        "hand_w_frac": 0.5268
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2451.jpg"
+    },
+    {
+      "bbox": [
+        97,
+        64,
+        206,
+        159
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.7612,
+        "hand_cy": 0.5513,
+        "hand_h_frac": 0.4866,
+        "hand_w_frac": 0.5491
+      },
+      "framing_forearm": {
+        "hand_cx": 0.7321,
+        "hand_cy": 0.4754,
+        "hand_h_frac": 0.5402,
+        "hand_w_frac": 0.4464
+      },
+      "framing_original": {
+        "hand_cx": 0.7612,
+        "hand_cy": 0.5513,
+        "hand_h_frac": 0.4866,
+        "hand_w_frac": 0.5491
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6808,
+        "hand_cy": 0.5491,
+        "hand_h_frac": 0.5,
+        "hand_w_frac": 0.5491
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2452.jpg"
+    },
+    {
+      "bbox": [
+        96,
+        58,
+        192,
+        169
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.7165,
+        "hand_cy": 0.5625,
+        "hand_h_frac": 0.5714,
+        "hand_w_frac": 0.4688
+      },
+      "framing_forearm": {
+        "hand_cx": 0.7143,
+        "hand_cy": 0.5268,
+        "hand_h_frac": 0.6071,
+        "hand_w_frac": 0.4107
+      },
+      "framing_original": {
+        "hand_cx": 0.7165,
+        "hand_cy": 0.5625,
+        "hand_h_frac": 0.5714,
+        "hand_w_frac": 0.4688
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6786,
+        "hand_cy": 0.5558,
+        "hand_h_frac": 0.558,
+        "hand_w_frac": 0.4911
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2453.jpg"
+    },
+    {
+      "bbox": [
+        91,
+        73,
+        192,
+        168
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.7076,
+        "hand_cy": 0.6004,
+        "hand_h_frac": 0.4866,
+        "hand_w_frac": 0.5045
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6942,
+        "hand_cy": 0.4821,
+        "hand_h_frac": 0.5357,
+        "hand_w_frac": 0.4598
+      },
+      "framing_original": {
+        "hand_cx": 0.7076,
+        "hand_cy": 0.6004,
+        "hand_h_frac": 0.4866,
+        "hand_w_frac": 0.5045
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.625,
+        "hand_cy": 0.5536,
+        "hand_h_frac": 0.5625,
+        "hand_w_frac": 0.4911
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2454.jpg"
+    },
+    {
+      "bbox": [
+        83,
+        67,
+        189,
+        172
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.6808,
+        "hand_cy": 0.6071,
+        "hand_h_frac": 0.5089,
+        "hand_w_frac": 0.5223
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6741,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.5893,
+        "hand_w_frac": 0.4375
+      },
+      "framing_original": {
+        "hand_cx": 0.6808,
+        "hand_cy": 0.6071,
+        "hand_h_frac": 0.5089,
+        "hand_w_frac": 0.5223
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6384,
+        "hand_cy": 0.6317,
+        "hand_h_frac": 0.5045,
+        "hand_w_frac": 0.5179
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2455.jpg"
+    },
+    {
+      "bbox": [
+        77,
+        67,
+        186,
+        177
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.6585,
+        "hand_cy": 0.6161,
+        "hand_h_frac": 0.5446,
+        "hand_w_frac": 0.5402
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6652,
+        "hand_cy": 0.5781,
+        "hand_h_frac": 0.5223,
+        "hand_w_frac": 0.5
+      },
+      "framing_original": {
+        "hand_cx": 0.6585,
+        "hand_cy": 0.6161,
+        "hand_h_frac": 0.5446,
+        "hand_w_frac": 0.5402
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6339,
+        "hand_cy": 0.6138,
+        "hand_h_frac": 0.558,
+        "hand_w_frac": 0.5268
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2456.jpg"
+    },
+    {
+      "bbox": [
+        80,
+        100,
+        187,
+        204
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.6652,
+        "hand_cy": 0.7634,
+        "hand_h_frac": 0.5179,
+        "hand_w_frac": 0.5357
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6853,
+        "hand_cy": 0.6071,
+        "hand_h_frac": 0.4464,
+        "hand_w_frac": 0.5223
+      },
+      "framing_original": {
+        "hand_cx": 0.6652,
+        "hand_cy": 0.7634,
+        "hand_h_frac": 0.5179,
+        "hand_w_frac": 0.5357
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6406,
+        "hand_cy": 0.7009,
+        "hand_h_frac": 0.5536,
+        "hand_w_frac": 0.5759
+      },
+      "path": "data/raw/asl_alphabet_train/A/A2462.jpg"
+    },
+    {
+      "bbox": [
+        80,
+        106,
+        187,
+        200
+      ],
+      "class": "A",
+      "framing_calibrated": {
+        "hand_cx": 0.6652,
+        "hand_cy": 0.7545,
+        "hand_h_frac": 0.4554,
+        "hand_w_frac": 0.5357
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6741,
+        "hand_cy": 0.5893,
+        "hand_h_frac": 0.4107,
+        "hand_w_frac": 0.5089
+      },
+      "framing_original": {
+        "hand_cx": 0.6652,
+        "hand_cy": 0.7545,
+        "hand_h_frac": 0.4554,
+        "hand_w_frac": 0.5357
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/A/A2463.jpg"
+    },
+    {
+      "bbox": [
+        117,
+        96,
+        149,
+        186
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.6652,
+        "hand_cy": 0.7076,
+        "hand_h_frac": 0.4598,
+        "hand_w_frac": 0.1607
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6652,
+        "hand_cy": 0.5446,
+        "hand_h_frac": 0.4375,
+        "hand_w_frac": 0.1607
+      },
+      "framing_original": {
+        "hand_cx": 0.6652,
+        "hand_cy": 0.7076,
+        "hand_h_frac": 0.4598,
+        "hand_w_frac": 0.1607
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5982,
+        "hand_cy": 0.6049,
+        "hand_h_frac": 0.5134,
+        "hand_w_frac": 0.1964
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2401.jpg"
+    },
+    {
+      "bbox": [
+        115,
+        94,
+        145,
+        179
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.6406,
+        "hand_cy": 0.6607,
+        "hand_h_frac": 0.4196,
+        "hand_w_frac": 0.1562
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6518,
+        "hand_cy": 0.529,
+        "hand_h_frac": 0.4241,
+        "hand_w_frac": 0.1518
+      },
+      "framing_original": {
+        "hand_cx": 0.6496,
+        "hand_cy": 0.6964,
+        "hand_h_frac": 0.4554,
+        "hand_w_frac": 0.1562
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5781,
+        "hand_cy": 0.6049,
+        "hand_h_frac": 0.5312,
+        "hand_w_frac": 0.192
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2402.jpg"
+    },
+    {
+      "bbox": [
+        111,
+        94,
+        143,
+        185
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.6362,
+        "hand_cy": 0.7009,
+        "hand_h_frac": 0.4643,
+        "hand_w_frac": 0.1562
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6339,
+        "hand_cy": 0.5491,
+        "hand_h_frac": 0.4464,
+        "hand_w_frac": 0.1607
+      },
+      "framing_original": {
+        "hand_cx": 0.6362,
+        "hand_cy": 0.7009,
+        "hand_h_frac": 0.4643,
+        "hand_w_frac": 0.1562
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5826,
+        "hand_cy": 0.6027,
+        "hand_h_frac": 0.4911,
+        "hand_w_frac": 0.183
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2403.jpg"
+    },
+    {
+      "bbox": [
+        107,
+        92,
+        140,
+        181
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.6183,
+        "hand_cy": 0.6897,
+        "hand_h_frac": 0.4598,
+        "hand_w_frac": 0.1652
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6161,
+        "hand_cy": 0.5424,
+        "hand_h_frac": 0.442,
+        "hand_w_frac": 0.1607
+      },
+      "framing_original": {
+        "hand_cx": 0.6183,
+        "hand_cy": 0.6897,
+        "hand_h_frac": 0.4598,
+        "hand_w_frac": 0.1652
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5692,
+        "hand_cy": 0.6071,
+        "hand_h_frac": 0.5089,
+        "hand_w_frac": 0.183
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2404.jpg"
+    },
+    {
+      "bbox": [
+        104,
+        91,
+        136,
+        184
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.6027,
+        "hand_cy": 0.6875,
+        "hand_h_frac": 0.4643,
+        "hand_w_frac": 0.1607
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6049,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.4375,
+        "hand_w_frac": 0.1652
+      },
+      "framing_original": {
+        "hand_cx": 0.6027,
+        "hand_cy": 0.6875,
+        "hand_h_frac": 0.4643,
+        "hand_w_frac": 0.1607
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.567,
+        "hand_cy": 0.6138,
+        "hand_h_frac": 0.5045,
+        "hand_w_frac": 0.1786
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2405.jpg"
+    },
+    {
+      "bbox": [
+        100,
+        90,
+        134,
+        182
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5871,
+        "hand_cy": 0.6808,
+        "hand_h_frac": 0.4688,
+        "hand_w_frac": 0.1652
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5893,
+        "hand_cy": 0.529,
+        "hand_h_frac": 0.433,
+        "hand_w_frac": 0.1696
+      },
+      "framing_original": {
+        "hand_cx": 0.5871,
+        "hand_cy": 0.6808,
+        "hand_h_frac": 0.4688,
+        "hand_w_frac": 0.1652
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5558,
+        "hand_cy": 0.6027,
+        "hand_h_frac": 0.5,
+        "hand_w_frac": 0.183
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2406.jpg"
+    },
+    {
+      "bbox": [
+        98,
+        88,
+        132,
+        179
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5737,
+        "hand_cy": 0.6741,
+        "hand_h_frac": 0.4732,
+        "hand_w_frac": 0.1741
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5692,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.4152,
+        "hand_w_frac": 0.183
+      },
+      "framing_original": {
+        "hand_cx": 0.5737,
+        "hand_cy": 0.6741,
+        "hand_h_frac": 0.4732,
+        "hand_w_frac": 0.1741
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5424,
+        "hand_cy": 0.5982,
+        "hand_h_frac": 0.5,
+        "hand_w_frac": 0.183
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2407.jpg"
+    },
+    {
+      "bbox": [
+        94,
+        87,
+        127,
+        179
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5558,
+        "hand_cy": 0.6674,
+        "hand_h_frac": 0.4688,
+        "hand_w_frac": 0.1652
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5491,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.4107,
+        "hand_w_frac": 0.1607
+      },
+      "framing_original": {
+        "hand_cx": 0.5558,
+        "hand_cy": 0.6674,
+        "hand_h_frac": 0.4688,
+        "hand_w_frac": 0.1652
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5379,
+        "hand_cy": 0.5871,
+        "hand_h_frac": 0.4688,
+        "hand_w_frac": 0.1741
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2408.jpg"
+    },
+    {
+      "bbox": [
+        88,
+        87,
+        123,
+        180
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.6652,
+        "hand_h_frac": 0.4732,
+        "hand_w_frac": 0.1741
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5268,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.4375,
+        "hand_w_frac": 0.1696
+      },
+      "framing_original": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.6652,
+        "hand_h_frac": 0.4732,
+        "hand_w_frac": 0.1741
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/B/B2409.jpg"
+    },
+    {
+      "bbox": [
+        84,
+        84,
+        118,
+        181
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5045,
+        "hand_cy": 0.6652,
+        "hand_h_frac": 0.4911,
+        "hand_w_frac": 0.1696
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5022,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.4152,
+        "hand_w_frac": 0.1741
+      },
+      "framing_original": {
+        "hand_cx": 0.5045,
+        "hand_cy": 0.6652,
+        "hand_h_frac": 0.4911,
+        "hand_w_frac": 0.1696
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5045,
+        "hand_cy": 0.5982,
+        "hand_h_frac": 0.4821,
+        "hand_w_frac": 0.1696
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2410.jpg"
+    },
+    {
+      "bbox": [
+        78,
+        83,
+        112,
+        179
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4754,
+        "hand_cy": 0.6585,
+        "hand_h_frac": 0.4955,
+        "hand_w_frac": 0.1652
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4732,
+        "hand_cy": 0.5223,
+        "hand_h_frac": 0.4464,
+        "hand_w_frac": 0.1696
+      },
+      "framing_original": {
+        "hand_cx": 0.4754,
+        "hand_cy": 0.6585,
+        "hand_h_frac": 0.4955,
+        "hand_w_frac": 0.1652
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4732,
+        "hand_cy": 0.596,
+        "hand_h_frac": 0.4866,
+        "hand_w_frac": 0.1696
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2411.jpg"
+    },
+    {
+      "bbox": [
+        73,
+        80,
+        108,
+        178
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4554,
+        "hand_cy": 0.6473,
+        "hand_h_frac": 0.4911,
+        "hand_w_frac": 0.1786
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4487,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.4554,
+        "hand_w_frac": 0.1741
+      },
+      "framing_original": {
+        "hand_cx": 0.4554,
+        "hand_cy": 0.6473,
+        "hand_h_frac": 0.4911,
+        "hand_w_frac": 0.1786
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4464,
+        "hand_cy": 0.5938,
+        "hand_h_frac": 0.4821,
+        "hand_w_frac": 0.1786
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2412.jpg"
+    },
+    {
+      "bbox": [
+        68,
+        80,
+        103,
+        178
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4286,
+        "hand_cy": 0.6473,
+        "hand_h_frac": 0.5,
+        "hand_w_frac": 0.1786
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4263,
+        "hand_cy": 0.529,
+        "hand_h_frac": 0.4509,
+        "hand_w_frac": 0.1741
+      },
+      "framing_original": {
+        "hand_cx": 0.4286,
+        "hand_cy": 0.6473,
+        "hand_h_frac": 0.5,
+        "hand_w_frac": 0.1786
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4375,
+        "hand_cy": 0.596,
+        "hand_h_frac": 0.4866,
+        "hand_w_frac": 0.1786
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2413.jpg"
+    },
+    {
+      "bbox": [
+        63,
+        78,
+        99,
+        179
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4062,
+        "hand_cy": 0.6451,
+        "hand_h_frac": 0.5045,
+        "hand_w_frac": 0.1786
+      },
+      "framing_forearm": {
+        "hand_cx": 0.404,
+        "hand_cy": 0.5402,
+        "hand_h_frac": 0.4821,
+        "hand_w_frac": 0.183
+      },
+      "framing_original": {
+        "hand_cx": 0.4062,
+        "hand_cy": 0.6451,
+        "hand_h_frac": 0.5045,
+        "hand_w_frac": 0.1786
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4174,
+        "hand_cy": 0.6071,
+        "hand_h_frac": 0.5179,
+        "hand_w_frac": 0.192
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2414.jpg"
+    },
+    {
+      "bbox": [
+        59,
+        78,
+        96,
+        177
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3884,
+        "hand_cy": 0.6339,
+        "hand_h_frac": 0.5,
+        "hand_w_frac": 0.1875
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3862,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.4866,
+        "hand_w_frac": 0.183
+      },
+      "framing_original": {
+        "hand_cx": 0.3884,
+        "hand_cy": 0.6339,
+        "hand_h_frac": 0.5,
+        "hand_w_frac": 0.1875
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4129,
+        "hand_cy": 0.5982,
+        "hand_h_frac": 0.5357,
+        "hand_w_frac": 0.2009
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2415.jpg"
+    },
+    {
+      "bbox": [
+        56,
+        75,
+        93,
+        175
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3728,
+        "hand_cy": 0.6272,
+        "hand_h_frac": 0.5045,
+        "hand_w_frac": 0.183
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3728,
+        "hand_cy": 0.5402,
+        "hand_h_frac": 0.5089,
+        "hand_w_frac": 0.192
+      },
+      "framing_original": {
+        "hand_cx": 0.3728,
+        "hand_cy": 0.6272,
+        "hand_h_frac": 0.5045,
+        "hand_w_frac": 0.183
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3996,
+        "hand_cy": 0.6027,
+        "hand_h_frac": 0.5357,
+        "hand_w_frac": 0.2009
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2416.jpg"
+    },
+    {
+      "bbox": [
+        54,
+        74,
+        92,
+        173
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3638,
+        "hand_cy": 0.6183,
+        "hand_h_frac": 0.4955,
+        "hand_w_frac": 0.192
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3594,
+        "hand_cy": 0.5268,
+        "hand_h_frac": 0.4821,
+        "hand_w_frac": 0.192
+      },
+      "framing_original": {
+        "hand_cx": 0.3638,
+        "hand_cy": 0.6183,
+        "hand_h_frac": 0.4955,
+        "hand_w_frac": 0.192
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3973,
+        "hand_cy": 0.5915,
+        "hand_h_frac": 0.5312,
+        "hand_w_frac": 0.2054
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2417.jpg"
+    },
+    {
+      "bbox": [
+        52,
+        72,
+        90,
+        171
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3527,
+        "hand_cy": 0.6116,
+        "hand_h_frac": 0.5,
+        "hand_w_frac": 0.1875
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3549,
+        "hand_cy": 0.5246,
+        "hand_h_frac": 0.4777,
+        "hand_w_frac": 0.192
+      },
+      "framing_original": {
+        "hand_cx": 0.3527,
+        "hand_cy": 0.6116,
+        "hand_h_frac": 0.5,
+        "hand_w_frac": 0.1875
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3951,
+        "hand_cy": 0.5848,
+        "hand_h_frac": 0.5179,
+        "hand_w_frac": 0.2009
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2418.jpg"
+    },
+    {
+      "bbox": [
+        52,
+        71,
+        90,
+        171
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3549,
+        "hand_cy": 0.6094,
+        "hand_h_frac": 0.5045,
+        "hand_w_frac": 0.192
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3527,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.4821,
+        "hand_w_frac": 0.1875
+      },
+      "framing_original": {
+        "hand_cx": 0.3549,
+        "hand_cy": 0.6094,
+        "hand_h_frac": 0.5045,
+        "hand_w_frac": 0.192
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3884,
+        "hand_cy": 0.5804,
+        "hand_h_frac": 0.5089,
+        "hand_w_frac": 0.1964
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2419.jpg"
+    },
+    {
+      "bbox": [
+        54,
+        71,
+        91,
+        170
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3616,
+        "hand_cy": 0.6027,
+        "hand_h_frac": 0.5,
+        "hand_w_frac": 0.1875
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3616,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.4821,
+        "hand_w_frac": 0.1875
+      },
+      "framing_original": {
+        "hand_cx": 0.3616,
+        "hand_cy": 0.6027,
+        "hand_h_frac": 0.5,
+        "hand_w_frac": 0.1875
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3973,
+        "hand_cy": 0.5826,
+        "hand_h_frac": 0.5134,
+        "hand_w_frac": 0.1964
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2420.jpg"
+    },
+    {
+      "bbox": [
+        54,
+        71,
+        92,
+        168
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3661,
+        "hand_cy": 0.5982,
+        "hand_h_frac": 0.4821,
+        "hand_w_frac": 0.1875
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3661,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.4777,
+        "hand_w_frac": 0.1875
+      },
+      "framing_original": {
+        "hand_cx": 0.3661,
+        "hand_cy": 0.5982,
+        "hand_h_frac": 0.4821,
+        "hand_w_frac": 0.1875
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.404,
+        "hand_cy": 0.5692,
+        "hand_h_frac": 0.4955,
+        "hand_w_frac": 0.2009
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2421.jpg"
+    },
+    {
+      "bbox": [
+        56,
+        72,
+        94,
+        169
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.375,
+        "hand_cy": 0.6027,
+        "hand_h_frac": 0.4821,
+        "hand_w_frac": 0.1875
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3728,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.4777,
+        "hand_w_frac": 0.183
+      },
+      "framing_original": {
+        "hand_cx": 0.375,
+        "hand_cy": 0.6027,
+        "hand_h_frac": 0.4821,
+        "hand_w_frac": 0.1875
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4062,
+        "hand_cy": 0.5759,
+        "hand_h_frac": 0.5089,
+        "hand_w_frac": 0.1964
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2422.jpg"
+    },
+    {
+      "bbox": [
+        60,
+        74,
+        96,
+        169
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3906,
+        "hand_cy": 0.6094,
+        "hand_h_frac": 0.4777,
+        "hand_w_frac": 0.183
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3906,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.4732,
+        "hand_w_frac": 0.183
+      },
+      "framing_original": {
+        "hand_cx": 0.3906,
+        "hand_cy": 0.6094,
+        "hand_h_frac": 0.4777,
+        "hand_w_frac": 0.183
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4241,
+        "hand_cy": 0.5804,
+        "hand_h_frac": 0.5179,
+        "hand_w_frac": 0.1964
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2423.jpg"
+    },
+    {
+      "bbox": [
+        67,
+        78,
+        99,
+        171
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4152,
+        "hand_cy": 0.6228,
+        "hand_h_frac": 0.4598,
+        "hand_w_frac": 0.1607
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.4152,
+        "hand_cy": 0.6228,
+        "hand_h_frac": 0.4598,
+        "hand_w_frac": 0.1607
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4442,
+        "hand_cy": 0.5781,
+        "hand_h_frac": 0.4955,
+        "hand_w_frac": 0.1741
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2424.jpg"
+    },
+    {
+      "bbox": [
+        79,
+        82,
+        110,
+        165
+      ],
+      "class": "B",
+      "framing_calibrated": null,
+      "framing_forearm": {
+        "hand_cx": 0.4754,
+        "hand_cy": 0.4933,
+        "hand_h_frac": 0.4241,
+        "hand_w_frac": 0.1562
+      },
+      "framing_original": {
+        "hand_cx": 0.4754,
+        "hand_cy": 0.6228,
+        "hand_h_frac": 0.4241,
+        "hand_w_frac": 0.1562
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/B/B2426.jpg"
+    },
+    {
+      "bbox": [
+        83,
+        83,
+        115,
+        161
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5268,
+        "hand_cy": 0.5737,
+        "hand_h_frac": 0.4688,
+        "hand_w_frac": 0.1786
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5022,
+        "hand_cy": 0.4732,
+        "hand_h_frac": 0.3839,
+        "hand_w_frac": 0.1562
+      },
+      "framing_original": {
+        "hand_cx": 0.4933,
+        "hand_cy": 0.6161,
+        "hand_h_frac": 0.4018,
+        "hand_w_frac": 0.1562
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5,
+        "hand_cy": 0.5379,
+        "hand_h_frac": 0.4777,
+        "hand_w_frac": 0.1786
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2427.jpg"
+    },
+    {
+      "bbox": [
+        87,
+        81,
+        119,
+        166
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5223,
+        "hand_cy": 0.6049,
+        "hand_h_frac": 0.433,
+        "hand_w_frac": 0.1696
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5134,
+        "hand_cy": 0.4933,
+        "hand_h_frac": 0.4152,
+        "hand_w_frac": 0.1607
+      },
+      "framing_original": {
+        "hand_cx": 0.5156,
+        "hand_cy": 0.6205,
+        "hand_h_frac": 0.4286,
+        "hand_w_frac": 0.1652
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5,
+        "hand_cy": 0.5469,
+        "hand_h_frac": 0.442,
+        "hand_w_frac": 0.1696
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2428.jpg"
+    },
+    {
+      "bbox": [
+        90,
+        80,
+        122,
+        163
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5201,
+        "hand_cy": 0.5938,
+        "hand_h_frac": 0.4464,
+        "hand_w_frac": 0.1741
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5268,
+        "hand_cy": 0.4844,
+        "hand_h_frac": 0.4062,
+        "hand_w_frac": 0.1607
+      },
+      "framing_original": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.6071,
+        "hand_h_frac": 0.4196,
+        "hand_w_frac": 0.1652
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4978,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.4375,
+        "hand_w_frac": 0.1741
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2429.jpg"
+    },
+    {
+      "bbox": [
+        92,
+        79,
+        125,
+        162
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.5781,
+        "hand_h_frac": 0.442,
+        "hand_w_frac": 0.1741
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5424,
+        "hand_cy": 0.4799,
+        "hand_h_frac": 0.3973,
+        "hand_w_frac": 0.1562
+      },
+      "framing_original": {
+        "hand_cx": 0.5469,
+        "hand_cy": 0.6004,
+        "hand_h_frac": 0.4152,
+        "hand_w_frac": 0.1652
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5022,
+        "hand_cy": 0.529,
+        "hand_h_frac": 0.442,
+        "hand_w_frac": 0.1741
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2430.jpg"
+    },
+    {
+      "bbox": [
+        95,
+        77,
+        129,
+        162
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5469,
+        "hand_cy": 0.5871,
+        "hand_h_frac": 0.442,
+        "hand_w_frac": 0.1741
+      },
+      "framing_forearm": {
+        "hand_cx": 0.558,
+        "hand_cy": 0.4844,
+        "hand_h_frac": 0.4062,
+        "hand_w_frac": 0.1607
+      },
+      "framing_original": {
+        "hand_cx": 0.5603,
+        "hand_cy": 0.6004,
+        "hand_h_frac": 0.4241,
+        "hand_w_frac": 0.1652
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5179,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.4554,
+        "hand_w_frac": 0.1786
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2431.jpg"
+    },
+    {
+      "bbox": [
+        99,
+        76,
+        131,
+        156
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5357,
+        "hand_cy": 0.5469,
+        "hand_h_frac": 0.442,
+        "hand_w_frac": 0.1786
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5737,
+        "hand_cy": 0.4621,
+        "hand_h_frac": 0.3884,
+        "hand_w_frac": 0.1562
+      },
+      "framing_original": {
+        "hand_cx": 0.5759,
+        "hand_cy": 0.5826,
+        "hand_h_frac": 0.3973,
+        "hand_w_frac": 0.1607
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5156,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.4554,
+        "hand_w_frac": 0.183
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2432.jpg"
+    },
+    {
+      "bbox": [
+        102,
+        75,
+        136,
+        156
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5558,
+        "hand_cy": 0.5469,
+        "hand_h_frac": 0.4509,
+        "hand_w_frac": 0.1741
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5915,
+        "hand_cy": 0.4643,
+        "hand_h_frac": 0.4018,
+        "hand_w_frac": 0.1652
+      },
+      "framing_original": {
+        "hand_cx": 0.5938,
+        "hand_cy": 0.5804,
+        "hand_h_frac": 0.4107,
+        "hand_w_frac": 0.1696
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5223,
+        "hand_cy": 0.5223,
+        "hand_h_frac": 0.4732,
+        "hand_w_frac": 0.1875
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2433.jpg"
+    },
+    {
+      "bbox": [
+        104,
+        73,
+        138,
+        156
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5826,
+        "hand_cy": 0.5469,
+        "hand_h_frac": 0.433,
+        "hand_w_frac": 0.1741
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6027,
+        "hand_cy": 0.4643,
+        "hand_h_frac": 0.4018,
+        "hand_w_frac": 0.1696
+      },
+      "framing_original": {
+        "hand_cx": 0.6049,
+        "hand_cy": 0.5714,
+        "hand_h_frac": 0.4196,
+        "hand_w_frac": 0.1652
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5357,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.4598,
+        "hand_w_frac": 0.1875
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2434.jpg"
+    },
+    {
+      "bbox": [
+        106,
+        69,
+        141,
+        151
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5915,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.4286,
+        "hand_w_frac": 0.183
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6161,
+        "hand_cy": 0.4554,
+        "hand_h_frac": 0.4018,
+        "hand_w_frac": 0.1696
+      },
+      "framing_original": {
+        "hand_cx": 0.6183,
+        "hand_cy": 0.5513,
+        "hand_h_frac": 0.4062,
+        "hand_w_frac": 0.1741
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5357,
+        "hand_cy": 0.5067,
+        "hand_h_frac": 0.4509,
+        "hand_w_frac": 0.1875
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2435.jpg"
+    },
+    {
+      "bbox": [
+        108,
+        66,
+        141,
+        152
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.6161,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.4375,
+        "hand_w_frac": 0.1696
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6205,
+        "hand_cy": 0.4598,
+        "hand_h_frac": 0.4196,
+        "hand_w_frac": 0.1696
+      },
+      "framing_original": {
+        "hand_cx": 0.6228,
+        "hand_cy": 0.5446,
+        "hand_h_frac": 0.4286,
+        "hand_w_frac": 0.1652
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5536,
+        "hand_cy": 0.5089,
+        "hand_h_frac": 0.4464,
+        "hand_w_frac": 0.1786
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2436.jpg"
+    },
+    {
+      "bbox": [
+        107,
+        64,
+        142,
+        148
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.6071,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.442,
+        "hand_w_frac": 0.1786
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6205,
+        "hand_cy": 0.4554,
+        "hand_h_frac": 0.4196,
+        "hand_w_frac": 0.1696
+      },
+      "framing_original": {
+        "hand_cx": 0.6205,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.4196,
+        "hand_w_frac": 0.1696
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5469,
+        "hand_cy": 0.5045,
+        "hand_h_frac": 0.4464,
+        "hand_w_frac": 0.183
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2437.jpg"
+    },
+    {
+      "bbox": [
+        106,
+        62,
+        139,
+        149
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.6116,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.442,
+        "hand_w_frac": 0.1696
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6138,
+        "hand_cy": 0.4576,
+        "hand_h_frac": 0.4241,
+        "hand_w_frac": 0.1652
+      },
+      "framing_original": {
+        "hand_cx": 0.6161,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.4375,
+        "hand_w_frac": 0.1696
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5513,
+        "hand_cy": 0.5045,
+        "hand_h_frac": 0.4286,
+        "hand_w_frac": 0.1741
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2438.jpg"
+    },
+    {
+      "bbox": [
+        103,
+        62,
+        137,
+        149
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5982,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.442,
+        "hand_w_frac": 0.1696
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5982,
+        "hand_cy": 0.4576,
+        "hand_h_frac": 0.4241,
+        "hand_w_frac": 0.1696
+      },
+      "framing_original": {
+        "hand_cx": 0.6004,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.442,
+        "hand_w_frac": 0.1741
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5446,
+        "hand_cy": 0.5067,
+        "hand_h_frac": 0.4509,
+        "hand_w_frac": 0.1696
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2439.jpg"
+    },
+    {
+      "bbox": [
+        100,
+        62,
+        134,
+        147
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5714,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.4375,
+        "hand_w_frac": 0.1696
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5871,
+        "hand_cy": 0.4464,
+        "hand_h_frac": 0.4196,
+        "hand_w_frac": 0.1652
+      },
+      "framing_original": {
+        "hand_cx": 0.5893,
+        "hand_cy": 0.5268,
+        "hand_h_frac": 0.4375,
+        "hand_w_frac": 0.1696
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5379,
+        "hand_cy": 0.4978,
+        "hand_h_frac": 0.4509,
+        "hand_w_frac": 0.1652
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2440.jpg"
+    },
+    {
+      "bbox": [
+        97,
+        61,
+        131,
+        148
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.567,
+        "hand_cy": 0.5268,
+        "hand_h_frac": 0.4464,
+        "hand_w_frac": 0.1696
+      },
+      "framing_forearm": {
+        "hand_cx": 0.567,
+        "hand_cy": 0.4509,
+        "hand_h_frac": 0.4375,
+        "hand_w_frac": 0.1696
+      },
+      "framing_original": {
+        "hand_cx": 0.5692,
+        "hand_cy": 0.5268,
+        "hand_h_frac": 0.4464,
+        "hand_w_frac": 0.1741
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5268,
+        "hand_cy": 0.5134,
+        "hand_h_frac": 0.4732,
+        "hand_w_frac": 0.1786
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2441.jpg"
+    },
+    {
+      "bbox": [
+        93,
+        60,
+        128,
+        150
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5513,
+        "hand_cy": 0.529,
+        "hand_h_frac": 0.4509,
+        "hand_w_frac": 0.1741
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5536,
+        "hand_cy": 0.4621,
+        "hand_h_frac": 0.442,
+        "hand_w_frac": 0.1696
+      },
+      "framing_original": {
+        "hand_cx": 0.5513,
+        "hand_cy": 0.529,
+        "hand_h_frac": 0.4509,
+        "hand_w_frac": 0.1741
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.4598,
+        "hand_w_frac": 0.1741
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2442.jpg"
+    },
+    {
+      "bbox": [
+        89,
+        59,
+        125,
+        152
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5357,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.4732,
+        "hand_w_frac": 0.1786
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5379,
+        "hand_cy": 0.471,
+        "hand_h_frac": 0.4688,
+        "hand_w_frac": 0.183
+      },
+      "framing_original": {
+        "hand_cx": 0.5357,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.4732,
+        "hand_w_frac": 0.1786
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5268,
+        "hand_cy": 0.5268,
+        "hand_h_frac": 0.4732,
+        "hand_w_frac": 0.1786
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2443.jpg"
+    },
+    {
+      "bbox": [
+        87,
+        58,
+        123,
+        156
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5246,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.4866,
+        "hand_w_frac": 0.183
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5223,
+        "hand_cy": 0.4821,
+        "hand_h_frac": 0.4732,
+        "hand_w_frac": 0.1786
+      },
+      "framing_original": {
+        "hand_cx": 0.5246,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.4866,
+        "hand_w_frac": 0.183
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5246,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.4866,
+        "hand_w_frac": 0.183
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2444.jpg"
+    },
+    {
+      "bbox": [
+        86,
+        59,
+        122,
+        154
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5223,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.4821,
+        "hand_w_frac": 0.1786
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5223,
+        "hand_cy": 0.4821,
+        "hand_h_frac": 0.4732,
+        "hand_w_frac": 0.1786
+      },
+      "framing_original": {
+        "hand_cx": 0.5223,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.4821,
+        "hand_w_frac": 0.1786
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5223,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.4821,
+        "hand_w_frac": 0.1786
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2445.jpg"
+    },
+    {
+      "bbox": [
+        87,
+        56,
+        123,
+        158
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5246,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.5089,
+        "hand_w_frac": 0.183
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5201,
+        "hand_cy": 0.4933,
+        "hand_h_frac": 0.4955,
+        "hand_w_frac": 0.183
+      },
+      "framing_original": {
+        "hand_cx": 0.5246,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.5089,
+        "hand_w_frac": 0.183
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5246,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.5089,
+        "hand_w_frac": 0.183
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2446.jpg"
+    },
+    {
+      "bbox": [
+        87,
+        56,
+        124,
+        158
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.5379,
+        "hand_h_frac": 0.5134,
+        "hand_w_frac": 0.183
+      },
+      "framing_forearm": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.4911,
+        "hand_h_frac": 0.5,
+        "hand_w_frac": 0.183
+      },
+      "framing_original": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.5379,
+        "hand_h_frac": 0.5134,
+        "hand_w_frac": 0.183
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.5379,
+        "hand_h_frac": 0.5134,
+        "hand_w_frac": 0.183
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2447.jpg"
+    },
+    {
+      "bbox": [
+        87,
+        53,
+        125,
+        162
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.5402,
+        "hand_h_frac": 0.5446,
+        "hand_w_frac": 0.192
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5312,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.5446,
+        "hand_w_frac": 0.1875
+      },
+      "framing_original": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.5402,
+        "hand_h_frac": 0.5446,
+        "hand_w_frac": 0.192
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.5402,
+        "hand_h_frac": 0.5446,
+        "hand_w_frac": 0.192
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2448.jpg"
+    },
+    {
+      "bbox": [
+        87,
+        53,
+        125,
+        162
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.5424,
+        "hand_h_frac": 0.5491,
+        "hand_w_frac": 0.192
+      },
+      "framing_forearm": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.5491,
+        "hand_w_frac": 0.192
+      },
+      "framing_original": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.5424,
+        "hand_h_frac": 0.5491,
+        "hand_w_frac": 0.192
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.5424,
+        "hand_h_frac": 0.5491,
+        "hand_w_frac": 0.192
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2449.jpg"
+    },
+    {
+      "bbox": [
+        87,
+        52,
+        126,
+        161
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5357,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.5446,
+        "hand_w_frac": 0.1964
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5335,
+        "hand_cy": 0.5089,
+        "hand_h_frac": 0.5357,
+        "hand_w_frac": 0.2009
+      },
+      "framing_original": {
+        "hand_cx": 0.5357,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.5446,
+        "hand_w_frac": 0.1964
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5357,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.5446,
+        "hand_w_frac": 0.1964
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2450.jpg"
+    },
+    {
+      "bbox": [
+        90,
+        52,
+        129,
+        159
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5491,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.5357,
+        "hand_w_frac": 0.1964
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5491,
+        "hand_cy": 0.5067,
+        "hand_h_frac": 0.5402,
+        "hand_w_frac": 0.1964
+      },
+      "framing_original": {
+        "hand_cx": 0.5491,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.5357,
+        "hand_w_frac": 0.1964
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5491,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.5357,
+        "hand_w_frac": 0.1964
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2451.jpg"
+    },
+    {
+      "bbox": [
+        94,
+        49,
+        135,
+        160
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5759,
+        "hand_cy": 0.5223,
+        "hand_h_frac": 0.5536,
+        "hand_w_frac": 0.2054
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5737,
+        "hand_cy": 0.5134,
+        "hand_h_frac": 0.5536,
+        "hand_w_frac": 0.2098
+      },
+      "framing_original": {
+        "hand_cx": 0.5759,
+        "hand_cy": 0.5223,
+        "hand_h_frac": 0.5536,
+        "hand_w_frac": 0.2054
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5759,
+        "hand_cy": 0.5223,
+        "hand_h_frac": 0.5536,
+        "hand_w_frac": 0.2054
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2452.jpg"
+    },
+    {
+      "bbox": [
+        99,
+        52,
+        143,
+        155
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.6049,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.5357,
+        "hand_w_frac": 0.2188
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6049,
+        "hand_cy": 0.4888,
+        "hand_h_frac": 0.5223,
+        "hand_w_frac": 0.2188
+      },
+      "framing_original": {
+        "hand_cx": 0.6049,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.5357,
+        "hand_w_frac": 0.2188
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5871,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.5268,
+        "hand_w_frac": 0.2188
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2453.jpg"
+    },
+    {
+      "bbox": [
+        101,
+        51,
+        149,
+        154
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.625,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.5312,
+        "hand_w_frac": 0.2411
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6228,
+        "hand_cy": 0.4866,
+        "hand_h_frac": 0.5268,
+        "hand_w_frac": 0.2455
+      },
+      "framing_original": {
+        "hand_cx": 0.625,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.5312,
+        "hand_w_frac": 0.2411
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5982,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.5312,
+        "hand_w_frac": 0.2411
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2454.jpg"
+    },
+    {
+      "bbox": [
+        102,
+        51,
+        154,
+        156
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.6384,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.5312,
+        "hand_w_frac": 0.2589
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6406,
+        "hand_cy": 0.4933,
+        "hand_h_frac": 0.5223,
+        "hand_w_frac": 0.2634
+      },
+      "framing_original": {
+        "hand_cx": 0.6384,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.5312,
+        "hand_w_frac": 0.2589
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6138,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.5357,
+        "hand_w_frac": 0.2634
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2455.jpg"
+    },
+    {
+      "bbox": [
+        104,
+        50,
+        157,
+        158
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.6496,
+        "hand_cy": 0.5223,
+        "hand_h_frac": 0.5446,
+        "hand_w_frac": 0.2723
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6496,
+        "hand_cy": 0.5067,
+        "hand_h_frac": 0.5402,
+        "hand_w_frac": 0.2723
+      },
+      "framing_original": {
+        "hand_cx": 0.6496,
+        "hand_cy": 0.5223,
+        "hand_h_frac": 0.5446,
+        "hand_w_frac": 0.2723
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6228,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.5491,
+        "hand_w_frac": 0.2723
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2456.jpg"
+    },
+    {
+      "bbox": [
+        105,
+        49,
+        157,
+        158
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.6562,
+        "hand_cy": 0.5223,
+        "hand_h_frac": 0.5446,
+        "hand_w_frac": 0.2679
+      },
+      "framing_forearm": {
+        "hand_cx": 0.654,
+        "hand_cy": 0.5045,
+        "hand_h_frac": 0.5446,
+        "hand_w_frac": 0.2634
+      },
+      "framing_original": {
+        "hand_cx": 0.6562,
+        "hand_cy": 0.5223,
+        "hand_h_frac": 0.5446,
+        "hand_w_frac": 0.2679
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6317,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.5446,
+        "hand_w_frac": 0.2634
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2457.jpg"
+    },
+    {
+      "bbox": [
+        104,
+        47,
+        158,
+        158
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.6562,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.5491,
+        "hand_w_frac": 0.2679
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6585,
+        "hand_cy": 0.5022,
+        "hand_h_frac": 0.5491,
+        "hand_w_frac": 0.2634
+      },
+      "framing_original": {
+        "hand_cx": 0.6562,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.5491,
+        "hand_w_frac": 0.2679
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6406,
+        "hand_cy": 0.5134,
+        "hand_h_frac": 0.5446,
+        "hand_w_frac": 0.2634
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2458.jpg"
+    },
+    {
+      "bbox": [
+        102,
+        47,
+        157,
+        158
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.6473,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.558,
+        "hand_w_frac": 0.2768
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6473,
+        "hand_cy": 0.5022,
+        "hand_h_frac": 0.5491,
+        "hand_w_frac": 0.2768
+      },
+      "framing_original": {
+        "hand_cx": 0.6473,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.558,
+        "hand_w_frac": 0.2768
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6295,
+        "hand_cy": 0.5022,
+        "hand_h_frac": 0.567,
+        "hand_w_frac": 0.2768
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2459.jpg"
+    },
+    {
+      "bbox": [
+        102,
+        45,
+        155,
+        159
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.6429,
+        "hand_cy": 0.5089,
+        "hand_h_frac": 0.5714,
+        "hand_w_frac": 0.2679
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6429,
+        "hand_cy": 0.5089,
+        "hand_h_frac": 0.5714,
+        "hand_w_frac": 0.2679
+      },
+      "framing_original": {
+        "hand_cx": 0.6429,
+        "hand_cy": 0.5089,
+        "hand_h_frac": 0.5714,
+        "hand_w_frac": 0.2679
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6362,
+        "hand_cy": 0.5089,
+        "hand_h_frac": 0.5714,
+        "hand_w_frac": 0.2634
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2460.jpg"
+    },
+    {
+      "bbox": [
+        100,
+        41,
+        153,
+        158
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.6272,
+        "hand_cy": 0.4978,
+        "hand_h_frac": 0.5938,
+        "hand_w_frac": 0.2723
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6272,
+        "hand_cy": 0.4978,
+        "hand_h_frac": 0.5938,
+        "hand_w_frac": 0.2723
+      },
+      "framing_original": {
+        "hand_cx": 0.6272,
+        "hand_cy": 0.4978,
+        "hand_h_frac": 0.5938,
+        "hand_w_frac": 0.2723
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6272,
+        "hand_cy": 0.4978,
+        "hand_h_frac": 0.5938,
+        "hand_w_frac": 0.2723
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2461.jpg"
+    },
+    {
+      "bbox": [
+        97,
+        37,
+        148,
+        159
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.6116,
+        "hand_cy": 0.4888,
+        "hand_h_frac": 0.6116,
+        "hand_w_frac": 0.2589
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6116,
+        "hand_cy": 0.4888,
+        "hand_h_frac": 0.6116,
+        "hand_w_frac": 0.2589
+      },
+      "framing_original": {
+        "hand_cx": 0.6116,
+        "hand_cy": 0.4888,
+        "hand_h_frac": 0.6116,
+        "hand_w_frac": 0.2589
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6116,
+        "hand_cy": 0.4888,
+        "hand_h_frac": 0.6116,
+        "hand_w_frac": 0.2589
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2462.jpg"
+    },
+    {
+      "bbox": [
+        93,
+        32,
+        146,
+        158
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.596,
+        "hand_cy": 0.4777,
+        "hand_h_frac": 0.6339,
+        "hand_w_frac": 0.2634
+      },
+      "framing_forearm": {
+        "hand_cx": 0.596,
+        "hand_cy": 0.4777,
+        "hand_h_frac": 0.6339,
+        "hand_w_frac": 0.2634
+      },
+      "framing_original": {
+        "hand_cx": 0.596,
+        "hand_cy": 0.4777,
+        "hand_h_frac": 0.6339,
+        "hand_w_frac": 0.2634
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.596,
+        "hand_cy": 0.4777,
+        "hand_h_frac": 0.6339,
+        "hand_w_frac": 0.2634
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2463.jpg"
+    },
+    {
+      "bbox": [
+        91,
+        31,
+        141,
+        159
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5759,
+        "hand_cy": 0.4777,
+        "hand_h_frac": 0.6429,
+        "hand_w_frac": 0.25
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5759,
+        "hand_cy": 0.4777,
+        "hand_h_frac": 0.6429,
+        "hand_w_frac": 0.25
+      },
+      "framing_original": {
+        "hand_cx": 0.5759,
+        "hand_cy": 0.4777,
+        "hand_h_frac": 0.6429,
+        "hand_w_frac": 0.25
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5759,
+        "hand_cy": 0.4777,
+        "hand_h_frac": 0.6429,
+        "hand_w_frac": 0.25
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2464.jpg"
+    },
+    {
+      "bbox": [
+        87,
+        28,
+        137,
+        159
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5603,
+        "hand_cy": 0.4688,
+        "hand_h_frac": 0.6607,
+        "hand_w_frac": 0.2455
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5603,
+        "hand_cy": 0.4688,
+        "hand_h_frac": 0.6607,
+        "hand_w_frac": 0.2455
+      },
+      "framing_original": {
+        "hand_cx": 0.5603,
+        "hand_cy": 0.4688,
+        "hand_h_frac": 0.6607,
+        "hand_w_frac": 0.2455
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5603,
+        "hand_cy": 0.4688,
+        "hand_h_frac": 0.6607,
+        "hand_w_frac": 0.2455
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2465.jpg"
+    },
+    {
+      "bbox": [
+        84,
+        26,
+        133,
+        161
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5402,
+        "hand_cy": 0.4665,
+        "hand_h_frac": 0.683,
+        "hand_w_frac": 0.25
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5402,
+        "hand_cy": 0.4665,
+        "hand_h_frac": 0.683,
+        "hand_w_frac": 0.25
+      },
+      "framing_original": {
+        "hand_cx": 0.5402,
+        "hand_cy": 0.4665,
+        "hand_h_frac": 0.683,
+        "hand_w_frac": 0.25
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5402,
+        "hand_cy": 0.4665,
+        "hand_h_frac": 0.683,
+        "hand_w_frac": 0.25
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2466.jpg"
+    },
+    {
+      "bbox": [
+        80,
+        25,
+        129,
+        161
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5246,
+        "hand_cy": 0.4665,
+        "hand_h_frac": 0.683,
+        "hand_w_frac": 0.2455
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5246,
+        "hand_cy": 0.4665,
+        "hand_h_frac": 0.683,
+        "hand_w_frac": 0.2455
+      },
+      "framing_original": {
+        "hand_cx": 0.5246,
+        "hand_cy": 0.4665,
+        "hand_h_frac": 0.683,
+        "hand_w_frac": 0.2455
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5246,
+        "hand_cy": 0.4665,
+        "hand_h_frac": 0.683,
+        "hand_w_frac": 0.2455
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2467.jpg"
+    },
+    {
+      "bbox": [
+        76,
+        26,
+        126,
+        162
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5,
+        "hand_cy": 0.4665,
+        "hand_h_frac": 0.692,
+        "hand_w_frac": 0.25
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5,
+        "hand_cy": 0.4665,
+        "hand_h_frac": 0.692,
+        "hand_w_frac": 0.25
+      },
+      "framing_original": {
+        "hand_cx": 0.5,
+        "hand_cy": 0.4665,
+        "hand_h_frac": 0.692,
+        "hand_w_frac": 0.25
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5,
+        "hand_cy": 0.4665,
+        "hand_h_frac": 0.692,
+        "hand_w_frac": 0.25
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2468.jpg"
+    },
+    {
+      "bbox": [
+        71,
+        24,
+        123,
+        166
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4844,
+        "hand_cy": 0.4754,
+        "hand_h_frac": 0.7188,
+        "hand_w_frac": 0.2545
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4844,
+        "hand_cy": 0.4754,
+        "hand_h_frac": 0.7188,
+        "hand_w_frac": 0.2545
+      },
+      "framing_original": {
+        "hand_cx": 0.4844,
+        "hand_cy": 0.4754,
+        "hand_h_frac": 0.7188,
+        "hand_w_frac": 0.2545
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4844,
+        "hand_cy": 0.4754,
+        "hand_h_frac": 0.7188,
+        "hand_w_frac": 0.2545
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2469.jpg"
+    },
+    {
+      "bbox": [
+        68,
+        23,
+        119,
+        167
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4665,
+        "hand_cy": 0.4799,
+        "hand_h_frac": 0.7277,
+        "hand_w_frac": 0.2545
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4665,
+        "hand_cy": 0.4799,
+        "hand_h_frac": 0.7277,
+        "hand_w_frac": 0.2545
+      },
+      "framing_original": {
+        "hand_cx": 0.4665,
+        "hand_cy": 0.4799,
+        "hand_h_frac": 0.7277,
+        "hand_w_frac": 0.2545
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4665,
+        "hand_cy": 0.4799,
+        "hand_h_frac": 0.7277,
+        "hand_w_frac": 0.2545
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2470.jpg"
+    },
+    {
+      "bbox": [
+        63,
+        26,
+        115,
+        171
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4442,
+        "hand_cy": 0.4978,
+        "hand_h_frac": 0.7366,
+        "hand_w_frac": 0.2634
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4442,
+        "hand_cy": 0.4978,
+        "hand_h_frac": 0.7366,
+        "hand_w_frac": 0.2634
+      },
+      "framing_original": {
+        "hand_cx": 0.4442,
+        "hand_cy": 0.4978,
+        "hand_h_frac": 0.7366,
+        "hand_w_frac": 0.2634
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4442,
+        "hand_cy": 0.4978,
+        "hand_h_frac": 0.7366,
+        "hand_w_frac": 0.2634
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2471.jpg"
+    },
+    {
+      "bbox": [
+        59,
+        27,
+        110,
+        175
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4241,
+        "hand_cy": 0.5045,
+        "hand_h_frac": 0.7411,
+        "hand_w_frac": 0.25
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4241,
+        "hand_cy": 0.5045,
+        "hand_h_frac": 0.7411,
+        "hand_w_frac": 0.25
+      },
+      "framing_original": {
+        "hand_cx": 0.4241,
+        "hand_cy": 0.5045,
+        "hand_h_frac": 0.7411,
+        "hand_w_frac": 0.25
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4241,
+        "hand_cy": 0.5045,
+        "hand_h_frac": 0.7411,
+        "hand_w_frac": 0.25
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2472.jpg"
+    },
+    {
+      "bbox": [
+        55,
+        27,
+        105,
+        178
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4062,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.7589,
+        "hand_w_frac": 0.25
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4062,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.7589,
+        "hand_w_frac": 0.25
+      },
+      "framing_original": {
+        "hand_cx": 0.4062,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.7589,
+        "hand_w_frac": 0.25
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4062,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.7589,
+        "hand_w_frac": 0.25
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2473.jpg"
+    },
+    {
+      "bbox": [
+        49,
+        30,
+        102,
+        181
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3728,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.7679,
+        "hand_w_frac": 0.2634
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3728,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.7679,
+        "hand_w_frac": 0.2634
+      },
+      "framing_original": {
+        "hand_cx": 0.3728,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.7679,
+        "hand_w_frac": 0.2634
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3728,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.7679,
+        "hand_w_frac": 0.2634
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2474.jpg"
+    },
+    {
+      "bbox": [
+        44,
+        31,
+        94,
+        180
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.346,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.7768,
+        "hand_w_frac": 0.2545
+      },
+      "framing_forearm": {
+        "hand_cx": 0.346,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.7768,
+        "hand_w_frac": 0.2545
+      },
+      "framing_original": {
+        "hand_cx": 0.346,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.7768,
+        "hand_w_frac": 0.2545
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.346,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.7768,
+        "hand_w_frac": 0.2545
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2475.jpg"
+    },
+    {
+      "bbox": [
+        40,
+        29,
+        89,
+        183
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3259,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.7723,
+        "hand_w_frac": 0.25
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3259,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.7723,
+        "hand_w_frac": 0.25
+      },
+      "framing_original": {
+        "hand_cx": 0.3259,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.7723,
+        "hand_w_frac": 0.25
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3259,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.7723,
+        "hand_w_frac": 0.25
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2476.jpg"
+    },
+    {
+      "bbox": [
+        37,
+        28,
+        88,
+        184
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3125,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.7812,
+        "hand_w_frac": 0.2589
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3125,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.7812,
+        "hand_w_frac": 0.2589
+      },
+      "framing_original": {
+        "hand_cx": 0.3125,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.7812,
+        "hand_w_frac": 0.2589
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3125,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.7812,
+        "hand_w_frac": 0.2589
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2477.jpg"
+    },
+    {
+      "bbox": [
+        37,
+        30,
+        88,
+        183
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3147,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.7679,
+        "hand_w_frac": 0.2545
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3147,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.7679,
+        "hand_w_frac": 0.2545
+      },
+      "framing_original": {
+        "hand_cx": 0.3147,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.7679,
+        "hand_w_frac": 0.2545
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3147,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.7679,
+        "hand_w_frac": 0.2545
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2478.jpg"
+    },
+    {
+      "bbox": [
+        38,
+        28,
+        89,
+        186
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3192,
+        "hand_cy": 0.5379,
+        "hand_h_frac": 0.7902,
+        "hand_w_frac": 0.2545
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3192,
+        "hand_cy": 0.5379,
+        "hand_h_frac": 0.7902,
+        "hand_w_frac": 0.2545
+      },
+      "framing_original": {
+        "hand_cx": 0.3192,
+        "hand_cy": 0.5379,
+        "hand_h_frac": 0.7902,
+        "hand_w_frac": 0.2545
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3192,
+        "hand_cy": 0.5379,
+        "hand_h_frac": 0.7902,
+        "hand_w_frac": 0.2545
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2479.jpg"
+    },
+    {
+      "bbox": [
+        38,
+        27,
+        90,
+        186
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3192,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.7991,
+        "hand_w_frac": 0.2634
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3192,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.7991,
+        "hand_w_frac": 0.2634
+      },
+      "framing_original": {
+        "hand_cx": 0.3192,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.7991,
+        "hand_w_frac": 0.2634
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3192,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.7991,
+        "hand_w_frac": 0.2634
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2480.jpg"
+    },
+    {
+      "bbox": [
+        40,
+        26,
+        92,
+        186
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3304,
+        "hand_cy": 0.529,
+        "hand_h_frac": 0.7991,
+        "hand_w_frac": 0.2589
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3304,
+        "hand_cy": 0.529,
+        "hand_h_frac": 0.7991,
+        "hand_w_frac": 0.2589
+      },
+      "framing_original": {
+        "hand_cx": 0.3304,
+        "hand_cy": 0.529,
+        "hand_h_frac": 0.7991,
+        "hand_w_frac": 0.2589
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3304,
+        "hand_cy": 0.529,
+        "hand_h_frac": 0.7991,
+        "hand_w_frac": 0.2589
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2481.jpg"
+    },
+    {
+      "bbox": [
+        40,
+        25,
+        92,
+        183
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3326,
+        "hand_cy": 0.5223,
+        "hand_h_frac": 0.7946,
+        "hand_w_frac": 0.2634
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3326,
+        "hand_cy": 0.5223,
+        "hand_h_frac": 0.7946,
+        "hand_w_frac": 0.2634
+      },
+      "framing_original": {
+        "hand_cx": 0.3326,
+        "hand_cy": 0.5223,
+        "hand_h_frac": 0.7946,
+        "hand_w_frac": 0.2634
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3326,
+        "hand_cy": 0.5223,
+        "hand_h_frac": 0.7946,
+        "hand_w_frac": 0.2634
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2482.jpg"
+    },
+    {
+      "bbox": [
+        43,
+        25,
+        94,
+        182
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3415,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.7902,
+        "hand_w_frac": 0.2545
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3415,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.7902,
+        "hand_w_frac": 0.2545
+      },
+      "framing_original": {
+        "hand_cx": 0.3415,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.7902,
+        "hand_w_frac": 0.2545
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3415,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.7902,
+        "hand_w_frac": 0.2545
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2483.jpg"
+    },
+    {
+      "bbox": [
+        46,
+        25,
+        97,
+        181
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3549,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.7812,
+        "hand_w_frac": 0.2545
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3549,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.7812,
+        "hand_w_frac": 0.2545
+      },
+      "framing_original": {
+        "hand_cx": 0.3549,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.7812,
+        "hand_w_frac": 0.2545
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3549,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.7812,
+        "hand_w_frac": 0.2545
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2484.jpg"
+    },
+    {
+      "bbox": [
+        49,
+        25,
+        100,
+        177
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3728,
+        "hand_cy": 0.5089,
+        "hand_h_frac": 0.7768,
+        "hand_w_frac": 0.2545
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3728,
+        "hand_cy": 0.5089,
+        "hand_h_frac": 0.7768,
+        "hand_w_frac": 0.2545
+      },
+      "framing_original": {
+        "hand_cx": 0.3728,
+        "hand_cy": 0.5089,
+        "hand_h_frac": 0.7768,
+        "hand_w_frac": 0.2545
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3728,
+        "hand_cy": 0.5089,
+        "hand_h_frac": 0.7768,
+        "hand_w_frac": 0.2545
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2485.jpg"
+    },
+    {
+      "bbox": [
+        51,
+        23,
+        103,
+        181
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3839,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.7902,
+        "hand_w_frac": 0.2589
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3839,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.7902,
+        "hand_w_frac": 0.2589
+      },
+      "framing_original": {
+        "hand_cx": 0.3839,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.7902,
+        "hand_w_frac": 0.2589
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3839,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.7902,
+        "hand_w_frac": 0.2589
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2486.jpg"
+    },
+    {
+      "bbox": [
+        54,
+        23,
+        104,
+        181
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.3951,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.7902,
+        "hand_w_frac": 0.2455
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3951,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.7902,
+        "hand_w_frac": 0.2455
+      },
+      "framing_original": {
+        "hand_cx": 0.3951,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.7902,
+        "hand_w_frac": 0.2455
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.3951,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.7902,
+        "hand_w_frac": 0.2455
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2487.jpg"
+    },
+    {
+      "bbox": [
+        57,
+        24,
+        107,
+        178
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4085,
+        "hand_cy": 0.5022,
+        "hand_h_frac": 0.7723,
+        "hand_w_frac": 0.2455
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4085,
+        "hand_cy": 0.5022,
+        "hand_h_frac": 0.7723,
+        "hand_w_frac": 0.2455
+      },
+      "framing_original": {
+        "hand_cx": 0.4085,
+        "hand_cy": 0.5022,
+        "hand_h_frac": 0.7723,
+        "hand_w_frac": 0.2455
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4085,
+        "hand_cy": 0.5022,
+        "hand_h_frac": 0.7723,
+        "hand_w_frac": 0.2455
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2488.jpg"
+    },
+    {
+      "bbox": [
+        60,
+        24,
+        109,
+        179
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4263,
+        "hand_cy": 0.5089,
+        "hand_h_frac": 0.7679,
+        "hand_w_frac": 0.2455
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4263,
+        "hand_cy": 0.5089,
+        "hand_h_frac": 0.7679,
+        "hand_w_frac": 0.2455
+      },
+      "framing_original": {
+        "hand_cx": 0.4263,
+        "hand_cy": 0.5089,
+        "hand_h_frac": 0.7679,
+        "hand_w_frac": 0.2455
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4263,
+        "hand_cy": 0.5089,
+        "hand_h_frac": 0.7679,
+        "hand_w_frac": 0.2455
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2489.jpg"
+    },
+    {
+      "bbox": [
+        63,
+        24,
+        113,
+        177
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.442,
+        "hand_cy": 0.5045,
+        "hand_h_frac": 0.7679,
+        "hand_w_frac": 0.25
+      },
+      "framing_forearm": {
+        "hand_cx": 0.442,
+        "hand_cy": 0.5045,
+        "hand_h_frac": 0.7679,
+        "hand_w_frac": 0.25
+      },
+      "framing_original": {
+        "hand_cx": 0.442,
+        "hand_cy": 0.5045,
+        "hand_h_frac": 0.7679,
+        "hand_w_frac": 0.25
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.442,
+        "hand_cy": 0.5045,
+        "hand_h_frac": 0.7679,
+        "hand_w_frac": 0.25
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2490.jpg"
+    },
+    {
+      "bbox": [
+        66,
+        25,
+        116,
+        177
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4576,
+        "hand_cy": 0.5045,
+        "hand_h_frac": 0.7589,
+        "hand_w_frac": 0.2545
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4576,
+        "hand_cy": 0.5045,
+        "hand_h_frac": 0.7589,
+        "hand_w_frac": 0.2545
+      },
+      "framing_original": {
+        "hand_cx": 0.4576,
+        "hand_cy": 0.5045,
+        "hand_h_frac": 0.7589,
+        "hand_w_frac": 0.2545
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4576,
+        "hand_cy": 0.5045,
+        "hand_h_frac": 0.7589,
+        "hand_w_frac": 0.2545
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2491.jpg"
+    },
+    {
+      "bbox": [
+        69,
+        26,
+        119,
+        178
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.471,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.7545,
+        "hand_w_frac": 0.2545
+      },
+      "framing_forearm": {
+        "hand_cx": 0.471,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.7545,
+        "hand_w_frac": 0.2545
+      },
+      "framing_original": {
+        "hand_cx": 0.471,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.7545,
+        "hand_w_frac": 0.2545
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.471,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.7545,
+        "hand_w_frac": 0.2545
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2492.jpg"
+    },
+    {
+      "bbox": [
+        71,
+        26,
+        123,
+        180
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4866,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.7634,
+        "hand_w_frac": 0.2589
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4866,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.7634,
+        "hand_w_frac": 0.2589
+      },
+      "framing_original": {
+        "hand_cx": 0.4866,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.7634,
+        "hand_w_frac": 0.2589
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4866,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.7634,
+        "hand_w_frac": 0.2589
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2493.jpg"
+    },
+    {
+      "bbox": [
+        74,
+        29,
+        125,
+        179
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4978,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.7545,
+        "hand_w_frac": 0.2545
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4978,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.7545,
+        "hand_w_frac": 0.2545
+      },
+      "framing_original": {
+        "hand_cx": 0.4978,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.7545,
+        "hand_w_frac": 0.2545
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4978,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.7545,
+        "hand_w_frac": 0.2545
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2494.jpg"
+    },
+    {
+      "bbox": [
+        75,
+        31,
+        126,
+        179
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5,
+        "hand_cy": 0.5246,
+        "hand_h_frac": 0.7455,
+        "hand_w_frac": 0.2589
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5,
+        "hand_cy": 0.5246,
+        "hand_h_frac": 0.7455,
+        "hand_w_frac": 0.2589
+      },
+      "framing_original": {
+        "hand_cx": 0.5,
+        "hand_cy": 0.5246,
+        "hand_h_frac": 0.7455,
+        "hand_w_frac": 0.2589
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5,
+        "hand_cy": 0.5246,
+        "hand_h_frac": 0.7455,
+        "hand_w_frac": 0.2589
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2495.jpg"
+    },
+    {
+      "bbox": [
+        75,
+        32,
+        127,
+        179
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5045,
+        "hand_cy": 0.529,
+        "hand_h_frac": 0.7366,
+        "hand_w_frac": 0.2589
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5045,
+        "hand_cy": 0.529,
+        "hand_h_frac": 0.7366,
+        "hand_w_frac": 0.2589
+      },
+      "framing_original": {
+        "hand_cx": 0.5045,
+        "hand_cy": 0.529,
+        "hand_h_frac": 0.7366,
+        "hand_w_frac": 0.2589
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5045,
+        "hand_cy": 0.529,
+        "hand_h_frac": 0.7366,
+        "hand_w_frac": 0.2589
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2496.jpg"
+    },
+    {
+      "bbox": [
+        75,
+        32,
+        126,
+        177
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.5022,
+        "hand_cy": 0.5246,
+        "hand_h_frac": 0.7277,
+        "hand_w_frac": 0.2545
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5022,
+        "hand_cy": 0.5246,
+        "hand_h_frac": 0.7277,
+        "hand_w_frac": 0.2545
+      },
+      "framing_original": {
+        "hand_cx": 0.5022,
+        "hand_cy": 0.5246,
+        "hand_h_frac": 0.7277,
+        "hand_w_frac": 0.2545
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5022,
+        "hand_cy": 0.5246,
+        "hand_h_frac": 0.7277,
+        "hand_w_frac": 0.2545
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2497.jpg"
+    },
+    {
+      "bbox": [
+        74,
+        32,
+        124,
+        176
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4955,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.7188,
+        "hand_w_frac": 0.25
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4955,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.7188,
+        "hand_w_frac": 0.25
+      },
+      "framing_original": {
+        "hand_cx": 0.4955,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.7188,
+        "hand_w_frac": 0.25
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4955,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.7188,
+        "hand_w_frac": 0.25
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2498.jpg"
+    },
+    {
+      "bbox": [
+        72,
+        33,
+        122,
+        174
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4866,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.7098,
+        "hand_w_frac": 0.2589
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4866,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.7098,
+        "hand_w_frac": 0.2589
+      },
+      "framing_original": {
+        "hand_cx": 0.4866,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.7098,
+        "hand_w_frac": 0.2589
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4866,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.7098,
+        "hand_w_frac": 0.2589
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2499.jpg"
+    },
+    {
+      "bbox": [
+        72,
+        33,
+        120,
+        173
+      ],
+      "class": "B",
+      "framing_calibrated": {
+        "hand_cx": 0.4821,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.7009,
+        "hand_w_frac": 0.2411
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4821,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.7009,
+        "hand_w_frac": 0.2411
+      },
+      "framing_original": {
+        "hand_cx": 0.4821,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.7009,
+        "hand_w_frac": 0.2411
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4821,
+        "hand_cy": 0.5156,
+        "hand_h_frac": 0.7009,
+        "hand_w_frac": 0.2411
+      },
+      "path": "data/raw/asl_alphabet_train/B/B2500.jpg"
+    },
+    {
+      "bbox": [
+        52,
+        123,
+        125,
+        184
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.442,
+        "hand_cy": 0.7701,
+        "hand_h_frac": 0.308,
+        "hand_w_frac": 0.3661
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4732,
+        "hand_cy": 0.5246,
+        "hand_h_frac": 0.3259,
+        "hand_w_frac": 0.3929
+      },
+      "framing_original": {
+        "hand_cx": 0.442,
+        "hand_cy": 0.7701,
+        "hand_h_frac": 0.308,
+        "hand_w_frac": 0.3661
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2401.jpg"
+    },
+    {
+      "bbox": [
+        53,
+        124,
+        125,
+        184
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4442,
+        "hand_cy": 0.7679,
+        "hand_h_frac": 0.2857,
+        "hand_w_frac": 0.3616
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4866,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.3527,
+        "hand_w_frac": 0.3929
+      },
+      "framing_original": {
+        "hand_cx": 0.4442,
+        "hand_cy": 0.7679,
+        "hand_h_frac": 0.2857,
+        "hand_w_frac": 0.3616
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2402.jpg"
+    },
+    {
+      "bbox": [
+        59,
+        126,
+        125,
+        177
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4308,
+        "hand_cy": 0.7768,
+        "hand_h_frac": 0.2946,
+        "hand_w_frac": 0.3884
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.4308,
+        "hand_cy": 0.7768,
+        "hand_h_frac": 0.2946,
+        "hand_w_frac": 0.3884
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2403.jpg"
+    },
+    {
+      "bbox": [
+        51,
+        125,
+        126,
+        186
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.442,
+        "hand_cy": 0.7835,
+        "hand_h_frac": 0.308,
+        "hand_w_frac": 0.375
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4888,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.3482,
+        "hand_w_frac": 0.3705
+      },
+      "framing_original": {
+        "hand_cx": 0.442,
+        "hand_cy": 0.7835,
+        "hand_h_frac": 0.308,
+        "hand_w_frac": 0.375
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5179,
+        "hand_cy": 0.6384,
+        "hand_h_frac": 0.4107,
+        "hand_w_frac": 0.4018
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2404.jpg"
+    },
+    {
+      "bbox": [
+        49,
+        126,
+        124,
+        187
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4375,
+        "hand_cy": 0.7857,
+        "hand_h_frac": 0.3125,
+        "hand_w_frac": 0.375
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4732,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.3393,
+        "hand_w_frac": 0.4107
+      },
+      "framing_original": {
+        "hand_cx": 0.4375,
+        "hand_cy": 0.7857,
+        "hand_h_frac": 0.3125,
+        "hand_w_frac": 0.375
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5246,
+        "hand_cy": 0.6406,
+        "hand_h_frac": 0.4062,
+        "hand_w_frac": 0.4152
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2405.jpg"
+    },
+    {
+      "bbox": [
+        55,
+        127,
+        126,
+        189
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4509,
+        "hand_cy": 0.7879,
+        "hand_h_frac": 0.2991,
+        "hand_w_frac": 0.3482
+      },
+      "framing_forearm": {
+        "hand_cx": 0.471,
+        "hand_cy": 0.5379,
+        "hand_h_frac": 0.3259,
+        "hand_w_frac": 0.3795
+      },
+      "framing_original": {
+        "hand_cx": 0.4509,
+        "hand_cy": 0.7879,
+        "hand_h_frac": 0.2991,
+        "hand_w_frac": 0.3482
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4933,
+        "hand_cy": 0.6384,
+        "hand_h_frac": 0.4107,
+        "hand_w_frac": 0.442
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2406.jpg"
+    },
+    {
+      "bbox": [
+        55,
+        127,
+        126,
+        189
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4531,
+        "hand_cy": 0.7924,
+        "hand_h_frac": 0.308,
+        "hand_w_frac": 0.3527
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4754,
+        "hand_cy": 0.5424,
+        "hand_h_frac": 0.3259,
+        "hand_w_frac": 0.3795
+      },
+      "framing_original": {
+        "hand_cx": 0.4531,
+        "hand_cy": 0.7924,
+        "hand_h_frac": 0.308,
+        "hand_w_frac": 0.3527
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4955,
+        "hand_cy": 0.625,
+        "hand_h_frac": 0.3929,
+        "hand_w_frac": 0.4375
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2407.jpg"
+    },
+    {
+      "bbox": [
+        55,
+        128,
+        126,
+        191
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4531,
+        "hand_cy": 0.7969,
+        "hand_h_frac": 0.317,
+        "hand_w_frac": 0.3527
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4799,
+        "hand_cy": 0.5469,
+        "hand_h_frac": 0.3438,
+        "hand_w_frac": 0.3616
+      },
+      "framing_original": {
+        "hand_cx": 0.4531,
+        "hand_cy": 0.7969,
+        "hand_h_frac": 0.317,
+        "hand_w_frac": 0.3527
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5022,
+        "hand_cy": 0.6317,
+        "hand_h_frac": 0.4241,
+        "hand_w_frac": 0.4241
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2408.jpg"
+    },
+    {
+      "bbox": [
+        52,
+        130,
+        127,
+        192
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4531,
+        "hand_cy": 0.8103,
+        "hand_h_frac": 0.317,
+        "hand_w_frac": 0.3616
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4866,
+        "hand_cy": 0.5513,
+        "hand_h_frac": 0.3438,
+        "hand_w_frac": 0.375
+      },
+      "framing_original": {
+        "hand_cx": 0.4531,
+        "hand_cy": 0.8103,
+        "hand_h_frac": 0.317,
+        "hand_w_frac": 0.3616
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5268,
+        "hand_cy": 0.6406,
+        "hand_h_frac": 0.3973,
+        "hand_w_frac": 0.3839
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2409.jpg"
+    },
+    {
+      "bbox": [
+        57,
+        131,
+        127,
+        193
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4621,
+        "hand_cy": 0.8147,
+        "hand_h_frac": 0.308,
+        "hand_w_frac": 0.3438
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4754,
+        "hand_cy": 0.5491,
+        "hand_h_frac": 0.3214,
+        "hand_w_frac": 0.3884
+      },
+      "framing_original": {
+        "hand_cx": 0.4621,
+        "hand_cy": 0.8147,
+        "hand_h_frac": 0.308,
+        "hand_w_frac": 0.3438
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2410.jpg"
+    },
+    {
+      "bbox": [
+        59,
+        132,
+        127,
+        198
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4621,
+        "hand_cy": 0.8259,
+        "hand_h_frac": 0.3304,
+        "hand_w_frac": 0.3438
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4665,
+        "hand_cy": 0.5647,
+        "hand_h_frac": 0.3438,
+        "hand_w_frac": 0.3438
+      },
+      "framing_original": {
+        "hand_cx": 0.4621,
+        "hand_cy": 0.8259,
+        "hand_h_frac": 0.3304,
+        "hand_w_frac": 0.3438
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4933,
+        "hand_cy": 0.6317,
+        "hand_h_frac": 0.4241,
+        "hand_w_frac": 0.4598
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2411.jpg"
+    },
+    {
+      "bbox": [
+        56,
+        132,
+        128,
+        194
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4621,
+        "hand_cy": 0.8192,
+        "hand_h_frac": 0.308,
+        "hand_w_frac": 0.3438
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.4621,
+        "hand_cy": 0.8192,
+        "hand_h_frac": 0.308,
+        "hand_w_frac": 0.3438
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5045,
+        "hand_cy": 0.6473,
+        "hand_h_frac": 0.4018,
+        "hand_w_frac": 0.4107
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2412.jpg"
+    },
+    {
+      "bbox": [
+        56,
+        132,
+        127,
+        195
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4576,
+        "hand_cy": 0.8192,
+        "hand_h_frac": 0.317,
+        "hand_w_frac": 0.3527
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.4576,
+        "hand_cy": 0.8192,
+        "hand_h_frac": 0.317,
+        "hand_w_frac": 0.3527
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5045,
+        "hand_cy": 0.6451,
+        "hand_h_frac": 0.3973,
+        "hand_w_frac": 0.4286
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2413.jpg"
+    },
+    {
+      "bbox": [
+        58,
+        132,
+        128,
+        195
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4665,
+        "hand_cy": 0.8214,
+        "hand_h_frac": 0.3214,
+        "hand_w_frac": 0.3438
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4844,
+        "hand_cy": 0.5513,
+        "hand_h_frac": 0.3348,
+        "hand_w_frac": 0.3438
+      },
+      "framing_original": {
+        "hand_cx": 0.4665,
+        "hand_cy": 0.8214,
+        "hand_h_frac": 0.3214,
+        "hand_w_frac": 0.3438
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4978,
+        "hand_cy": 0.6317,
+        "hand_h_frac": 0.3973,
+        "hand_w_frac": 0.442
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2414.jpg"
+    },
+    {
+      "bbox": [
+        60,
+        133,
+        128,
+        197
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.471,
+        "hand_cy": 0.8237,
+        "hand_h_frac": 0.3259,
+        "hand_w_frac": 0.3438
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4777,
+        "hand_cy": 0.5536,
+        "hand_h_frac": 0.3125,
+        "hand_w_frac": 0.3482
+      },
+      "framing_original": {
+        "hand_cx": 0.471,
+        "hand_cy": 0.8237,
+        "hand_h_frac": 0.3259,
+        "hand_w_frac": 0.3438
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2415.jpg"
+    },
+    {
+      "bbox": [
+        54,
+        132,
+        129,
+        190
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4576,
+        "hand_cy": 0.8036,
+        "hand_h_frac": 0.2946,
+        "hand_w_frac": 0.3705
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.4576,
+        "hand_cy": 0.8036,
+        "hand_h_frac": 0.2946,
+        "hand_w_frac": 0.3705
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5179,
+        "hand_cy": 0.6496,
+        "hand_h_frac": 0.3795,
+        "hand_w_frac": 0.4107
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2416.jpg"
+    },
+    {
+      "bbox": [
+        55,
+        133,
+        131,
+        193
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4643,
+        "hand_cy": 0.817,
+        "hand_h_frac": 0.3036,
+        "hand_w_frac": 0.3839
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.4643,
+        "hand_cy": 0.817,
+        "hand_h_frac": 0.3036,
+        "hand_w_frac": 0.3839
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5156,
+        "hand_cy": 0.6518,
+        "hand_h_frac": 0.3839,
+        "hand_w_frac": 0.4152
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2417.jpg"
+    },
+    {
+      "bbox": [
+        61,
+        131,
+        134,
+        188
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4844,
+        "hand_cy": 0.8013,
+        "hand_h_frac": 0.2902,
+        "hand_w_frac": 0.3705
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5067,
+        "hand_cy": 0.529,
+        "hand_h_frac": 0.317,
+        "hand_w_frac": 0.3884
+      },
+      "framing_original": {
+        "hand_cx": 0.4844,
+        "hand_cy": 0.8013,
+        "hand_h_frac": 0.2902,
+        "hand_w_frac": 0.3705
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4933,
+        "hand_cy": 0.6384,
+        "hand_h_frac": 0.375,
+        "hand_w_frac": 0.4598
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2418.jpg"
+    },
+    {
+      "bbox": [
+        61,
+        130,
+        137,
+        187
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4955,
+        "hand_cy": 0.7969,
+        "hand_h_frac": 0.2902,
+        "hand_w_frac": 0.3839
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5089,
+        "hand_cy": 0.5312,
+        "hand_h_frac": 0.3214,
+        "hand_w_frac": 0.4107
+      },
+      "framing_original": {
+        "hand_cx": 0.4955,
+        "hand_cy": 0.7969,
+        "hand_h_frac": 0.2902,
+        "hand_w_frac": 0.3839
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5067,
+        "hand_cy": 0.6406,
+        "hand_h_frac": 0.3705,
+        "hand_w_frac": 0.433
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2419.jpg"
+    },
+    {
+      "bbox": [
+        68,
+        128,
+        141,
+        189
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.5246,
+        "hand_cy": 0.7946,
+        "hand_h_frac": 0.3036,
+        "hand_w_frac": 0.3705
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5067,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.317,
+        "hand_w_frac": 0.3705
+      },
+      "framing_original": {
+        "hand_cx": 0.5246,
+        "hand_cy": 0.7946,
+        "hand_h_frac": 0.3036,
+        "hand_w_frac": 0.3705
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5022,
+        "hand_cy": 0.6272,
+        "hand_h_frac": 0.3884,
+        "hand_w_frac": 0.4509
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2420.jpg"
+    },
+    {
+      "bbox": [
+        72,
+        127,
+        146,
+        187
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.5469,
+        "hand_cy": 0.7902,
+        "hand_h_frac": 0.3036,
+        "hand_w_frac": 0.3705
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5112,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.3259,
+        "hand_w_frac": 0.4062
+      },
+      "framing_original": {
+        "hand_cx": 0.5469,
+        "hand_cy": 0.7902,
+        "hand_h_frac": 0.3036,
+        "hand_w_frac": 0.3705
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4754,
+        "hand_cy": 0.6116,
+        "hand_h_frac": 0.3304,
+        "hand_w_frac": 0.4955
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2421.jpg"
+    },
+    {
+      "bbox": [
+        74,
+        127,
+        149,
+        187
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.5603,
+        "hand_cy": 0.7879,
+        "hand_h_frac": 0.2991,
+        "hand_w_frac": 0.3705
+      },
+      "framing_forearm": {
+        "hand_cx": 0.529,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.3304,
+        "hand_w_frac": 0.3973
+      },
+      "framing_original": {
+        "hand_cx": 0.5603,
+        "hand_cy": 0.7879,
+        "hand_h_frac": 0.2991,
+        "hand_w_frac": 0.3705
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5112,
+        "hand_cy": 0.6272,
+        "hand_h_frac": 0.3616,
+        "hand_w_frac": 0.433
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2422.jpg"
+    },
+    {
+      "bbox": [
+        78,
+        127,
+        154,
+        186
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.5804,
+        "hand_cy": 0.7857,
+        "hand_h_frac": 0.2946,
+        "hand_w_frac": 0.375
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5223,
+        "hand_cy": 0.529,
+        "hand_h_frac": 0.3259,
+        "hand_w_frac": 0.4286
+      },
+      "framing_original": {
+        "hand_cx": 0.5804,
+        "hand_cy": 0.7857,
+        "hand_h_frac": 0.2946,
+        "hand_w_frac": 0.375
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4933,
+        "hand_cy": 0.6272,
+        "hand_h_frac": 0.3438,
+        "hand_w_frac": 0.4598
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2423.jpg"
+    },
+    {
+      "bbox": [
+        78,
+        129,
+        158,
+        185
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.5915,
+        "hand_cy": 0.7835,
+        "hand_h_frac": 0.2812,
+        "hand_w_frac": 0.3973
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5513,
+        "hand_cy": 0.5379,
+        "hand_h_frac": 0.317,
+        "hand_w_frac": 0.4062
+      },
+      "framing_original": {
+        "hand_cx": 0.5915,
+        "hand_cy": 0.7835,
+        "hand_h_frac": 0.2812,
+        "hand_w_frac": 0.3973
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5246,
+        "hand_cy": 0.6295,
+        "hand_h_frac": 0.3214,
+        "hand_w_frac": 0.4598
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2424.jpg"
+    },
+    {
+      "bbox": [
+        81,
+        128,
+        163,
+        182
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.6161,
+        "hand_cy": 0.7768,
+        "hand_h_frac": 0.2679,
+        "hand_w_frac": 0.4018
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5804,
+        "hand_cy": 0.5469,
+        "hand_h_frac": 0.317,
+        "hand_w_frac": 0.4107
+      },
+      "framing_original": {
+        "hand_cx": 0.6161,
+        "hand_cy": 0.7768,
+        "hand_h_frac": 0.2679,
+        "hand_w_frac": 0.4018
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5379,
+        "hand_cy": 0.6339,
+        "hand_h_frac": 0.3125,
+        "hand_w_frac": 0.4955
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2425.jpg"
+    },
+    {
+      "bbox": [
+        89,
+        126,
+        167,
+        180
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.6362,
+        "hand_cy": 0.7656,
+        "hand_h_frac": 0.2723,
+        "hand_w_frac": 0.3973
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5692,
+        "hand_cy": 0.529,
+        "hand_h_frac": 0.3259,
+        "hand_w_frac": 0.4509
+      },
+      "framing_original": {
+        "hand_cx": 0.6362,
+        "hand_cy": 0.7656,
+        "hand_h_frac": 0.2723,
+        "hand_w_frac": 0.3973
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5402,
+        "hand_cy": 0.6228,
+        "hand_h_frac": 0.3348,
+        "hand_w_frac": 0.5089
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2426.jpg"
+    },
+    {
+      "bbox": [
+        88,
+        124,
+        169,
+        177
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.6473,
+        "hand_cy": 0.75,
+        "hand_h_frac": 0.2679,
+        "hand_w_frac": 0.4018
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5804,
+        "hand_cy": 0.5357,
+        "hand_h_frac": 0.3214,
+        "hand_w_frac": 0.4643
+      },
+      "framing_original": {
+        "hand_cx": 0.6473,
+        "hand_cy": 0.75,
+        "hand_h_frac": 0.2679,
+        "hand_w_frac": 0.4018
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5424,
+        "hand_cy": 0.6183,
+        "hand_h_frac": 0.3438,
+        "hand_w_frac": 0.5223
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2427.jpg"
+    },
+    {
+      "bbox": [
+        90,
+        118,
+        172,
+        171
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.654,
+        "hand_cy": 0.7254,
+        "hand_h_frac": 0.2634,
+        "hand_w_frac": 0.4062
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5848,
+        "hand_cy": 0.5201,
+        "hand_h_frac": 0.308,
+        "hand_w_frac": 0.4821
+      },
+      "framing_original": {
+        "hand_cx": 0.654,
+        "hand_cy": 0.7254,
+        "hand_h_frac": 0.2634,
+        "hand_w_frac": 0.4062
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2428.jpg"
+    },
+    {
+      "bbox": [
+        90,
+        114,
+        172,
+        169
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.6585,
+        "hand_cy": 0.7098,
+        "hand_h_frac": 0.2768,
+        "hand_w_frac": 0.4062
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6071,
+        "hand_cy": 0.5,
+        "hand_h_frac": 0.3214,
+        "hand_w_frac": 0.4643
+      },
+      "framing_original": {
+        "hand_cx": 0.6585,
+        "hand_cy": 0.7098,
+        "hand_h_frac": 0.2768,
+        "hand_w_frac": 0.4062
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6116,
+        "hand_cy": 0.596,
+        "hand_h_frac": 0.3259,
+        "hand_w_frac": 0.4286
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2429.jpg"
+    },
+    {
+      "bbox": [
+        95,
+        108,
+        175,
+        163
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.6808,
+        "hand_cy": 0.6741,
+        "hand_h_frac": 0.2768,
+        "hand_w_frac": 0.3884
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5982,
+        "hand_cy": 0.4688,
+        "hand_h_frac": 0.3393,
+        "hand_w_frac": 0.4643
+      },
+      "framing_original": {
+        "hand_cx": 0.6808,
+        "hand_cy": 0.6741,
+        "hand_h_frac": 0.2768,
+        "hand_w_frac": 0.3884
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2430.jpg"
+    },
+    {
+      "bbox": [
+        93,
+        103,
+        174,
+        159
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.6719,
+        "hand_cy": 0.6585,
+        "hand_h_frac": 0.2812,
+        "hand_w_frac": 0.4062
+      },
+      "framing_forearm": {
+        "hand_cx": 0.6071,
+        "hand_cy": 0.4621,
+        "hand_h_frac": 0.3438,
+        "hand_w_frac": 0.4821
+      },
+      "framing_original": {
+        "hand_cx": 0.6719,
+        "hand_cy": 0.6585,
+        "hand_h_frac": 0.2812,
+        "hand_w_frac": 0.4062
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.6004,
+        "hand_cy": 0.5558,
+        "hand_h_frac": 0.3348,
+        "hand_w_frac": 0.442
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2431.jpg"
+    },
+    {
+      "bbox": [
+        93,
+        102,
+        172,
+        154
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.6585,
+        "hand_cy": 0.6384,
+        "hand_h_frac": 0.2589,
+        "hand_w_frac": 0.3795
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.6585,
+        "hand_cy": 0.6384,
+        "hand_h_frac": 0.2589,
+        "hand_w_frac": 0.3795
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2432.jpg"
+    },
+    {
+      "bbox": [
+        91,
+        99,
+        170,
+        152
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.6585,
+        "hand_cy": 0.6272,
+        "hand_h_frac": 0.2723,
+        "hand_w_frac": 0.3973
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.6585,
+        "hand_cy": 0.6272,
+        "hand_h_frac": 0.2723,
+        "hand_w_frac": 0.3973
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5759,
+        "hand_cy": 0.5469,
+        "hand_h_frac": 0.308,
+        "hand_w_frac": 0.4554
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2433.jpg"
+    },
+    {
+      "bbox": [
+        88,
+        94,
+        172,
+        146
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.6496,
+        "hand_cy": 0.596,
+        "hand_h_frac": 0.2545,
+        "hand_w_frac": 0.4152
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.6496,
+        "hand_cy": 0.596,
+        "hand_h_frac": 0.2545,
+        "hand_w_frac": 0.4152
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2434.jpg"
+    },
+    {
+      "bbox": [
+        89,
+        89,
+        169,
+        143
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.6451,
+        "hand_cy": 0.5804,
+        "hand_h_frac": 0.2679,
+        "hand_w_frac": 0.4062
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5781,
+        "hand_cy": 0.4263,
+        "hand_h_frac": 0.308,
+        "hand_w_frac": 0.4509
+      },
+      "framing_original": {
+        "hand_cx": 0.6451,
+        "hand_cy": 0.5804,
+        "hand_h_frac": 0.2679,
+        "hand_w_frac": 0.4062
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5558,
+        "hand_cy": 0.5134,
+        "hand_h_frac": 0.2946,
+        "hand_w_frac": 0.442
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2435.jpg"
+    },
+    {
+      "bbox": [
+        83,
+        85,
+        167,
+        139
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.6272,
+        "hand_cy": 0.5603,
+        "hand_h_frac": 0.2723,
+        "hand_w_frac": 0.4152
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5759,
+        "hand_cy": 0.4308,
+        "hand_h_frac": 0.3259,
+        "hand_w_frac": 0.4732
+      },
+      "framing_original": {
+        "hand_cx": 0.6272,
+        "hand_cy": 0.5603,
+        "hand_h_frac": 0.2723,
+        "hand_w_frac": 0.4152
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5536,
+        "hand_cy": 0.5179,
+        "hand_h_frac": 0.3036,
+        "hand_w_frac": 0.4375
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2436.jpg"
+    },
+    {
+      "bbox": [
+        82,
+        81,
+        164,
+        137
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.6161,
+        "hand_cy": 0.5446,
+        "hand_h_frac": 0.2768,
+        "hand_w_frac": 0.4107
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5647,
+        "hand_cy": 0.4085,
+        "hand_h_frac": 0.3259,
+        "hand_w_frac": 0.442
+      },
+      "framing_original": {
+        "hand_cx": 0.6161,
+        "hand_cy": 0.5446,
+        "hand_h_frac": 0.2768,
+        "hand_w_frac": 0.4107
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5469,
+        "hand_cy": 0.4955,
+        "hand_h_frac": 0.3125,
+        "hand_w_frac": 0.433
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2437.jpg"
+    },
+    {
+      "bbox": [
+        79,
+        81,
+        159,
+        134
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.596,
+        "hand_cy": 0.5402,
+        "hand_h_frac": 0.2679,
+        "hand_w_frac": 0.4062
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5357,
+        "hand_cy": 0.4129,
+        "hand_h_frac": 0.3259,
+        "hand_w_frac": 0.4732
+      },
+      "framing_original": {
+        "hand_cx": 0.596,
+        "hand_cy": 0.5402,
+        "hand_h_frac": 0.2679,
+        "hand_w_frac": 0.4062
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5134,
+        "hand_cy": 0.5134,
+        "hand_h_frac": 0.3214,
+        "hand_w_frac": 0.4464
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2438.jpg"
+    },
+    {
+      "bbox": [
+        80,
+        78,
+        157,
+        134
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.5871,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.2812,
+        "hand_w_frac": 0.3973
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5402,
+        "hand_cy": 0.3817,
+        "hand_h_frac": 0.3259,
+        "hand_w_frac": 0.4375
+      },
+      "framing_original": {
+        "hand_cx": 0.5871,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.2812,
+        "hand_w_frac": 0.3973
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5,
+        "hand_cy": 0.4978,
+        "hand_h_frac": 0.317,
+        "hand_w_frac": 0.4464
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2439.jpg"
+    },
+    {
+      "bbox": [
+        72,
+        79,
+        154,
+        132
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.5647,
+        "hand_cy": 0.5268,
+        "hand_h_frac": 0.2679,
+        "hand_w_frac": 0.4062
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5424,
+        "hand_cy": 0.4085,
+        "hand_h_frac": 0.2902,
+        "hand_w_frac": 0.3884
+      },
+      "framing_original": {
+        "hand_cx": 0.5647,
+        "hand_cy": 0.5268,
+        "hand_h_frac": 0.2679,
+        "hand_w_frac": 0.4062
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2440.jpg"
+    },
+    {
+      "bbox": [
+        69,
+        75,
+        146,
+        130
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.5402,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.2723,
+        "hand_w_frac": 0.3839
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.5402,
+        "hand_cy": 0.5112,
+        "hand_h_frac": 0.2723,
+        "hand_w_frac": 0.3839
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2441.jpg"
+    },
+    {
+      "bbox": [
+        62,
+        71,
+        143,
+        128
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.5179,
+        "hand_cy": 0.5,
+        "hand_h_frac": 0.2768,
+        "hand_w_frac": 0.3929
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.5179,
+        "hand_cy": 0.5,
+        "hand_h_frac": 0.2768,
+        "hand_w_frac": 0.3929
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5179,
+        "hand_cy": 0.5022,
+        "hand_h_frac": 0.2991,
+        "hand_w_frac": 0.3839
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2442.jpg"
+    },
+    {
+      "bbox": [
+        51,
+        65,
+        118,
+        125
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4196,
+        "hand_cy": 0.4732,
+        "hand_h_frac": 0.3036,
+        "hand_w_frac": 0.3482
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.4196,
+        "hand_cy": 0.4732,
+        "hand_h_frac": 0.3036,
+        "hand_w_frac": 0.3482
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2446.jpg"
+    },
+    {
+      "bbox": [
+        38,
+        68,
+        105,
+        124
+      ],
+      "class": "C",
+      "framing_calibrated": null,
+      "framing_forearm": null,
+      "framing_original": null,
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2449.jpg"
+    },
+    {
+      "bbox": [
+        32,
+        77,
+        92,
+        134
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.3304,
+        "hand_cy": 0.5424,
+        "hand_h_frac": 0.3438,
+        "hand_w_frac": 0.3661
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.3058,
+        "hand_cy": 0.5379,
+        "hand_h_frac": 0.2991,
+        "hand_w_frac": 0.308
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2453.jpg"
+    },
+    {
+      "bbox": [
+        30,
+        78,
+        90,
+        140
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.3214,
+        "hand_cy": 0.5335,
+        "hand_h_frac": 0.3438,
+        "hand_w_frac": 0.3571
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3571,
+        "hand_cy": 0.3973,
+        "hand_h_frac": 0.3839,
+        "hand_w_frac": 0.4375
+      },
+      "framing_original": {
+        "hand_cx": 0.2991,
+        "hand_cy": 0.5513,
+        "hand_h_frac": 0.308,
+        "hand_w_frac": 0.3036
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2454.jpg"
+    },
+    {
+      "bbox": [
+        26,
+        86,
+        88,
+        144
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.3192,
+        "hand_cy": 0.5536,
+        "hand_h_frac": 0.3214,
+        "hand_w_frac": 0.2991
+      },
+      "framing_forearm": {
+        "hand_cx": 0.3594,
+        "hand_cy": 0.3862,
+        "hand_h_frac": 0.4062,
+        "hand_w_frac": 0.4598
+      },
+      "framing_original": {
+        "hand_cx": 0.2857,
+        "hand_cy": 0.5781,
+        "hand_h_frac": 0.2991,
+        "hand_w_frac": 0.3125
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2457.jpg"
+    },
+    {
+      "bbox": [
+        25,
+        85,
+        90,
+        142
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.2946,
+        "hand_cy": 0.5692,
+        "hand_h_frac": 0.2902,
+        "hand_w_frac": 0.3304
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.2857,
+        "hand_cy": 0.5737,
+        "hand_h_frac": 0.2902,
+        "hand_w_frac": 0.3304
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2458.jpg"
+    },
+    {
+      "bbox": [
+        24,
+        90,
+        88,
+        145
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.2969,
+        "hand_cy": 0.5737,
+        "hand_h_frac": 0.2991,
+        "hand_w_frac": 0.3259
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.2768,
+        "hand_cy": 0.5871,
+        "hand_h_frac": 0.2812,
+        "hand_w_frac": 0.3304
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2459.jpg"
+    },
+    {
+      "bbox": [
+        32,
+        95,
+        90,
+        149
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.3281,
+        "hand_cy": 0.5603,
+        "hand_h_frac": 0.317,
+        "hand_w_frac": 0.4062
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.3036,
+        "hand_cy": 0.6071,
+        "hand_h_frac": 0.2768,
+        "hand_w_frac": 0.3036
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2461.jpg"
+    },
+    {
+      "bbox": [
+        37,
+        95,
+        94,
+        151
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.3571,
+        "hand_cy": 0.5558,
+        "hand_h_frac": 0.317,
+        "hand_w_frac": 0.3929
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4174,
+        "hand_cy": 0.4375,
+        "hand_h_frac": 0.3214,
+        "hand_w_frac": 0.3795
+      },
+      "framing_original": {
+        "hand_cx": 0.3259,
+        "hand_cy": 0.6183,
+        "hand_h_frac": 0.2812,
+        "hand_w_frac": 0.2857
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2462.jpg"
+    },
+    {
+      "bbox": [
+        32,
+        110,
+        96,
+        164
+      ],
+      "class": "C",
+      "framing_calibrated": null,
+      "framing_forearm": {
+        "hand_cx": 0.3817,
+        "hand_cy": 0.4598,
+        "hand_h_frac": 0.3661,
+        "hand_w_frac": 0.4688
+      },
+      "framing_original": {
+        "hand_cx": 0.3125,
+        "hand_cy": 0.6853,
+        "hand_h_frac": 0.2545,
+        "hand_w_frac": 0.3214
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.442,
+        "hand_cy": 0.5491,
+        "hand_h_frac": 0.3929,
+        "hand_w_frac": 0.5179
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2471.jpg"
+    },
+    {
+      "bbox": [
+        29,
+        128,
+        96,
+        170
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.3214,
+        "hand_cy": 0.7165,
+        "hand_h_frac": 0.2366,
+        "hand_w_frac": 0.3125
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4263,
+        "hand_cy": 0.4688,
+        "hand_h_frac": 0.3571,
+        "hand_w_frac": 0.4866
+      },
+      "framing_original": {
+        "hand_cx": 0.3214,
+        "hand_cy": 0.7165,
+        "hand_h_frac": 0.2366,
+        "hand_w_frac": 0.3125
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2474.jpg"
+    },
+    {
+      "bbox": [
+        30,
+        124,
+        92,
+        171
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.3192,
+        "hand_cy": 0.7656,
+        "hand_h_frac": 0.3259,
+        "hand_w_frac": 0.3527
+      },
+      "framing_forearm": null,
+      "framing_original": null,
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2475.jpg"
+    },
+    {
+      "bbox": [
+        27,
+        120,
+        96,
+        173
+      ],
+      "class": "C",
+      "framing_calibrated": null,
+      "framing_forearm": {
+        "hand_cx": 0.4442,
+        "hand_cy": 0.4754,
+        "hand_h_frac": 0.3616,
+        "hand_w_frac": 0.442
+      },
+      "framing_original": null,
+      "framing_symmetric": {
+        "hand_cx": 0.4598,
+        "hand_cy": 0.5871,
+        "hand_h_frac": 0.3795,
+        "hand_w_frac": 0.4643
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2476.jpg"
+    },
+    {
+      "bbox": [
+        24,
+        131,
+        93,
+        191
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.2969,
+        "hand_cy": 0.8125,
+        "hand_h_frac": 0.2411,
+        "hand_w_frac": 0.3438
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4085,
+        "hand_cy": 0.5022,
+        "hand_h_frac": 0.2188,
+        "hand_w_frac": 0.3884
+      },
+      "framing_original": {
+        "hand_cx": 0.2969,
+        "hand_cy": 0.8125,
+        "hand_h_frac": 0.2411,
+        "hand_w_frac": 0.3438
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4576,
+        "hand_cy": 0.5558,
+        "hand_h_frac": 0.4062,
+        "hand_w_frac": 0.5134
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2477.jpg"
+    },
+    {
+      "bbox": [
+        22,
+        127,
+        93,
+        185
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.2969,
+        "hand_cy": 0.7299,
+        "hand_h_frac": 0.2545,
+        "hand_w_frac": 0.2902
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.2969,
+        "hand_cy": 0.7299,
+        "hand_h_frac": 0.2545,
+        "hand_w_frac": 0.2902
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2479.jpg"
+    },
+    {
+      "bbox": [
+        26,
+        124,
+        91,
+        177
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.3013,
+        "hand_cy": 0.7545,
+        "hand_h_frac": 0.2768,
+        "hand_w_frac": 0.317
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.2924,
+        "hand_cy": 0.7612,
+        "hand_h_frac": 0.2634,
+        "hand_w_frac": 0.3259
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2482.jpg"
+    },
+    {
+      "bbox": [
+        26,
+        135,
+        90,
+        174
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.2857,
+        "hand_cy": 0.8036,
+        "hand_h_frac": 0.3393,
+        "hand_w_frac": 0.3661
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4263,
+        "hand_cy": 0.4955,
+        "hand_h_frac": 0.3929,
+        "hand_w_frac": 0.4866
+      },
+      "framing_original": {
+        "hand_cx": 0.2812,
+        "hand_cy": 0.8125,
+        "hand_h_frac": 0.2679,
+        "hand_w_frac": 0.3304
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4219,
+        "hand_cy": 0.5848,
+        "hand_h_frac": 0.3839,
+        "hand_w_frac": 0.5312
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2483.jpg"
+    },
+    {
+      "bbox": [
+        25,
+        126,
+        91,
+        178
+      ],
+      "class": "C",
+      "framing_calibrated": null,
+      "framing_forearm": {
+        "hand_cx": 0.4107,
+        "hand_cy": 0.4933,
+        "hand_h_frac": 0.3705,
+        "hand_w_frac": 0.4643
+      },
+      "framing_original": null,
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2484.jpg"
+    },
+    {
+      "bbox": [
+        21,
+        130,
+        93,
+        193
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.3013,
+        "hand_cy": 0.7879,
+        "hand_h_frac": 0.2991,
+        "hand_w_frac": 0.317
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.3013,
+        "hand_cy": 0.7879,
+        "hand_h_frac": 0.2991,
+        "hand_w_frac": 0.317
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2486.jpg"
+    },
+    {
+      "bbox": [
+        30,
+        125,
+        95,
+        182
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.3103,
+        "hand_cy": 0.7701,
+        "hand_h_frac": 0.2902,
+        "hand_w_frac": 0.3438
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.3013,
+        "hand_cy": 0.7679,
+        "hand_h_frac": 0.2679,
+        "hand_w_frac": 0.3438
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2487.jpg"
+    },
+    {
+      "bbox": [
+        30,
+        126,
+        97,
+        180
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.317,
+        "hand_cy": 0.7656,
+        "hand_h_frac": 0.2723,
+        "hand_w_frac": 0.3304
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4152,
+        "hand_cy": 0.5,
+        "hand_h_frac": 0.3482,
+        "hand_w_frac": 0.4643
+      },
+      "framing_original": {
+        "hand_cx": 0.317,
+        "hand_cy": 0.7656,
+        "hand_h_frac": 0.2723,
+        "hand_w_frac": 0.3304
+      },
+      "framing_symmetric": null,
+      "path": "data/raw/asl_alphabet_train/C/C2488.jpg"
+    },
+    {
+      "bbox": [
+        34,
+        125,
+        101,
+        177
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.3348,
+        "hand_cy": 0.7545,
+        "hand_h_frac": 0.2589,
+        "hand_w_frac": 0.3482
+      },
+      "framing_forearm": null,
+      "framing_original": {
+        "hand_cx": 0.3348,
+        "hand_cy": 0.7545,
+        "hand_h_frac": 0.2589,
+        "hand_w_frac": 0.3482
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4754,
+        "hand_cy": 0.6027,
+        "hand_h_frac": 0.3839,
+        "hand_w_frac": 0.4598
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2489.jpg"
+    },
+    {
+      "bbox": [
+        35,
+        124,
+        106,
+        180
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.3549,
+        "hand_cy": 0.7634,
+        "hand_h_frac": 0.2768,
+        "hand_w_frac": 0.3438
+      },
+      "framing_forearm": {
+        "hand_cx": 0.433,
+        "hand_cy": 0.4978,
+        "hand_h_frac": 0.3348,
+        "hand_w_frac": 0.4643
+      },
+      "framing_original": {
+        "hand_cx": 0.3549,
+        "hand_cy": 0.7634,
+        "hand_h_frac": 0.2768,
+        "hand_w_frac": 0.3438
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4754,
+        "hand_cy": 0.6071,
+        "hand_h_frac": 0.3661,
+        "hand_w_frac": 0.4598
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2490.jpg"
+    },
+    {
+      "bbox": [
+        38,
+        123,
+        111,
+        178
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.3795,
+        "hand_cy": 0.7522,
+        "hand_h_frac": 0.2723,
+        "hand_w_frac": 0.3571
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4554,
+        "hand_cy": 0.4955,
+        "hand_h_frac": 0.3393,
+        "hand_w_frac": 0.4643
+      },
+      "framing_original": {
+        "hand_cx": 0.3795,
+        "hand_cy": 0.7522,
+        "hand_h_frac": 0.2723,
+        "hand_w_frac": 0.3571
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4688,
+        "hand_cy": 0.6004,
+        "hand_h_frac": 0.3616,
+        "hand_w_frac": 0.4911
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2491.jpg"
+    },
+    {
+      "bbox": [
+        40,
+        122,
+        116,
+        177
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.3996,
+        "hand_cy": 0.7433,
+        "hand_h_frac": 0.2723,
+        "hand_w_frac": 0.3884
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4598,
+        "hand_cy": 0.5067,
+        "hand_h_frac": 0.317,
+        "hand_w_frac": 0.4464
+      },
+      "framing_original": {
+        "hand_cx": 0.3996,
+        "hand_cy": 0.7433,
+        "hand_h_frac": 0.2723,
+        "hand_w_frac": 0.3884
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.4799,
+        "hand_cy": 0.6049,
+        "hand_h_frac": 0.3438,
+        "hand_w_frac": 0.4598
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2492.jpg"
+    },
+    {
+      "bbox": [
+        48,
+        121,
+        122,
+        176
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.4241,
+        "hand_cy": 0.7433,
+        "hand_h_frac": 0.2723,
+        "hand_w_frac": 0.375
+      },
+      "framing_forearm": {
+        "hand_cx": 0.4821,
+        "hand_cy": 0.4933,
+        "hand_h_frac": 0.317,
+        "hand_w_frac": 0.4375
+      },
+      "framing_original": {
+        "hand_cx": 0.4241,
+        "hand_cy": 0.7433,
+        "hand_h_frac": 0.2723,
+        "hand_w_frac": 0.375
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5,
+        "hand_cy": 0.5938,
+        "hand_h_frac": 0.3304,
+        "hand_w_frac": 0.4464
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2493.jpg"
+    },
+    {
+      "bbox": [
+        50,
+        120,
+        127,
+        174
+      ],
+      "class": "C",
+      "framing_calibrated": {
+        "hand_cx": 0.442,
+        "hand_cy": 0.7366,
+        "hand_h_frac": 0.2768,
+        "hand_w_frac": 0.3839
+      },
+      "framing_forearm": {
+        "hand_cx": 0.5022,
+        "hand_cy": 0.5134,
+        "hand_h_frac": 0.3036,
+        "hand_w_frac": 0.4062
+      },
+      "framing_original": {
+        "hand_cx": 0.442,
+        "hand_cy": 0.7366,
+        "hand_h_frac": 0.2768,
+        "hand_w_frac": 0.3839
+      },
+      "framing_symmetric": {
+        "hand_cx": 0.5156,
+        "hand_cy": 0.6049,
+        "hand_h_frac": 0.3259,
+        "hand_w_frac": 0.4062
+      },
+      "path": "data/raw/asl_alphabet_train/C/C2494.jpg"
+    }
+  ],
+  "summary": {
+    "calibrated": {
+      "hand_cx": {
+        "mean": 0.4982,
+        "median": 0.5246,
+        "n": 1947,
+        "p10": 0.3058,
+        "p25": 0.4219,
+        "p75": 0.5603,
+        "p90": 0.6549
+      },
+      "hand_cy": {
+        "mean": 0.5623,
+        "median": 0.5379,
+        "n": 1947,
+        "p10": 0.412,
+        "p25": 0.4955,
+        "p75": 0.6451,
+        "p90": 0.75
+      },
+      "hand_h_frac": {
+        "mean": 0.41,
+        "median": 0.433,
+        "n": 1947,
+        "p10": 0.2679,
+        "p25": 0.317,
+        "p75": 0.4598,
+        "p90": 0.5223
+      },
+      "hand_w_frac": {
+        "mean": 0.3093,
+        "median": 0.3259,
+        "n": 1947,
+        "p10": 0.183,
+        "p25": 0.2277,
+        "p75": 0.3795,
+        "p90": 0.4286
+      }
+    },
+    "forearm": {
+      "hand_cx": {
+        "mean": 0.4986,
+        "median": 0.5033,
+        "n": 2036,
+        "p10": 0.3415,
+        "p25": 0.433,
+        "p75": 0.5737,
+        "p90": 0.6228
+      },
+      "hand_cy": {
+        "mean": 0.4342,
+        "median": 0.4375,
+        "n": 2036,
+        "p10": 0.3013,
+        "p25": 0.3683,
+        "p75": 0.5067,
+        "p90": 0.5457
+      },
+      "hand_h_frac": {
+        "mean": 0.3957,
+        "median": 0.3705,
+        "n": 2036,
+        "p10": 0.308,
+        "p25": 0.3348,
+        "p75": 0.442,
+        "p90": 0.5223
+      },
+      "hand_w_frac": {
+        "mean": 0.3013,
+        "median": 0.2634,
+        "n": 2036,
+        "p10": 0.1607,
+        "p25": 0.2009,
+        "p75": 0.4062,
+        "p90": 0.4554
+      }
+    },
+    "n_images": 2201,
+    "original": {
+      "hand_cx": {
+        "mean": 0.5018,
+        "median": 0.5067,
+        "n": 2169,
+        "p10": 0.2969,
+        "p25": 0.3996,
+        "p75": 0.6049,
+        "p90": 0.6812
+      },
+      "hand_cy": {
+        "mean": 0.5369,
+        "median": 0.5335,
+        "n": 2169,
+        "p10": 0.3277,
+        "p25": 0.4308,
+        "p75": 0.6496,
+        "p90": 0.75
+      },
+      "hand_h_frac": {
+        "mean": 0.3695,
+        "median": 0.3482,
+        "n": 2169,
+        "p10": 0.2589,
+        "p25": 0.2946,
+        "p75": 0.4241,
+        "p90": 0.5179
+      },
+      "hand_w_frac": {
+        "mean": 0.2817,
+        "median": 0.2545,
+        "n": 2169,
+        "p10": 0.1562,
+        "p25": 0.192,
+        "p75": 0.3705,
+        "p90": 0.4196
+      }
+    },
+    "symmetric": {
+      "hand_cx": {
+        "mean": 0.4902,
+        "median": 0.5,
+        "n": 1802,
+        "p10": 0.3797,
+        "p25": 0.4643,
+        "p75": 0.5246,
+        "p90": 0.569
+      },
+      "hand_cy": {
+        "mean": 0.5318,
+        "median": 0.5134,
+        "n": 1802,
+        "p10": 0.471,
+        "p25": 0.4978,
+        "p75": 0.5737,
+        "p90": 0.6205
+      },
+      "hand_h_frac": {
+        "mean": 0.4504,
+        "median": 0.4554,
+        "n": 1802,
+        "p10": 0.3259,
+        "p25": 0.4018,
+        "p75": 0.4955,
+        "p90": 0.5446
+      },
+      "hand_w_frac": {
+        "mean": 0.3398,
+        "median": 0.3259,
+        "n": 1802,
+        "p10": 0.192,
+        "p25": 0.2366,
+        "p75": 0.4464,
+        "p90": 0.4821
+      }
+    }
+  }
+}
