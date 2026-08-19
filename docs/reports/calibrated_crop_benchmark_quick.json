@@ -1,0 +1,300 @@
+{
+  "accuracy": {
+    "calibrated_given_detection": 0.9932432432432432,
+    "forearm_given_detection": 0.9887387387387387,
+    "original_all_frames": 0.9879310344827587,
+    "symmetric_given_detection": 0.9932432432432432
+  },
+  "checkpoint": "checkpoints/efficientnet_b0_targeted.pt",
+  "crop": {
+    "calibrated_margins": {
+      "bottom": 0.5739,
+      "left": 1.1507,
+      "right": 0.875,
+      "top": 0.7143
+    },
+    "forearm_margins": {
+      "bottom": 1.8,
+      "left": 0.7,
+      "right": 0.7,
+      "top": 0.4
+    },
+    "symmetric_margin": 0.62
+  },
+  "detection": {
+    "found": 444,
+    "n": 580,
+    "per_class": {
+      "A": {
+        "found": 17,
+        "n": 20
+      },
+      "B": {
+        "found": 20,
+        "n": 20
+      },
+      "C": {
+        "found": 20,
+        "n": 20
+      },
+      "D": {
+        "found": 1,
+        "n": 20
+      },
+      "E": {
+        "found": 20,
+        "n": 20
+      },
+      "F": {
+        "found": 16,
+        "n": 20
+      },
+      "G": {
+        "found": 1,
+        "n": 20
+      },
+      "H": {
+        "found": 20,
+        "n": 20
+      },
+      "I": {
+        "found": 20,
+        "n": 20
+      },
+      "J": {
+        "found": 19,
+        "n": 20
+      },
+      "K": {
+        "found": 20,
+        "n": 20
+      },
+      "L": {
+        "found": 19,
+        "n": 20
+      },
+      "M": {
+        "found": 20,
+        "n": 20
+      },
+      "N": {
+        "found": 16,
+        "n": 20
+      },
+      "O": {
+        "found": 17,
+        "n": 20
+      },
+      "P": {
+        "found": 20,
+        "n": 20
+      },
+      "Q": {
+        "found": 5,
+        "n": 20
+      },
+      "R": {
+        "found": 20,
+        "n": 20
+      },
+      "S": {
+        "found": 20,
+        "n": 20
+      },
+      "T": {
+        "found": 11,
+        "n": 20
+      },
+      "U": {
+        "found": 20,
+        "n": 20
+      },
+      "V": {
+        "found": 20,
+        "n": 20
+      },
+      "W": {
+        "found": 20,
+        "n": 20
+      },
+      "X": {
+        "found": 20,
+        "n": 20
+      },
+      "Y": {
+        "found": 20,
+        "n": 20
+      },
+      "Z": {
+        "found": 18,
+        "n": 20
+      },
+      "delete": {
+        "found": 0,
+        "n": 20
+      },
+      "nothing": {
+        "found": 0,
+        "n": 20
+      },
+      "space": {
+        "found": 4,
+        "n": 20
+      }
+    },
+    "rate": 0.7655172413793103
+  },
+  "device": "mps",
+  "focus_classes": [
+    "S",
+    "E",
+    "M",
+    "N",
+    "K",
+    "V",
+    "X"
+  ],
+  "macro_f1": {
+    "calibrated_given_detection": 0.9258523484100041,
+    "forearm_given_detection": 0.9223758913962772,
+    "original_all_frames": 0.9879834579112848,
+    "symmetric_given_detection": 0.9258523484100041
+  },
+  "n_total": 580,
+  "notes": [
+    "'given detection' excludes MediaPipe failures.",
+    "original accuracy is over ALL frames.",
+    "calibrated margins come from the full training set analysis."
+  ],
+  "per_class_recall": {
+    "calibrated_given_detection": {
+      "A": 1.0,
+      "B": 1.0,
+      "C": 1.0,
+      "D": 1.0,
+      "E": 1.0,
+      "F": 1.0,
+      "G": 1.0,
+      "H": 1.0,
+      "I": 1.0,
+      "J": 1.0,
+      "K": 1.0,
+      "L": 1.0,
+      "M": 1.0,
+      "N": 1.0,
+      "O": 1.0,
+      "P": 1.0,
+      "Q": 1.0,
+      "R": 1.0,
+      "S": 1.0,
+      "T": 1.0,
+      "U": 1.0,
+      "V": 1.0,
+      "W": 0.95,
+      "X": 0.9,
+      "Y": 1.0,
+      "Z": 1.0,
+      "delete": NaN,
+      "nothing": NaN,
+      "space": 1.0
+    },
+    "forearm_given_detection": {
+      "A": 1.0,
+      "B": 1.0,
+      "C": 1.0,
+      "D": 1.0,
+      "E": 1.0,
+      "F": 1.0,
+      "G": 1.0,
+      "H": 1.0,
+      "I": 1.0,
+      "J": 1.0,
+      "K": 0.85,
+      "L": 1.0,
+      "M": 1.0,
+      "N": 1.0,
+      "O": 1.0,
+      "P": 1.0,
+      "Q": 1.0,
+      "R": 1.0,
+      "S": 1.0,
+      "T": 1.0,
+      "U": 1.0,
+      "V": 1.0,
+      "W": 1.0,
+      "X": 0.9,
+      "Y": 1.0,
+      "Z": 1.0,
+      "delete": NaN,
+      "nothing": NaN,
+      "space": 1.0
+    },
+    "original": {
+      "A": 1.0,
+      "B": 1.0,
+      "C": 1.0,
+      "D": 1.0,
+      "E": 1.0,
+      "F": 1.0,
+      "G": 1.0,
+      "H": 1.0,
+      "I": 1.0,
+      "J": 1.0,
+      "K": 0.85,
+      "L": 1.0,
+      "M": 1.0,
+      "N": 1.0,
+      "O": 1.0,
+      "P": 1.0,
+      "Q": 1.0,
+      "R": 1.0,
+      "S": 1.0,
+      "T": 1.0,
+      "U": 1.0,
+      "V": 1.0,
+      "W": 0.95,
+      "X": 0.85,
+      "Y": 1.0,
+      "Z": 1.0,
+      "delete": 1.0,
+      "nothing": 1.0,
+      "space": 1.0
+    },
+    "symmetric_given_detection": {
+      "A": 1.0,
+      "B": 1.0,
+      "C": 1.0,
+      "D": 1.0,
+      "E": 1.0,
+      "F": 1.0,
+      "G": 1.0,
+      "H": 1.0,
+      "I": 1.0,
+      "J": 1.0,
+      "K": 1.0,
+      "L": 1.0,
+      "M": 1.0,
+      "N": 1.0,
+      "O": 1.0,
+      "P": 1.0,
+      "Q": 1.0,
+      "R": 1.0,
+      "S": 1.0,
+      "T": 1.0,
+      "U": 1.0,
+      "V": 1.0,
+      "W": 0.95,
+      "X": 0.9,
+      "Y": 1.0,
+      "Z": 1.0,
+      "delete": NaN,
+      "nothing": NaN,
+      "space": 1.0
+    }
+  },
+  "schema": "asl-calibrated-crop-benchmark/v1",
+  "source": {
+    "kind": "dev_val",
+    "path": "data/split_manifest.json"
+  }
+}

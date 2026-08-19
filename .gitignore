@@ -27,6 +27,20 @@ wandb/
 # split manifest (regenerate deterministically from data/raw)
 data/split_manifest.json
 
+# #17 webcam bridge: framing-measurement caches and demo/saved webcam crops are
+# generated; the comparison montage is committed under docs/figures instead.
+data/training_framing_records*.json
+data/training_framing_stats.json
+data/webcam_crops_demo/
+data/webcam_crops/
+
+# Embedding caches (regenerable, large)
+data/embedding_cache/
+data/*.npz
+
+# Generated error galleries (large, regenerable from scripts)
+docs/figures/error_gallery_targeted/
+
 # OS / editor
 .DS_Store
 .idea/

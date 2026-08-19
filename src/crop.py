@@ -50,6 +50,46 @@ IMAGENET_STD: Tuple[float, float, float] = (0.229, 0.224, 0.225)
 BBOX_MARGIN: float = 0.25
 
 
+@dataclass(frozen=True)
+class AsymmetricMargins:
+    """Per-side context margins for the forearm-preserving crop.
+
+    ``left``/``right`` are fractions of the tight bbox WIDTH, ``top``/``bottom``
+    fractions of the tight bbox HEIGHT. The defaults (0.7/0.7/0.4/1.8) put far
+    more context below the hand than above so a webcam crop keeps the forearm
+    segment the original 200x200 dataset frames show. These are experiment
+    defaults for the forearm-crop ablation, NOT frozen contract constants.
+    """
+
+    left: float = 0.7
+    right: float = 0.7
+    top: float = 0.4
+    bottom: float = 1.8
+
+
+DEFAULT_ASYMMETRIC_MARGINS: AsymmetricMargins = AsymmetricMargins()
+
+
+@dataclass(frozen=True)
+class TrainingFramingMargins:
+    """Data-driven per-side margins derived from the training dataset.
+
+    ``left``/``right`` are the *median* context-to-hand-bbox-width ratios
+    measured across the full training set (``scripts/analyze_training_framing.py``).
+    ``top``/``bottom`` are the corresponding height ratios.  These are *not*
+    percentages of the image — they are multiples of the hand bbox width/height.
+
+    Typical values from the Kaggle ASL 200x200 training set are close to
+    L=R=0.5, T=0.5, B=0.5 (hand roughly centred with symmetric context),
+    but the exact numbers come from the data and must never be hand-tuned.
+    """
+
+    left: float
+    right: float
+    top: float
+    bottom: float
+
+
 @dataclass
 class CropResult:
     """Result of a hand-crop attempt on a single frame."""
@@ -92,10 +132,14 @@ class HandCropper:
         )
         self._landmarker = vision.HandLandmarker.create_from_options(options)
 
-    def hand_bbox(self, frame_bgr: np.ndarray) -> Optional[Tuple[int, int, int, int]]:
-        """Return a margin-padded square bbox around the first detected hand.
+    def hand_landmarks(
+        self, frame_bgr: np.ndarray
+    ) -> Optional[Tuple[List[float], List[float]]]:
+        """First detected hand's landmarks as ``(xs, ys)`` in source pixels.
 
-        Returns None if no hand is detected.
+        Returns None if no hand is detected. Used by both ``tight_bbox`` and the
+        framing-measurement tooling (Phase 1 / scripts/measure_training_framing.py)
+        so the localization geometry has a single source of truth.
         """
         import mediapipe as mp
 
@@ -105,12 +149,37 @@ class HandCropper:
         result = self._landmarker.detect(mp_img)
         if not result.hand_landmarks:
             return None
-
         lm = result.hand_landmarks[0]
-        xs = [p.x * w for p in lm]
-        ys = [p.y * h for p in lm]
-        x0, x1 = min(xs), max(xs)
-        y0, y1 = min(ys), max(ys)
+        return [p.x * w for p in lm], [p.y * h for p in lm]
+
+    def tight_bbox(self, frame_bgr: np.ndarray) -> Optional[Tuple[int, int, int, int]]:
+        """Raw landmark min/max bbox in source pixels (no margin, not square).
+
+        Returns None if no hand is detected. This is the tight hand box the
+        webcam bridge expands with a configurable margin; ``hand_bbox`` wraps it
+        with the fixed contract margin for backward compatibility.
+        """
+        det = self.hand_landmarks(frame_bgr)
+        if det is None:
+            return None
+        xs, ys = det
+        return (
+            int(round(min(xs))), int(round(min(ys))),
+            int(round(max(xs))), int(round(max(ys))),
+        )
+
+    def hand_bbox(self, frame_bgr: np.ndarray) -> Optional[Tuple[int, int, int, int]]:
+        """Return a margin-padded square bbox around the first detected hand.
+
+        Returns None if no hand is detected. Uses the FROZEN ``BBOX_MARGIN``;
+        the webcam bridge calls ``tight_bbox`` + ``crop_square_with_margin`` when
+        it wants a configurable margin instead.
+        """
+        tb = self.tight_bbox(frame_bgr)
+        if tb is None:
+            return None
+        x0, y0, x1, y1 = tb
+        h, w = frame_bgr.shape[:2]
         return square_bbox_with_margin(x0, y0, x1, y1, w, h, BBOX_MARGIN)
 
     def crop(self, frame_bgr: np.ndarray) -> CropResult:
@@ -140,7 +209,13 @@ class HandCropper:
 def square_bbox_with_margin(
     x0: float, y0: float, x1: float, y1: float, w: int, h: int, margin: float
 ) -> Tuple[int, int, int, int]:
-    """Expand a bbox to a square, add ``margin`` on each side, clamp to image."""
+    """Expand a bbox to a square, add ``margin`` on each side, clamp to image.
+
+    ``margin`` is the fraction of the tight bbox side added on every edge, e.g.
+    ``0.25`` turns a 160-px hand box into a 160*1.5=240-px square crop. Clamping
+    to the image keeps the box in-bounds but can make it non-square at the edges;
+    ``resize_square`` handles that with a letterbox.
+    """
     cx, cy = (x0 + x1) / 2.0, (y0 + y1) / 2.0
     side = max(x1 - x0, y1 - y0)
     side *= 1.0 + 2.0 * margin
@@ -150,6 +225,160 @@ def square_bbox_with_margin(
     nx1 = int(min(w, round(cx + half)))
     ny1 = int(min(h, round(cy + half)))
     return nx0, ny0, nx1, ny1
+
+
+def crop_square_with_margin(
+    frame_bgr: np.ndarray,
+    tight_bbox: Tuple[int, int, int, int],
+    margin: float = BBOX_MARGIN,
+) -> np.ndarray:
+    """Configurable-margin square hand crop, bounds-safe, resized to IMG_SIZE.
+
+    The live webcam bridge (#17) uses this instead of the fixed-margin
+    ``HandCropper.crop`` so ``--crop-margin`` can reproduce the training framing
+    (see scripts/measure_training_framing.py). ``tight_bbox`` is the raw landmark
+    box from ``HandCropper.tight_bbox``. The output is a 224×224 BGR crop, ready
+    for ``preprocess_bgr``.
+    """
+    x0, y0, x1, y1 = tight_bbox
+    h, w = frame_bgr.shape[:2]
+    bx0, by0, bx1, by1 = square_bbox_with_margin(x0, y0, x1, y1, w, h, margin)
+    return resize_square(frame_bgr[by0:by1, bx0:bx1])
+
+
+def asymmetric_context_bbox(
+    frame_bgr: np.ndarray,
+    tight_bbox: Tuple[int, int, int, int],
+    margins: AsymmetricMargins = DEFAULT_ASYMMETRIC_MARGINS,
+) -> Tuple[int, int, int, int]:
+    """Requested per-side context box -> squared -> clamped to image bounds.
+
+    The requested box is the tight hand bbox expanded by each side's own margin
+    (left/right x bbox width, top/bottom x bbox height). It is made square by
+    expanding the shorter side symmetrically around the requested box's centre —
+    the requested box therefore stays FULLY inside the square (bottom/forearm
+    context preserved) whenever the image has room, since the square side is
+    ``max(requested_w, requested_h)``. Clamping to the image can trim the result
+    (e.g. a hand near the bottom edge loses only context that does not exist in
+    the frame) and can leave it non-square; ``resize_square`` letterboxes that,
+    so the image is never stretched.
+    """
+    x0, y0, x1, y1 = tight_bbox
+    bw, bh = x1 - x0, y1 - y0
+    rx0 = x0 - margins.left * bw
+    ry0 = y0 - margins.top * bh
+    rx1 = x1 + margins.right * bw
+    ry1 = y1 + margins.bottom * bh
+    rw, rh = rx1 - rx0, ry1 - ry0
+    side = max(rw, rh)
+    cx, cy = (rx0 + rx1) / 2.0, (ry0 + ry1) / 2.0
+    half = side / 2.0
+    h, w = frame_bgr.shape[:2]
+    nx0 = int(max(0, round(cx - half)))
+    ny0 = int(max(0, round(cy - half)))
+    nx1 = int(min(w, round(cx + half)))
+    ny1 = int(min(h, round(cy + half)))
+    return nx0, ny0, nx1, ny1
+
+
+def crop_square_with_forearm_context(
+    frame_bgr: np.ndarray,
+    tight_bbox: Tuple[int, int, int, int],
+    margins: AsymmetricMargins = DEFAULT_ASYMMETRIC_MARGINS,
+) -> np.ndarray:
+    """Asymmetric forearm-preserving hand crop, bounds-safe, resized to IMG_SIZE.
+
+    The live webcam A/B comparison and the forearm-crop ablation use this instead
+    of the symmetric ``crop_square_with_margin``: the top margin is kept small
+    (0.4 x bbox height) while the bottom margin is large (1.8 x bbox height), so
+    the wrist/forearm segment visible in the original 200x200 dataset frames is
+    not cropped away. Output is a 224x224 BGR crop ready for ``preprocess_bgr``.
+    """
+    x0, y0, x1, y1 = asymmetric_context_bbox(frame_bgr, tight_bbox, margins)
+    return resize_square(frame_bgr[y0:y1, x0:x1])
+
+
+def training_calibrated_context_bbox(
+    frame_bgr: np.ndarray,
+    tight_bbox: Tuple[int, int, int, int],
+    margins: TrainingFramingMargins,
+) -> Tuple[int, int, int, int]:
+    """Training-calibrated context box with smart shift-before-shrink square conversion.
+
+    The requested training-like rectangle is constructed from the tight bbox
+    expanded by each side's training-derived margin ratio (L x bw, R x bw,
+    T x bh, B x bh).  This rectangle is then converted to a square that
+    *contains* it, using shift-before-shrink boundary handling:
+
+    1. If the requested square fits in the frame → no change.
+    2. If one edge exceeds the frame, shift the square to stay within bounds
+       while preserving the full side length whenever the frame is large enough.
+    3. Only if the frame is physically smaller than the requested side length
+       is the square shrunk — clamped to the frame dimensions.
+
+    The centre of the *requested box* (not the hand bbox) is preserved by the
+    shift, so the training-like framing is maintained as closely as possible.
+    """
+    x0, y0, x1, y1 = tight_bbox
+    bw, bh = x1 - x0, y1 - y0
+    h, w = frame_bgr.shape[:2]
+
+    # Requested training-like rectangle
+    rx0 = x0 - margins.left * bw
+    ry0 = y0 - margins.top * bh
+    rx1 = x1 + margins.right * bw
+    ry1 = y1 + margins.bottom * bh
+    rw, rh = rx1 - rx0, ry1 - ry0
+
+    side = max(rw, rh)
+    # Centre of the requested box
+    cx = (rx0 + rx1) / 2.0
+    cy = (ry0 + ry1) / 2.0
+    half = side / 2.0
+
+    # Initial square centred on requested box
+    sx0 = cx - half
+    sy0 = cy - half
+
+    # --- shift before shrink ---
+    # Horizontal: if the square exceeds a frame boundary, slide it back
+    if sx0 < 0.0:
+        sx0 = 0.0
+    elif sx0 + side > w:
+        sx0 = w - side
+
+    # Vertical
+    if sy0 < 0.0:
+        sy0 = 0.0
+    elif sy0 + side > h:
+        sy0 = h - side
+
+    # After shifting, if still out of bounds the frame is too small → shrink
+    sx0 = max(0.0, sx0)
+    sy0 = max(0.0, sy0)
+    side = min(side, w, h)
+
+    nx0 = int(round(sx0))
+    ny0 = int(round(sy0))
+    nx1 = int(round(sx0 + side))
+    ny1 = int(round(sy0 + side))
+    return nx0, ny0, nx1, ny1
+
+
+def crop_square_with_training_framing(
+    frame_bgr: np.ndarray,
+    tight_bbox: Tuple[int, int, int, int],
+    margins: TrainingFramingMargins,
+) -> np.ndarray:
+    """Training-calibrated hand crop, shift-before-shrink, resized to IMG_SIZE.
+
+    The crop reproduces the framing the classifier was trained on, using
+    data-derived L/R/T/B margin ratios.  Output is a 224x224 BGR crop
+    ready for ``preprocess_bgr``.
+    """
+    x0, y0, x1, y1 = training_calibrated_context_bbox(
+        frame_bgr, tight_bbox, margins)
+    return resize_square(frame_bgr[y0:y1, x0:x1])
 
 
 def center_square(frame_bgr: np.ndarray) -> np.ndarray:
