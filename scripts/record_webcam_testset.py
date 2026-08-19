@@ -231,7 +231,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--min-confidence", type=float, default=0.5,
                    help="MediaPipe min hand-detection confidence (default: 0.5, "
                         "the value app/webcam_speller.py uses)")
-    p.add_argument("--auto-delay", type=float, default=0.7,
+    p.add_argument("--auto-delay", type=float, default=10.0,
                    help="seconds between shots while auto-capture is on")
     p.add_argument("--jpeg-quality", type=int, default=95,
                    help="JPEG quality for the saved crops (default: 95)")
