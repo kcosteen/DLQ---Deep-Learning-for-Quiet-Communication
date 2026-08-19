@@ -62,10 +62,24 @@ webcam frame → mirror → MediaPipe HandLandmarker (tight bbox, no centre fall
 ```
 
 MediaPipe is a **localizer only** — it finds the hand bbox, and the crop
-reproduces the training-set framing (hand fills ~45% of the crop, measured by
-`scripts/measure_training_framing.py`). The 0.62 margin was selected by an
-offline 4-way crop ablation (symmetric 0.62 vs forearm vs training-calibrated);
-symmetric won. No-hand frames are **never** classified. The crop formula:
+reproduces the training-set framing. No-hand frames are **never** classified.
+
+**How 0.62 was derived:** `scripts/measure_training_framing.py` samples 580
+training frames (20/class), runs MediaPipe `tight_bbox`, and measures the
+**hand-fill fraction** (`max(bbox_w, bbox_h) / image_side`). The median
+hand-fill across 426 detected frames is **~0.445** (hand spans 44.5% of the
+200px image). To reproduce this framing in a webcam crop:
+
+```
+m = (1 / hand_fill − 1) / 2 = (1/0.445 − 1) / 2 = 0.6236 → 0.62
+```
+
+The full dataset (63,581 detections) confirms the same ratios
+(`data/training_framing_all_summary.json`).
+
+**How it was validated:** a 4-way crop ablation (symmetric 0.62 vs forearm vs
+training-calibrated vs original) on 6,282 MediaPipe-detected val frames.
+Symmetric 0.62 won (acc 0.9823). See the crop ablation table below.
 
 ```python
 # src/crop.py::crop_square_with_margin
