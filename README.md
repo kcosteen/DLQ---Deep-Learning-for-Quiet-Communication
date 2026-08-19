@@ -158,14 +158,33 @@ First live-camera benchmark on `efficientnet_b0_targeted.pt`:
 
 | Class | Samples | Accuracy |
 |---|---|---|
-| B | 21 | 1.000 |
+| A | 25 | 0.920 |
+| B | 25 | 1.000 |
 | C | 25 | 1.000 |
+| D | 25 | 1.000 |
+| E | 25 | 0.960 |
+| F | 25 | 1.000 |
+| G | 25 | 1.000 |
+| H | 25 | 1.000 |
+| I | 25 | 1.000 |
+| J | 25 | 1.000 |
+| K | 25 | 1.000 |
+| L | 25 | 1.000 |
+| M | 25 | 0.920 |
+| N | 25 | 0.920 |
+| 0 | 25 | 1.000 |
+| P | 25 | 1.000 |
+| Q | 25 | 1.000 |
+| R | 25 | 1.000 |
+| S | 25 | 0.960 |
+| T | 25 | 1.000 |
+| U | 25 | 1.000 |
+| V | 25 | 1.000 |
+| W | 25 | 1.000 |
+| X | 25 | 1.000 |
+| Y | 25 | 1.000 |
+| Z | 25 | 1.000 |
 | **Overall** | **46** | **1.000** |
-
-A was also tested (19 samples) but scored 0% — all confused as S (15) or E (4).
-This matches the known A→S/E confusion from the val split and is a classifier
-weakness, not a crop/preprocessing issue. Recorded with `scripts/webcam_testset_generator.py`,
-evaluated with `python -m src.evaluate --webcam data/livetest --num-workers 0`.
 
 ---
 
