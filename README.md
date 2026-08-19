@@ -61,6 +61,8 @@ webcam frame → mirror → MediaPipe HandLandmarker (tight bbox, no centre fall
 → preprocess_bgr (same resize + normalize as training) → model → speller → TTS
 ```
 
+![Crop pipeline demo](docs/assets/crop_demo.gif)
+
 MediaPipe is a **localizer only** — it finds the hand bbox, and the crop
 reproduces the training-set framing (hand fills ~45% of the crop, measured by
 `scripts/measure_training_framing.py`). The 0.62 margin was selected by an
