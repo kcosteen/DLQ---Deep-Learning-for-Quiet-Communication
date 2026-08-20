@@ -187,7 +187,7 @@ First live-camera benchmark on `efficientnet_b0_targeted.pt`
 | L | 25 | 1.000 |
 | M | 25 | 0.920 |
 | N | 25 | 0.920 |
-| 0 | 25 | 1.000 |
+| O | 25 | 1.000 |
 | P | 25 | 1.000 |
 | Q | 25 | 1.000 |
 | R | 25 | 1.000 |
@@ -199,7 +199,7 @@ First live-camera benchmark on `efficientnet_b0_targeted.pt`
 | X | 25 | 1.000 |
 | Y | 25 | 1.000 |
 | Z | 25 | 1.000 |
-| **Overall** | **46** | **1.000** |
+| **Overall** | **725** | **0.996** |
 
 ---
 
