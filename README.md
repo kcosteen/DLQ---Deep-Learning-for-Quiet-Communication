@@ -168,7 +168,8 @@ Reports: [`docs/reports/calibrated_crop_benchmark.json`](docs/reports/calibrated
 
 ![Demo: fingerspelling "hi"](docs/assets/demo.gif)
 
-First live-camera benchmark on `efficientnet_b0_targeted.pt`:
+First live-camera benchmark on `efficientnet_b0_targeted.pt`
+([`data/livetest/`](data/livetest/)):
 
 | Class | Samples | Accuracy |
 |---|---|---|
