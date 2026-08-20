@@ -344,8 +344,6 @@ press Backspace / `b` on the keyboard.
 
 ![Delete button demo](docs/assets/delete_demo.gif)
 
-<video src="https://github.com/kcosteen/DLQ---Deep-Learning-for-Quiet-Communication/raw/main/docs/assets/live_demo.mp4" controls muted loop width="360"></video>
-
 ---
 
 ## Limitations & next steps
