@@ -325,6 +325,11 @@ Useful flags:
 | `--debug` | Show per-frame timing and bounding box details |
 | `--no-tts` | Disable text-to-speech output |
 
+**Deleting a letter:** click the red DELETE strip at the top of the window, or
+press Backspace / `b` on the keyboard.
+
+![Delete button demo](docs/assets/delete_demo.gif)
+
 ---
 
 ## Docs index
