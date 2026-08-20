@@ -361,7 +361,7 @@ press Backspace / `b` on the keyboard.
 
 **Remaining gaps:**
 
-- S recall (77.0% dev-val, 96% live) remains below the 85% per-class target.
+- S recall (~84% dev-val, 96% live) remains below the 85% per-class target.
   The decision-boundary analysis suggests the issue is in the final linear
   layer, not the learned features.
 - MediaPipe detection coverage on the validation set is only 36.1% (ranges from
