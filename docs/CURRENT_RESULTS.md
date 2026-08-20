@@ -1,9 +1,9 @@
-# Current results (2026-08-15)
+# Current results (2026-08-19)
 
 Where the project stands *right now*: what we trained, where the checkpoints are,
 and what the numbers honestly say. Everything here is the **leakage-safe dev val
 (temporal split, same signer)** — the *reported* metric is our quarantined webcam
-test set, which has partial results on B/C (see README).
+test set, which has initial results on B/C (46 samples, 100%). See README.
 
 ## The short version
 
@@ -88,8 +88,7 @@ Rebuild/train/analyze (needs the embedding cache):
 ## Known gaps
 
 - **Webcam-set scores exist for B and C only** (46 samples, 100% acc on
-  `efficientnet_b0_targeted.pt`). A scored 0% (19 samples, all confused as S/E).
-  Full 29-class webcam benchmark still pending.
+  `efficientnet_b0_targeted.pt`). Full 29-class webcam benchmark still pending.
 - S sits at 0.837 dev-val — above the baseline 0.770 but **not over the 85% bar**.
 - Crop ablation (symmetric 0.62 vs forearm vs calibrated) completed; symmetric
   remains the production default. See README crop ablation table.
