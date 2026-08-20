@@ -294,6 +294,39 @@ cache-crop training, partial-FT reproduce): see the docs index below.
 
 ---
 
+## Try the live demo
+
+**Prerequisites:** Python 3.10, a webcam, and the checkpoint file.
+
+```bash
+# 1. Clone and install
+git clone https://github.com/kcosteen/DLQ---Deep-Learning-for-Quiet-Communication.git
+cd DLQ---Deep-Learning-for-Quiet-Communication
+pip install -r requirements.txt
+
+# 2. Run (no dataset required — just the checkpoint)
+python -m app.webcam_speller \
+    --checkpoint checkpoints/efficientnet_b0_targeted.pt
+```
+
+On macOS, add `--device mps` for GPU acceleration. The window shows your
+webcam feed with a hand bbox overlay, the predicted letter, and a word bar
+at the bottom. Hold a letter steady for ~0.5 s to commit it. Press `q` or
+Ctrl-C to quit.
+
+Useful flags:
+
+| Flag | What it does |
+|---|---|
+| `--device mps` | Use Apple GPU (macOS only) |
+| `--confidence 0.3` | Minimum confidence to accept a prediction (default 0.3) |
+| `--camera 1` | Use a different webcam index |
+| `--compare-full-frame` | A/B: compare crop-path vs full-frame prediction |
+| `--debug` | Show per-frame timing and bounding box details |
+| `--no-tts` | Disable text-to-speech output |
+
+---
+
 ## Docs index
 
 | Document | Description |
