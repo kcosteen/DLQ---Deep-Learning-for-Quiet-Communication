@@ -296,20 +296,22 @@ cache-crop training, partial-FT reproduce): see the docs index below.
 
 ## Docs index
 
-- **[`docs/CURRENT_RESULTS.md`](docs/CURRENT_RESULTS.md)** — current state: checkpoints, the three-way dev-val comparison, honest gaps.
-- **[`docs/reports/calibrated_crop_benchmark.json`](docs/reports/calibrated_crop_benchmark.json)** — 4-way crop ablation (original/symmetric/forearm/calibrated).
-- **[`docs/reports/framing_reconstruction_error.json`](docs/reports/framing_reconstruction_error.json)** — which crop best reproduces training framing.
-- **[`docs/reports/partial_finetune_targeted.md`](docs/reports/partial_finetune_targeted.md)** — the partial-FT experiment (verdict: TRADEOFF).
-- **[`docs/reports/partial_finetune_training.md`](docs/reports/partial_finetune_training.md)** — the partial-FT training sweep.
-- **[`docs/reports/s_to_e_investigation_timeline.md`](docs/reports/s_to_e_investigation_timeline.md)** — the full S→E diagnosis (crop → exposure → embeddings → head), what was ruled out and why.
-- **[`docs/reports/head_only_cached_embeddings.md`](docs/reports/head_only_cached_embeddings.md)** — the head-only FT experiment.
-- **[`docs/RESULTS.md`](docs/RESULTS.md)** — transfer-learning v1 (#6) results.
-- **[`docs/RESULTS_class_fixes.md`](docs/RESULTS_class_fixes.md)** — the aimed-augmentation class-fix work (V, X), the S/exposure investigation, reproduce recipe.
-- **[`docs/PREPROCESSING_CONTRACT.md`](docs/PREPROCESSING_CONTRACT.md)** — the FROZEN resize+normalize contract and its change-control rule.
-- **[`docs/WEBCAM_TESTSET_PROTOCOL.md`](docs/WEBCAM_TESTSET_PROTOCOL.md)** — how to record the reported benchmark; quarantine rules.
-- **[`docs/SETUP.md`](docs/SETUP.md)** — full setup, Kaggle, and Colab recipes.
-- **[`docs/PROJECT_PLAN.md`](docs/PROJECT_PLAN.md)** — plan, milestones, ethics.
-- **[`docs/REPORT_TEMPLATE.md`](docs/REPORT_TEMPLATE.md)** — final-report skeleton.
+| Document | Description |
+|---|---|
+| [`CURRENT_RESULTS.md`](docs/CURRENT_RESULTS.md) | Current state: checkpoints, the three-way dev-val comparison, honest gaps |
+| [`calibrated_crop_benchmark.json`](docs/reports/calibrated_crop_benchmark.json) | 4-way crop ablation (original / symmetric / forearm / calibrated) |
+| [`framing_reconstruction_error.json`](docs/reports/framing_reconstruction_error.json) | Which crop best reproduces training framing |
+| [`partial_finetune_targeted.md`](docs/reports/partial_finetune_targeted.md) | The partial-FT experiment (verdict: TRADEOFF) |
+| [`partial_finetune_training.md`](docs/reports/partial_finetune_training.md) | The partial-FT training sweep |
+| [`s_to_e_investigation_timeline.md`](docs/reports/s_to_e_investigation_timeline.md) | Full S→E diagnosis (crop → exposure → embeddings → head), what was ruled out |
+| [`head_only_cached_embeddings.md`](docs/reports/head_only_cached_embeddings.md) | The head-only FT experiment |
+| [`RESULTS.md`](docs/RESULTS.md) | Transfer-learning v1 (#6) results |
+| [`RESULTS_class_fixes.md`](docs/RESULTS_class_fixes.md) | Aimed-augmentation class-fix work (V, X), the S/exposure investigation |
+| [`PREPROCESSING_CONTRACT.md`](docs/PREPROCESSING_CONTRACT.md) | The FROZEN resize + normalize contract and change-control rule |
+| [`WEBCAM_TESTSET_PROTOCOL.md`](docs/WEBCAM_TESTSET_PROTOCOL.md) | How to record the reported benchmark; quarantine rules |
+| [`SETUP.md`](docs/SETUP.md) | Full setup, Kaggle, and Colab recipes |
+| [`PROJECT_PLAN.md`](docs/PROJECT_PLAN.md) | Plan, milestones, ethics |
+| [`REPORT_TEMPLATE.md`](docs/REPORT_TEMPLATE.md) | Final-report skeleton |
 
 ---
 
