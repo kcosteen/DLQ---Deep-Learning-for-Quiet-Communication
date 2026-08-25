@@ -310,6 +310,8 @@ python -m src.export --checkpoint checkpoints/efficientnet_b0_targeted.pt --form
 
 ## Try the live demo
 
+![Crop pipeline demo](docs/assets/leo_demo.gif)
+
 **Prerequisites:** Python 3.10, a webcam, and the checkpoint file.
 
 ```bash
