@@ -131,6 +131,43 @@ Reports: [`docs/reports/calibrated_crop_benchmark.json`](docs/reports/calibrated
 
 ---
 
+## Why MediaPipe cannot be treated as a recognition oracle
+
+The crop ablation above evaluates only frames where MediaPipe successfully
+localized the hand. A separate question arises: what happens to frames
+MediaPipe **misses** — does detection failure mean the image is
+unclassifiable?
+
+A paired diagnostic was run on 2,600 A–Z frames (100 deterministic random
+samples per letter, seed 42, `efficientnet_b0_targeted.pt`). Each image was
+classified by the RGB model **without** any hand crop — raw frame directly
+into EfficientNet — regardless of whether MediaPipe found a hand.
+
+| Metric | A–Z result |
+| --- | ---: |
+| Samples | 2,600 |
+| MediaPipe detection coverage | 77.8% |
+| RGB accuracy — MP detected | 99.65% |
+| RGB accuracy — MP missed | 97.92% |
+| MP-missed but RGB-correct | 565 / 577 |
+
+**565 of 577 MediaPipe-missed frames were still classified correctly by the
+RGB model.**
+
+> MediaPipe failure is not equivalent to image unclassifiability for this RGB
+> model.
+
+Detection coverage is class-dependent. M and N are the most affected:
+MediaPipe detects only ~46% of M frames and ~48% of N frames, yet the RGB
+model classifies the majority of those missed frames correctly. A mandatory
+localization gate would disproportionately discard frames for specific hand
+shapes.
+
+Full analysis:
+[`docs/reports/mediapipe_miss_vs_rgb_accuracy.md`](docs/reports/mediapipe_miss_vs_rgb_accuracy.md).
+
+---
+
 ## Error analysis: S → E and the decision boundary
 
 The 138 S → E errors were investigated across multiple hypotheses
@@ -211,6 +248,11 @@ warmup, AMP, early stopping.
 resize, ImageNet mean/std normalization. Any change requires sign-off from
 both training and demo owners. Guarded by `tests/test_preprocessing_parity.py`.
 
+**Known localization bottleneck:** the current live path requires MediaPipe
+localization before classification. The diagnostic above shows that this gate
+can reject otherwise-classifiable frames; a detection-independent fallback
+remains future work.
+
 ---
 
 ## Results summary
@@ -220,6 +262,7 @@ both training and demo owners. Guarded by `tests/test_preprocessing_parity.py`.
 | Naive/random split | Demonstrates leakage issue | ~99.9% (meaningless) |
 | Leakage-safe dev-val | Honest offline evaluation | 97.75% acc, 97.75 F1 |
 | Crop ablation (symmetric 0.62) | Validates production framing | 98.23% on 6,282 detected frames |
+| MediaPipe gating diagnostic | Tests whether localization failure implies unclassifiable input | 97.92% RGB accuracy on MP-missed A–Z frames; 565/577 still correct |
 | **Controlled live webcam** | **End-to-end behavior (B, C)** | **100% (46/46)** |
 
 ---
@@ -369,6 +412,11 @@ press Backspace / `b` on the keyboard.
 - MediaPipe detection coverage on the validation set is only 36.1% (ranges from
   12.2% for P to 98.7% for F). The crop ablation results are conditional on
   detection succeeding.
+- A separate A–Z diagnostic (100 samples/letter, seed 42) found 77.8%
+  detection coverage. The RGB model still classified 565/577 MediaPipe-missed
+  frames correctly (97.92%), confirming that mandatory localization is an
+  end-to-end bottleneck. Detection-independent fallback or alternative
+  localization is future work.
 - Multi-signer / multi-environment evaluation has not been conducted.
 
 ---
@@ -379,6 +427,7 @@ press Backspace / `b` on the keyboard.
 |---|---|
 | [`CURRENT_RESULTS.md`](docs/CURRENT_RESULTS.md) | Current state: checkpoints, tradeoff analysis, honest gaps |
 | [`calibrated_crop_benchmark.json`](docs/reports/calibrated_crop_benchmark.json) | 4-way crop ablation results |
+| [`mediapipe_miss_vs_rgb_accuracy.md`](docs/reports/mediapipe_miss_vs_rgb_accuracy.md) | MediaPipe detected-vs-missed diagnostic; why localization failure is not recognition failure |
 | [`framing_reconstruction_error.json`](docs/reports/framing_reconstruction_error.json) | Which crop best reproduces training framing |
 | [`partial_finetune_targeted.md`](docs/reports/partial_finetune_targeted.md) | Partial-FT experiment (verdict: TRADEOFF) |
 | [`partial_finetune_training.md`](docs/reports/partial_finetune_training.md) | Partial-FT training sweep |
