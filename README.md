@@ -1,5 +1,4 @@
 # DLQ — Deep Learning for Quiet Communication
-
 Real-time ASL fingerspelling recognition from webcam input. EfficientNet-B0
 transfer learning + MediaPipe hand localization, spelling words as text and
 speech.
